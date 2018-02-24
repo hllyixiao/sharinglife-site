@@ -1,0 +1,5 @@
+#读取dev
+spring:
+  profiles:
+    active: dev
+

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.sharinglife.mapper.UserMapper" >
+
+    <sql id="trim_field">
+        <trim suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="password != null">password,</if>
+            <if test="phone != null">phone,</if>
+            <if test="email != null">email,</if>
+            <if test="motto != null">motto,</if>
+        </trim>
+    </sql>
+    <sql id="trim_data">
+        <trim suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="password != null">#{password},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="motto != null">#{motto},</if>
+        </trim>
+    </sql>
+
+    <sql id="login_where">
+        <where>
+            password = #{password}
+            <if test="phone != null">and phone = #{phone}</if>
+            <if test="email != null">and email = #{email}</if>
+        </where>
+    </sql>
+
+    <select id="getAllUsers" resultType="user">
+        SELECT * FROM user
+    </select>
+
+    <insert id="addUser" parameterType="user" keyProperty="userId">
+        INSERT INTO user (
+        <include refid="trim_field"/>
+        )
+        VALUES (
+        <include refid="trim_data"/>
+        )
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM user
+    </delete>
+
+    <select id="getUserById" resultType="user">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
+    <select id="getUser" resultType="user">
+        SELECT *
+        FROM user
+        <include refid="login_where"/>
+    </select>
+
+    <update id="updateUser" parameterType="user">
+        UPDATE user
+        <set>
+            <trim suffixOverrides=",">
+                <if test="name != null">name = #{name},</if>
+                <if test="password != null">password = #{password},</if>
+                <if test="phone != null">phone = #{phone},</if>
+                <if test="email != null">email = #{email},</if>
+                <if test="motto != null">motto = #{motto},</if>
+            </trim>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <select id="isExistPho" resultType="boolean">
+        SELECT EXISTS (
+        SELECT phone
+        FROM user
+        WHERE phone = #{phone}
+        )
+    </select>
+
+</mapper>

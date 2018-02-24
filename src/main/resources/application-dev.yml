@@ -1,0 +1,52 @@
+server:
+  port: 8031
+  session:
+    timeout: 3600
+
+spring:
+  application:
+    name: sharinglife
+  # mysql数据库
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.16.128:3306/sl
+    username: root
+    password: root
+
+##公共配置与profiles选择无关 mapperLocations指的路径是src/main/resources
+#mybatis:
+#  typeAliasesPackage: cn.com.sl.sharinglife.pojo
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  config-location: classpath:mybatis/mybatis-config.xml
+
+#eureka服务注册
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8010/eureka/
+
+
+#自定义配置
+my:
+  #自定义限流RateLimiter配置
+  ratelimiter:
+    number1: 3
+    number2: 4
+  #自定义线程池参数配置
+  threadpool:
+    enable: false  #是否启用自定义线程池
+    corePoolSize: 10
+    maxPoolSize: 20
+    queueCapacity: 4
+    keepAlive: 100
+
+
+
+
+
+
+
+
+
+

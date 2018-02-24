@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.sharinglife.mapper.ModularMapper" >
+
+    <sql id="trim_field">
+        <trim suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="remarks != null">remarks,</if>
+        </trim>
+    </sql>
+    <sql id="trim_data">
+        <trim suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="remarks != null">#{remarks},</if>
+        </trim>
+    </sql>
+
+    <select id="getAllModulars" resultType="modular">
+        SELECT * FROM modular
+    </select>
+
+    <insert id="addModular" parameterType="modular" keyProperty="id">
+        INSERT INTO user (
+        <include refid="trim_field"/>
+        )
+        VALUES (
+        <include refid="trim_data"/>
+        )
+    </insert>
+
+    <select id="getModularById" resultType="modular">
+        SELECT * FROM modular WHERE id = #{id}
+    </select>
+
+    <update id="updateModular" parameterType="modular">
+        UPDATE modular
+        <set>
+            <trim suffixOverrides=",">
+                <if test="name != null">name = #{name},</if>
+                <if test="remarks != null">remarks = #{remarks},</if>
+            </trim>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteModularById">
+        DELETE FROM modular WHERE id = #{id}
+    </delete>
+
+</mapper>
