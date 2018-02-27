@@ -1,10 +1,13 @@
 package cn.com.sharinglife.controller;
 
+import cn.com.sharinglife.async.LoginAsync;
 import cn.com.sharinglife.contains.LoginAndRegisterApis;
 import cn.com.sharinglife.pojo.User;
 import cn.com.sharinglife.pojo.data.LoginData;
 import cn.com.sharinglife.pojo.data.RegisterData;
 import cn.com.sharinglife.service.UserService;
+import cn.com.sharinglife.util.Functions;
+import cn.com.sharinglife.util.SessionAndCookieUtil;
 import cn.com.sharinglife.util.VerifyCodeUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -12,15 +15,18 @@ import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -33,6 +39,9 @@ public class LoginAndRegisterController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LoginAsync loginAsync;
 
     @ApiOperation(value = "生成验证码图片")
     @GetMapping(value = LoginAndRegisterApis.VERIFY_CODE)
@@ -68,16 +77,28 @@ public class LoginAndRegisterController {
 
     @ApiOperation(value = "用户登陆",notes = "返回用户信息，没有则返回null")
     @PostMapping(value = LoginAndRegisterApis.LOGIN)
-    public User login (HttpServletResponse response,
-                       @RequestBody LoginData loginData){
+    public User login(HttpServletResponse response,HttpServletRequest request,
+                       @RequestBody LoginData loginData) throws InterruptedException {
         LOG.info("login — 用户登陆");
         if(loginData.nonNull()){
-            User user = new User(loginData);
-            return userService.getUser(user);
+            User user = userService.getUserByLoginData(loginData);
+            if(user != null){
+                //添加session等后续操作
+                loginAsync.longinAfter(request,user);
+                return user;
+            }
         }
         LOG.error("login — 参数loginData不符合条件");
         response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
         return null;
+    }
+
+    //退出登录
+    @GetMapping(value = LoginAndRegisterApis.LOGOUT)
+    public boolean logout(HttpSession session){
+        session.removeAttribute("user");
+        session.invalidate();
+        return true;
     }
 
     @ApiOperation(value = "判断手机号是否被注册")
@@ -92,5 +113,24 @@ public class LoginAndRegisterController {
         LOG.error("isExistPho — 参数 phone 不能为null");
         response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
         return false;
+    }
+
+    @GetMapping("/test/cookie")
+    public String cookie(@RequestParam("browser") String browser, HttpServletRequest request, HttpSession session) {
+        //取出session中的browser
+        Object sessionBrowser = session.getAttribute("browser");
+        if (sessionBrowser == null) {
+            System.out.println("不存在session，设置browser=" + browser);
+            session.setAttribute("browser", browser);
+        } else {
+            System.out.println("存在session，browser=" + sessionBrowser.toString());
+        }
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null && cookies.length > 0) {
+            for (Cookie cookie : cookies) {
+                System.out.println(cookie.getName() + " : " + cookie.getValue());
+            }
+        }
+        return "index";
     }
 }

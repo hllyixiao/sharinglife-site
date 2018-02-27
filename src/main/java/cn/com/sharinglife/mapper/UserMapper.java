@@ -1,6 +1,7 @@
 package cn.com.sharinglife.mapper;
 
 import cn.com.sharinglife.pojo.User;
+import cn.com.sharinglife.pojo.data.LoginData;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,6 +22,8 @@ public interface UserMapper {
     User getUserById(@Param(value = "id") Integer id);
 
     User getUser(User user);
+
+    User getUserByLoginData(LoginData loginData);
 
     void updateUser(User user);
 

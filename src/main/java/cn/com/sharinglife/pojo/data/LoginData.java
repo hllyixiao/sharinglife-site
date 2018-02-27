@@ -7,35 +7,19 @@ import java.util.Objects;
  */
 public class LoginData {
 
-    private String email;
-
-    private String phone;
+    private String phoneOrEmail;
 
     private String password;
 
     public LoginData() {
     }
 
-    public LoginData(String email, String phone, String password) {
-        this.email = email;
-        this.phone = phone;
-        this.password = password;
+    public String getPhoneOrEmail() {
+        return phoneOrEmail;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneOrEmail(String phoneOrEmail) {
+        this.phoneOrEmail = phoneOrEmail;
     }
 
     public String getPassword() {
@@ -47,7 +31,7 @@ public class LoginData {
     }
 
     public boolean nonNull(){
-        if((Objects.nonNull(this.email) || Objects.nonNull(this.phone))
+        if(Objects.nonNull(phoneOrEmail)
                 && Objects.nonNull(this.password)){
             return true;
         }

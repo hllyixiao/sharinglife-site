@@ -13,5 +13,7 @@ public class LoginAndRegisterApis extends ApiContains{
 
     public static final String LOGIN = PREFIX + "/login";
 
-    public static final String IS_EXITS_PHONE =  PREFIX + "isexistpho";
+    public static final String IS_EXITS_PHONE =  PREFIX + "/isexistpho";
+
+    public static final String LOGOUT = PREFIX + "/logout";
 }

@@ -15,7 +15,7 @@ public class DataTransUtil {
     
     private static final String COMPANY_DEFAULT = "0.0";
 
-    private static final String TIME_DISPLAY_SECOND = "秒前";
+    private static final String TIME_DISPLAY_SECOND = "刚刚";
 
     private static final String TIME_DISPLAY_MINUTE = "分钟前";
 

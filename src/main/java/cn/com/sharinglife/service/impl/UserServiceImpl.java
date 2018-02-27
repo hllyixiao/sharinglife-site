@@ -2,6 +2,7 @@ package cn.com.sharinglife.service.impl;
 
 import cn.com.sharinglife.mapper.UserMapper;
 import cn.com.sharinglife.pojo.User;
+import cn.com.sharinglife.pojo.data.LoginData;
 import cn.com.sharinglife.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -47,6 +48,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(User user) {
         return userMapper.getUser(user);
+    }
+
+    @Override
+    public User getUserByLoginData(LoginData loginData) {
+        return userMapper.getUserByLoginData(loginData);
     }
 
     @Override

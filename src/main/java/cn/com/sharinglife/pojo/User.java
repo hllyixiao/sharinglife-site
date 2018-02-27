@@ -28,6 +28,10 @@ public class User {
 
     private String motto;  //座右铭
 
+    private String userLastLoginIp;
+
+    private Date userLastLoginTime;
+
     private Date createTime;// 创建时间
 
     private Date updateTime;// 更新时间
@@ -39,14 +43,9 @@ public class User {
 
     public User(RegisterData registerData){
         name = registerData.getName();
+
         password = registerData.getPassword();
         phone = registerData.getPhone();
-    }
-
-    public User(LoginData loginData){
-        phone = loginData.getPhone();
-        email = loginData.getEmail();
-        password = loginData.getPassword();
     }
 
     public Integer getId() {
@@ -127,5 +126,21 @@ public class User {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getUserLastLoginIp() {
+        return userLastLoginIp;
+    }
+
+    public void setUserLastLoginIp(String userLastLoginIp) {
+        this.userLastLoginIp = userLastLoginIp;
+    }
+
+    public Date getUserLastLoginTime() {
+        return userLastLoginTime;
+    }
+
+    public void setUserLastLoginTime(Date userLastLoginTime) {
+        this.userLastLoginTime = userLastLoginTime;
     }
 }

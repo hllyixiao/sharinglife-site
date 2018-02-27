@@ -47,13 +47,23 @@
     </delete>
 
     <select id="getUserById" resultType="user">
-        SELECT * FROM user WHERE id = #{id}
+        SELECT * FROM user WHERE id = #{id} limit 1
     </select>
 
     <select id="getUser" resultType="user">
         SELECT *
         FROM user
         <include refid="login_where"/>
+        limit 1
+    </select>
+
+    <select id="getUserByLoginData" resultType="user">
+        SELECT * FROM user
+        <where>
+            phone=#{phone} OR email=#{email}
+        </where>
+        AND password = #{password}
+        limit 1
     </select>
 
     <update id="updateUser" parameterType="user">
