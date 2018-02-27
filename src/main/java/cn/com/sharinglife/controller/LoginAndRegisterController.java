@@ -5,9 +5,8 @@ import cn.com.sharinglife.contains.LoginAndRegisterApis;
 import cn.com.sharinglife.pojo.User;
 import cn.com.sharinglife.pojo.data.LoginData;
 import cn.com.sharinglife.pojo.data.RegisterData;
+import cn.com.sharinglife.pojo.responsedata.LoginResponse;
 import cn.com.sharinglife.service.UserService;
-import cn.com.sharinglife.util.Functions;
-import cn.com.sharinglife.util.SessionAndCookieUtil;
 import cn.com.sharinglife.util.VerifyCodeUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -15,7 +14,6 @@ import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
@@ -26,7 +24,6 @@ import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -77,16 +74,25 @@ public class LoginAndRegisterController {
 
     @ApiOperation(value = "用户登陆",notes = "返回用户信息，没有则返回null")
     @PostMapping(value = LoginAndRegisterApis.LOGIN)
-    public User login(HttpServletResponse response,HttpServletRequest request,
+    public LoginResponse login(HttpServletResponse response,HttpServletRequest request,
                        @RequestBody LoginData loginData) throws InterruptedException {
         LOG.info("login — 用户登陆");
+        LoginResponse loginResponse = new LoginResponse();
         if(loginData.nonNull()){
             User user = userService.getUserByLoginData(loginData);
-            if(user != null){
+            if(user == null){
+                loginResponse.setStateCode(0);
+                loginResponse.setMsg("手机号或邮箱不存在！");
+            }else if(! loginData.getPassword().equals(user.getPassword())){
+                loginResponse.setStateCode(0);
+                loginResponse.setMsg("密码错误！");
+            }else{
+                loginResponse.setStateCode(0);
+                loginResponse.setMsg("登陆成功！");
                 //添加session等后续操作
                 loginAsync.longinAfter(request,user);
-                return user;
             }
+            return loginResponse;
         }
         LOG.error("login — 参数loginData不符合条件");
         response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
@@ -115,7 +121,7 @@ public class LoginAndRegisterController {
         return false;
     }
 
-    @GetMapping("/test/cookie")
+    @GetMapping("/aa/home")
     public String cookie(@RequestParam("browser") String browser, HttpServletRequest request, HttpSession session) {
         //取出session中的browser
         Object sessionBrowser = session.getAttribute("browser");

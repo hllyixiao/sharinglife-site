@@ -62,7 +62,6 @@
         <where>
             phone=#{phone} OR email=#{email}
         </where>
-        AND password = #{password}
         limit 1
     </select>
 
