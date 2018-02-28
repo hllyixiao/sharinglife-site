@@ -1,23 +1,30 @@
 package cn.com.sharinglife.controller;
 
 import cn.com.sharinglife.client.ModelClient;
-import cn.com.sharinglife.contains.UserApis;
+import cn.com.sharinglife.containapis.UserApis;
 import cn.com.sharinglife.pojo.User;
+import cn.com.sharinglife.pojo.responsedata.CommonResponse;
 import cn.com.sharinglife.service.UserService;
+import cn.com.sharinglife.util.SessionCookieUtil;
 import com.google.common.util.concurrent.RateLimiter;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +46,83 @@ public class UserController {
     @Autowired
     @Qualifier(value = "myRateLimiter2")
     RateLimiter rateLimiter;
+
+    private static final String AVATAR_PATH = "E://avatar//";
+
+    @ApiOperation(value = "设置用户头像图片", notes = "设置用户头像图片")
+    @PostMapping(value = UserApis.SET_USERS_AVATAR)
+    public void setUserAvatar(HttpServletRequest request,
+                              @RequestParam("file")MultipartFile file) {
+        // 获取文件全名
+        String fileName = file.getOriginalFilename();
+        LOG.info("文件全名：" + fileName);
+        // 获取文件的后缀名
+        String suffixName = fileName.substring(fileName.lastIndexOf("."));
+        LOG.info("上传的后缀名为：" + suffixName);
+        // 文件上传后设置的路径的路径
+        User user = SessionCookieUtil.getUserBySession(request);
+        String filePath = getPathUrl(user.getId()) + suffixName;
+
+        // 解决中文问题，liunx下中文路径，图片显示问题
+        // fileName = UUID.randomUUID() + suffixName;
+        File dest = new File(filePath);
+        // 检测是否存在目录
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdirs();
+        }
+        try {
+            file.transferTo(dest);
+            if(! filePath.equals(user.getAvatarUrl())){
+                userService.updateAvatarUrl(filePath,user.getId());
+                user.setAvatarUrl(filePath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @ApiOperation(value = "添加关注", notes = "添加关注")
+    @GetMapping(value = UserApis.ADD_USERS_FOLLOWER)
+    public CommonResponse addFollower(HttpServletResponse response,
+                               @RequestParam(value = "userId", required = true) Integer userId,
+                               @RequestParam(value = "followerId", required = true) Integer followerId){
+        LOG.info("addFollower — 添加关注");
+        CommonResponse commonResponse = new CommonResponse();
+
+        boolean isExistFollower = userService.isExistFollower(userId, followerId);
+        if(isExistFollower){
+            commonResponse.setStateCode(0);
+            commonResponse.setMsg("该用户已关注！");
+        }else{
+            userService.addMyFollower(userId,followerId);
+            commonResponse.setStateCode(1);
+            commonResponse.setMsg("关注成功");
+        }
+        LOG.info("addFollower — 添加关注成功！");
+        return commonResponse;
+    }
+
+    @ApiOperation(value = "取消关注", notes = "取消关注")
+    @GetMapping(value = UserApis.DELETE_USERS_FOLLOWER)
+    public CommonResponse deleteFollower(HttpServletResponse response,
+                                      @RequestParam(value = "userId", required = true) Integer userId,
+                                      @RequestParam(value = "followerId", required = true) Integer followerId){
+        LOG.info("deleteFollower — 取消关注");
+        CommonResponse commonResponse = new CommonResponse();
+        userService.deleteFollower(userId,followerId);
+        LOG.info("deleteFollower — 取消关注成功！");
+        commonResponse.setStateCode(1);
+        commonResponse.setMsg("已取消关注！");
+        return commonResponse;
+    }
+
+    @ApiOperation(value = "获取所有关注用户", notes = "获取所有我关注的用户信息")
+    @GetMapping(value = UserApis.GET_USERS_FOLLOWER)
+    public List<User> getFollower(HttpServletResponse response,
+                                      @RequestParam(value = "userId", required = true) Integer userId){
+        LOG.info("getFollower — 获取所有关注用户");
+        return userService.getMyFollowerUser(userId);
+    }
 
     @ApiOperation(value = "获取所有用户信息", notes = "获取所有用户信息")
     @GetMapping(value = UserApis.GET_ALL_USERS_URL)
@@ -129,4 +213,15 @@ public class UserController {
 //        System.out.println("获取令牌失败");
 //        return "获取令牌失败";
 //    }
+
+    public String getPathUrl(Integer id){
+        String path;
+        //获取二级路径
+        if(id < 1000){
+            path =  "1";
+        }else{
+            path =  String.valueOf(id / 1000);
+        }
+        return AVATAR_PATH + path + "//" + id;
+    }
 }

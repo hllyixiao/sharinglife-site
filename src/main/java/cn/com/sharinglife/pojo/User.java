@@ -12,7 +12,7 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
-    private Integer id;
+    private  Integer id;
 
     private String name;
 
@@ -28,9 +28,9 @@ public class User {
 
     private String motto;  //座右铭
 
-    private String userLastLoginIp;
+    private String avatarUrl; //头像图片路径
 
-    private Date userLastLoginTime;
+    private String userLastLoginIp;  //最后登陆的ip
 
     private Date createTime;// 创建时间
 
@@ -39,6 +39,10 @@ public class User {
 
     public User(){
 
+    }
+
+    public User(Integer id) {
+        this.id = id;
     }
 
     public User(RegisterData registerData){
@@ -136,11 +140,11 @@ public class User {
         this.userLastLoginIp = userLastLoginIp;
     }
 
-    public Date getUserLastLoginTime() {
-        return userLastLoginTime;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setUserLastLoginTime(Date userLastLoginTime) {
-        this.userLastLoginTime = userLastLoginTime;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

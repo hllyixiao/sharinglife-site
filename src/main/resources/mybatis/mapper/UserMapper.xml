@@ -9,6 +9,8 @@
             <if test="phone != null">phone,</if>
             <if test="email != null">email,</if>
             <if test="motto != null">motto,</if>
+            <if test="avatarUrl != null">avatarurl,</if>
+            <if test="lastLoginIp != null">lastloginip,</if>
         </trim>
     </sql>
     <sql id="trim_data">
@@ -18,15 +20,13 @@
             <if test="phone != null">#{phone},</if>
             <if test="email != null">#{email},</if>
             <if test="motto != null">#{motto},</if>
+            <if test="avatarUrl != null">#{avatarUrl},</if>
+            <if test="lastLoginIp != null">#{lastLoginIp},</if>
         </trim>
     </sql>
 
-    <sql id="login_where">
-        <where>
-            password = #{password}
-            <if test="phone != null">and phone = #{phone}</if>
-            <if test="email != null">and email = #{email}</if>
-        </where>
+    <sql id="follower_user">
+        u.id, u.name, u.type, u.motto, u.avatarurl
     </sql>
 
     <select id="getAllUsers" resultType="user">
@@ -50,17 +50,10 @@
         SELECT * FROM user WHERE id = #{id} limit 1
     </select>
 
-    <select id="getUser" resultType="user">
-        SELECT *
-        FROM user
-        <include refid="login_where"/>
-        limit 1
-    </select>
-
     <select id="getUserByLoginData" resultType="user">
         SELECT * FROM user
         <where>
-            phone=#{phone} OR email=#{email}
+            phone=#{phoneOrName} OR name=#{phoneOrName}
         </where>
         limit 1
     </select>
@@ -74,8 +67,16 @@
                 <if test="phone != null">phone = #{phone},</if>
                 <if test="email != null">email = #{email},</if>
                 <if test="motto != null">motto = #{motto},</if>
+                <if test="avatarUrl != null">avatarurl = #{avatarUrl},</if>
+                <if test="lastLoginIp != null">lastloginip = #{lastLoginIp},</if>
             </trim>
         </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateAvatarUrl">
+        UPDATE user
+        SET avatarUrl = #{avatarurl}
         WHERE id = #{id}
     </update>
 
@@ -86,5 +87,62 @@
         WHERE phone = #{phone}
         )
     </select>
+
+    <select id="isExistName" resultType="boolean">
+        SELECT EXISTS (
+        SELECT name
+        FROM user
+        WHERE name = #{name}
+        )
+    </select>
+
+    <select id="isExistFollower" resultType="boolean">
+        SELECT EXISTS (
+        SELECT *
+        FROM user_follower
+        WHERE
+        userid = #{userId}
+        AND
+        followerid = #{followerId}
+        )
+    </select>
+
+    <select id="getMyFollowerUser">
+        SELECT
+        <include refid="follower_user"/>
+        FROM user u
+        INNER JOIN user_follower uf
+        ON u.id = uf.userid
+        <where>
+            uf.followerid = #{id}
+        </where>
+        AND delete = 0
+    </select>
+
+    <select id="getFollowerMyUser">
+        SELECT
+        <include refid="follower_user"/>
+        FROM user u
+        INNER JOIN user_follower uf
+        ON u.id = uf.followerid
+        <where>
+            uf.userid = #{id}
+        </where>
+        AND delete = 0
+    </select>
+
+    <insert id="addMyFollower">
+        INSERT INTO user_follower (userid, followerid)
+        VALUES (#{userId}, #{followerId})
+    </insert>
+
+    <update id="deleteFollower">
+        UPDATE user_follower
+        SET delete = 1
+        WHERE
+        userid = #{userId}
+        AND
+        followerid = #{followerId}
+    </update>
 
 </mapper>

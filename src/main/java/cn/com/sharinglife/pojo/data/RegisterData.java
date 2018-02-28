@@ -1,6 +1,7 @@
 package cn.com.sharinglife.pojo.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by hell on 2018/2/11
@@ -48,7 +49,8 @@ public class RegisterData {
     }
 
     public boolean nonNull(){
-        if(this.name != null && this.password != null && this.phone != null){
+        if(StringUtils.isNotBlank(this.name) && StringUtils.isNotBlank(this.password)
+                && StringUtils.isNotBlank(this.phone)){
             return true;
         }
         return false;

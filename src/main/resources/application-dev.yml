@@ -9,7 +9,7 @@ spring:
   # mysql数据库
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.16.128:3306/sl
+    url: jdbc:mysql://192.168.32.128:3306/wnc
     username: root
     password: root
 

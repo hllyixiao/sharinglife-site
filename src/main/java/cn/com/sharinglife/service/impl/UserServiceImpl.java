@@ -46,11 +46,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(User user) {
-        return userMapper.getUser(user);
-    }
-
-    @Override
     public User getUserByLoginData(LoginData loginData) {
         return userMapper.getUserByLoginData(loginData);
     }
@@ -61,7 +56,42 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateAvatarUrl(String avatarUrl,Integer id) {
+        userMapper.updateAvatarUrl(avatarUrl,id);
+    }
+
+    @Override
     public boolean isExistPho(String phone) {
         return userMapper.isExistPho(phone);
+    }
+
+    @Override
+    public boolean isExistName(String name) {
+        return userMapper.isExistName(name);
+    }
+
+    @Override
+    public boolean isExistFollower(Integer userId, Integer followerId) {
+        return userMapper.isExistFollower(userId,followerId);
+    }
+
+    @Override
+    public void addMyFollower(Integer userId, Integer followerId) {
+        userMapper.addMyFollower(userId,followerId);
+    }
+
+    @Override
+    public void deleteFollower(Integer userId, Integer followerId) {
+        userMapper.deleteFollower(userId,followerId);
+    }
+
+    @Override
+    public List<User> getMyFollowerUser(Integer id) {
+        return userMapper.getMyFollowerUser(id);
+    }
+
+    @Override
+    public List<User> getFollowerMyUser(Integer id) {
+        return userMapper.getFollowerMyUser(id);
     }
 }

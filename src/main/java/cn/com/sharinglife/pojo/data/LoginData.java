@@ -1,25 +1,27 @@
 package cn.com.sharinglife.pojo.data;
 
-import java.util.Objects;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by hell on 2018/2/12
  */
 public class LoginData {
 
-    private String phoneOrEmail;
+    private String verifyCode;
+
+    private String phoneOrName;
 
     private String password;
 
     public LoginData() {
     }
 
-    public String getPhoneOrEmail() {
-        return phoneOrEmail;
+    public String getPhoneOrName() {
+        return phoneOrName;
     }
 
-    public void setPhoneOrEmail(String phoneOrEmail) {
-        this.phoneOrEmail = phoneOrEmail;
+    public void setPhoneOrName(String phoneOrName) {
+        this.phoneOrName = phoneOrName;
     }
 
     public String getPassword() {
@@ -30,9 +32,18 @@ public class LoginData {
         this.password = password;
     }
 
+    public String getVerifyCode() {
+        return verifyCode;
+    }
+
+    public void setVerifyCode(String verifyCode) {
+        this.verifyCode = verifyCode;
+    }
+
     public boolean nonNull(){
-        if(Objects.nonNull(phoneOrEmail)
-                && Objects.nonNull(this.password)){
+        if(StringUtils.isNotBlank(phoneOrName)
+                && StringUtils.isNotBlank(verifyCode)
+                && StringUtils.isNotBlank(password)){
             return true;
         }
         return false;

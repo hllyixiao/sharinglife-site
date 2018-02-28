@@ -1,6 +1,6 @@
 package cn.com.sharinglife.controller;
 
-import cn.com.sharinglife.contains.ModularApis;
+import cn.com.sharinglife.containapis.ModularApis;
 import cn.com.sharinglife.pojo.Modular;
 import cn.com.sharinglife.service.ModularService;
 import io.swagger.annotations.ApiOperation;
