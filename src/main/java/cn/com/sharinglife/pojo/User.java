@@ -1,7 +1,6 @@
 package cn.com.sharinglife.pojo;
 
-import cn.com.sharinglife.pojo.data.LoginData;
-import cn.com.sharinglife.pojo.data.RegisterData;
+import cn.com.sharinglife.pojo.requestdata.RegisterRequest;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
@@ -45,11 +44,11 @@ public class User {
         this.id = id;
     }
 
-    public User(RegisterData registerData){
-        name = registerData.getName();
+    public User(RegisterRequest registerRequest){
+        name = registerRequest.getName();
 
-        password = registerData.getPassword();
-        phone = registerData.getPhone();
+        password = registerRequest.getPassword();
+        phone = registerRequest.getPhone();
     }
 
     public Integer getId() {

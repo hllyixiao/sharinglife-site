@@ -1,11 +1,11 @@
-package cn.com.sharinglife.pojo.data;
+package cn.com.sharinglife.pojo.requestdata;
 
 import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by hell on 2018/2/12
  */
-public class LoginData {
+public class LoginRequest {
 
     private String verifyCode;
 
@@ -13,7 +13,7 @@ public class LoginData {
 
     private String password;
 
-    public LoginData() {
+    public LoginRequest() {
     }
 
     public String getPhoneOrName() {

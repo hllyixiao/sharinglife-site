@@ -3,16 +3,16 @@ package cn.com.sharinglife.pojo.responsedata;
 /**
  * Created by hell on 2018/2/27
  */
-public class CommonResponse {
+public class StateMsgResponse {
 
     //返回的状态（0：失败  1：成功）
     private Integer stateCode;
     //返回登陆失败或成功的信息
     private String msg;
 
-    public CommonResponse(){}
+    public StateMsgResponse(){}
 
-    public CommonResponse(Integer stateCode, String msg) {
+    public StateMsgResponse(Integer stateCode, String msg) {
         this.stateCode = stateCode;
         this.msg = msg;
     }

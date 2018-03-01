@@ -3,7 +3,7 @@ package cn.com.sharinglife.controller;
 import cn.com.sharinglife.client.ModelClient;
 import cn.com.sharinglife.containapis.UserApis;
 import cn.com.sharinglife.pojo.User;
-import cn.com.sharinglife.pojo.responsedata.CommonResponse;
+import cn.com.sharinglife.pojo.responsedata.StateMsgResponse;
 import cn.com.sharinglife.service.UserService;
 import cn.com.sharinglife.util.SessionCookieUtil;
 import com.google.common.util.concurrent.RateLimiter;
@@ -12,7 +12,6 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,37 +82,37 @@ public class UserController {
 
     @ApiOperation(value = "添加关注", notes = "添加关注")
     @GetMapping(value = UserApis.ADD_USERS_FOLLOWER)
-    public CommonResponse addFollower(HttpServletResponse response,
-                               @RequestParam(value = "userId", required = true) Integer userId,
-                               @RequestParam(value = "followerId", required = true) Integer followerId){
+    public StateMsgResponse addFollower(HttpServletResponse response,
+                                        @RequestParam(value = "userId", required = true) Integer userId,
+                                        @RequestParam(value = "followerId", required = true) Integer followerId){
         LOG.info("addFollower — 添加关注");
-        CommonResponse commonResponse = new CommonResponse();
+        StateMsgResponse stateMsgResponse = new StateMsgResponse();
 
         boolean isExistFollower = userService.isExistFollower(userId, followerId);
         if(isExistFollower){
-            commonResponse.setStateCode(0);
-            commonResponse.setMsg("该用户已关注！");
+            stateMsgResponse.setStateCode(0);
+            stateMsgResponse.setMsg("该用户已关注！");
         }else{
             userService.addMyFollower(userId,followerId);
-            commonResponse.setStateCode(1);
-            commonResponse.setMsg("关注成功");
+            stateMsgResponse.setStateCode(1);
+            stateMsgResponse.setMsg("关注成功");
         }
         LOG.info("addFollower — 添加关注成功！");
-        return commonResponse;
+        return stateMsgResponse;
     }
 
     @ApiOperation(value = "取消关注", notes = "取消关注")
     @GetMapping(value = UserApis.DELETE_USERS_FOLLOWER)
-    public CommonResponse deleteFollower(HttpServletResponse response,
-                                      @RequestParam(value = "userId", required = true) Integer userId,
-                                      @RequestParam(value = "followerId", required = true) Integer followerId){
+    public StateMsgResponse deleteFollower(HttpServletResponse response,
+                                           @RequestParam(value = "userId", required = true) Integer userId,
+                                           @RequestParam(value = "followerId", required = true) Integer followerId){
         LOG.info("deleteFollower — 取消关注");
-        CommonResponse commonResponse = new CommonResponse();
+        StateMsgResponse stateMsgResponse = new StateMsgResponse();
         userService.deleteFollower(userId,followerId);
         LOG.info("deleteFollower — 取消关注成功！");
-        commonResponse.setStateCode(1);
-        commonResponse.setMsg("已取消关注！");
-        return commonResponse;
+        stateMsgResponse.setStateCode(1);
+        stateMsgResponse.setMsg("已取消关注！");
+        return stateMsgResponse;
     }
 
     @ApiOperation(value = "获取所有关注用户", notes = "获取所有我关注的用户信息")

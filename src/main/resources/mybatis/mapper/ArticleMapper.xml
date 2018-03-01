@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.sharinglife.mapper.ArticleMapper" >
+
+    <sql id="trim_field">
+        <trim suffixOverrides=",">
+            <if test="userId != null">userid,</if>
+            <if test="title != null">title,</if>
+            <if test="describes != null">describes,</if>
+            <if test="content != null">content,</if>
+            <if test="categoryId != null">categoryid,</if>
+            <if test="status != null">status,</if>
+            <if test="comments != null">comments,</if>
+            <if test="likes != null">likes,</if>
+            <if test="reads != null">reads,</if>
+        </trim>
+    </sql>
+    <sql id="trim_data">
+        <trim suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="title != null">#{title},</if>
+            <if test="describes != null">#{describes},</if>
+            <if test="content != null">#{content},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="status != null">#{status},</if>
+            <if test="comments != null">#{comments},</if>
+            <if test="likes != null">#{likes},</if>
+            <if test="reads != null">#{reads},</if>
+        </trim>
+    </sql>
+
+    <sql id="article_table_all_columns">
+        id,
+        userid,
+        title,
+        describes,
+        content,
+        categoryid,
+        status,
+        comments,
+        likes,
+        reads,
+        createtime,
+        updatetime
+    </sql>
+
+    <!--获取文章总数-->
+    <select id="countArticle" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM `article`
+        <where>
+            <if test="status!=null">
+                status=#{status}
+            </if>
+        </where>
+    </select>
+
+    <!--获得所有文章评论总数-->
+    <select id="countArticleComment" resultType="java.lang.Integer">
+        SELECT SUM(comments) FROM article
+        <where>
+            <if test="status!=null">
+                status=#{status}
+            </if>
+        </where>
+    </select>
+
+
+    <!--获得阅读量总数-->
+    <select id="countArticleRead" resultType="java.lang.Integer">
+        SELECT SUM(reads) FROM article
+        <where>
+            <if test="status!=null">
+                status=#{status}
+            </if>
+        </where>
+    </select>
+
+    <!--根据id查询文章信息-->
+    <select id="getArticleById" resultType="article">
+        SELECT
+        <include refid="article_table_all_columns"/>
+        FROM
+        `article`
+        <where>
+            <if test="status!=null">
+                status=#{status} AND
+            </if>
+            id=#{articleId}
+        </where>
+    </select>
+
+    <!--根据用户id获取文章信息-->
+    <select id="getArticleByUserId" resultType="article">
+        SELECT
+        <include refid="article_table_all_columns"/>
+        FROM
+        `article`
+        <where>
+            <if test="status!=null">
+                status=#{status} AND
+            </if>
+            userid=#{userId}
+        </where>
+    </select>
+
+    
+    <update id="addlike">
+        UPDATE article SET likes=likes+1 WHERE id=#{articleId}
+    </update>
+</mapper>

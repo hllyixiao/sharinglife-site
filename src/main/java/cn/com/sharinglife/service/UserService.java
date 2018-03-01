@@ -1,7 +1,7 @@
 package cn.com.sharinglife.service;
 
 import cn.com.sharinglife.pojo.User;
-import cn.com.sharinglife.pojo.data.LoginData;
+import cn.com.sharinglife.pojo.requestdata.LoginRequest;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface UserService {
 
     User getUserById(Integer id);
 
-    User getUserByLoginData(LoginData loginData);
+    User getUserByLoginData(LoginRequest loginRequest);
 
     void updateUser(User user);
 

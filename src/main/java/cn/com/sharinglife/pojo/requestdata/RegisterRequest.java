@@ -1,4 +1,4 @@
-package cn.com.sharinglife.pojo.data;
+package cn.com.sharinglife.pojo.requestdata;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang.StringUtils;
@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
  * Created by hell on 2018/2/11
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RegisterData {
+public class RegisterRequest {
 
     private String name;
 
@@ -15,10 +15,10 @@ public class RegisterData {
 
     private String phone;
 
-    public RegisterData() {
+    public RegisterRequest() {
     }
 
-    public RegisterData(String name, String password, String phone) {
+    public RegisterRequest(String name, String password, String phone) {
         this.name = name;
         this.password = password;
         this.phone = phone;

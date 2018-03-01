@@ -9,5 +9,6 @@
         <!--<package name="cn.com.wnc.hlcar.pojo"/>-->
         <typeAlias type="cn.com.sharinglife.pojo.User" alias="user"/>
         <typeAlias type="cn.com.sharinglife.pojo.Modular" alias="modular"/>
+        <typeAlias type="cn.com.sharinglife.pojo.Article" alias="article"/>
     </typeAliases>
 </configuration>

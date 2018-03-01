@@ -5,9 +5,9 @@ package cn.com.sharinglife.staticcomment;
  */
 public class Const {
 
-    public final static String SESSION_USER_KEY = "user_key";
+    public final static String SESSION_USER_KEY = "session_user";
 
-    public final static String SESSION_USERID_KEY = "userId_key";
+    public final static String SESSION_USERID_KEY = "session_userId";
 
     // COOKIE名称
     public final static String SL_COOKIE_NAME = "SHARING-LIFE";
