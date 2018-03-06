@@ -4,6 +4,7 @@ import cn.com.sharinglife.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -21,5 +22,16 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
     @Bean
     public LoginInterceptor loginInterceptor(){
         return new LoginInterceptor();
+    }
+
+    /**
+     * 静态资源处理（自定义配置）
+     * @param registry
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //其中SLFile表示访问的前缀。"file:D:/SLFile/"是文件真实的存储路径(上传的图片在D盘下的SLFile目录下)
+        //因此可以通过http://localhost:8031/SLFile/avatar/1/8.png来展示图片
+        registry.addResourceHandler("/SLFile/**").addResourceLocations("file:D:/SLFile/");
     }
 }
