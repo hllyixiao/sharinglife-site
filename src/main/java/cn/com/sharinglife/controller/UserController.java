@@ -3,8 +3,9 @@ package cn.com.sharinglife.controller;
 import cn.com.sharinglife.client.ModelClient;
 import cn.com.sharinglife.containapis.UserApis;
 import cn.com.sharinglife.pojo.User;
-import cn.com.sharinglife.pojo.responsedata.StateMsgResponse;
+import cn.com.sharinglife.pojo.responsedata.CommonResponse;
 import cn.com.sharinglife.service.UserService;
+import cn.com.sharinglife.util.CommonUtil;
 import cn.com.sharinglife.util.SessionCookieUtil;
 import com.google.common.util.concurrent.RateLimiter;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -46,73 +48,75 @@ public class UserController {
     @Qualifier(value = "myRateLimiter2")
     RateLimiter rateLimiter;
 
-    private static final String AVATAR_PATH = "E://avatar//";
-
     @ApiOperation(value = "设置用户头像图片", notes = "设置用户头像图片")
     @PostMapping(value = UserApis.SET_USERS_AVATAR)
-    public void setUserAvatar(HttpServletRequest request,
+    public void setUserAvatar(HttpServletRequest request,HttpServletResponse response,
                               @RequestParam("file")MultipartFile file) {
-        // 获取文件全名
-        String fileName = file.getOriginalFilename();
-        LOG.info("文件全名：" + fileName);
-        // 获取文件的后缀名
-        String suffixName = fileName.substring(fileName.lastIndexOf("."));
-        LOG.info("上传的后缀名为：" + suffixName);
-        // 文件上传后设置的路径的路径
+        LOG.info("setUserAvatar — 设置用户头像图片");
         User user = SessionCookieUtil.getUserBySession(request);
-        String filePath = getPathUrl(user.getId()) + suffixName;
+        if(Objects.nonNull(user)){
+            Map<String,String> res = CommonUtil.getUserFilePath(file, true, user.getId());
+            String originalName = res.get("originalName");
+            LOG.info("上传的原始文件名为：" + originalName);
+            String suffixName = res.get("suffixName");
+            LOG.info("上传的后缀名为：" + suffixName);
+            String userPath = res.get("userPath");
+            LOG.info("用户路径为：" + userPath);
+            String avatarPath = userPath + "avatar//avatar" + suffixName;
+            LOG.info("用户图像全路径为：" + avatarPath);
 
-        // 解决中文问题，liunx下中文路径，图片显示问题
-        // fileName = UUID.randomUUID() + suffixName;
-        File dest = new File(filePath);
-        // 检测是否存在目录
-        if (!dest.getParentFile().exists()) {
-            dest.getParentFile().mkdirs();
-        }
-        try {
-            file.transferTo(dest);
-            if(! filePath.equals(user.getAvatarUrl())){
-                userService.updateAvatarUrl(filePath,user.getId());
-                user.setAvatarUrl(filePath);
+            File dest = new File(avatarPath);
+            // 检测是否存在目录
+            if (!dest.getParentFile().exists()) {
+                dest.getParentFile().mkdirs();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                file.transferTo(dest);
+                if(! avatarPath.equals(user.getAvatarUrl())){
+                    userService.updateAvatarUrl(avatarPath,user.getId());
+                    user.setAvatarUrl(avatarPath);
+                }
+            } catch (IOException e) {
+                LOG.error("setUserAvatar — 设置用户头像图片报错 —",e);
+            }
+        }else{
+            LOG.error("setUserAvatar — user为null，请登陆！");
+            response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
         }
     }
 
     @ApiOperation(value = "添加关注", notes = "添加关注")
     @GetMapping(value = UserApis.ADD_USERS_FOLLOWER)
-    public StateMsgResponse addFollower(HttpServletResponse response,
-                                        @RequestParam(value = "userId", required = true) Integer userId,
-                                        @RequestParam(value = "followerId", required = true) Integer followerId){
+    public CommonResponse addFollower(HttpServletResponse response,
+                                      @RequestParam(value = "userId", required = true) Integer userId,
+                                      @RequestParam(value = "followerId", required = true) Integer followerId){
         LOG.info("addFollower — 添加关注");
-        StateMsgResponse stateMsgResponse = new StateMsgResponse();
-
+        CommonResponse commonResponse = new CommonResponse();
         boolean isExistFollower = userService.isExistFollower(userId, followerId);
         if(isExistFollower){
-            stateMsgResponse.setStateCode(0);
-            stateMsgResponse.setMsg("该用户已关注！");
+            commonResponse.setStatusCode(0);
+            commonResponse.setMsg("该用户已关注！");
         }else{
             userService.addMyFollower(userId,followerId);
-            stateMsgResponse.setStateCode(1);
-            stateMsgResponse.setMsg("关注成功");
+            commonResponse.setStatusCode(1);
+            commonResponse.setMsg("关注成功");
         }
         LOG.info("addFollower — 添加关注成功！");
-        return stateMsgResponse;
+        return commonResponse;
     }
 
     @ApiOperation(value = "取消关注", notes = "取消关注")
     @GetMapping(value = UserApis.DELETE_USERS_FOLLOWER)
-    public StateMsgResponse deleteFollower(HttpServletResponse response,
-                                           @RequestParam(value = "userId", required = true) Integer userId,
-                                           @RequestParam(value = "followerId", required = true) Integer followerId){
+    public CommonResponse deleteFollower(HttpServletResponse response,
+                                         @RequestParam(value = "userId", required = true) Integer userId,
+                                         @RequestParam(value = "followerId", required = true) Integer followerId){
         LOG.info("deleteFollower — 取消关注");
-        StateMsgResponse stateMsgResponse = new StateMsgResponse();
+        CommonResponse commonResponse = new CommonResponse();
         userService.deleteFollower(userId,followerId);
         LOG.info("deleteFollower — 取消关注成功！");
-        stateMsgResponse.setStateCode(1);
-        stateMsgResponse.setMsg("已取消关注！");
-        return stateMsgResponse;
+        commonResponse.setStatusCode(1);
+        commonResponse.setMsg("已取消关注！");
+        return commonResponse;
     }
 
     @ApiOperation(value = "获取所有关注用户", notes = "获取所有我关注的用户信息")
@@ -212,15 +216,4 @@ public class UserController {
 //        System.out.println("获取令牌失败");
 //        return "获取令牌失败";
 //    }
-
-    public String getPathUrl(Integer id){
-        String path;
-        //获取二级路径
-        if(id < 1000){
-            path =  "1";
-        }else{
-            path =  String.valueOf(id / 1000);
-        }
-        return AVATAR_PATH + path + "//" + id;
-    }
 }

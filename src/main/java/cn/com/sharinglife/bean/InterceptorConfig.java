@@ -30,8 +30,8 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //其中SLFile表示访问的前缀。"file:D:/SLFile/"是文件真实的存储路径(上传的图片在D盘下的SLFile目录下)
+        //其中SLFile表示访问的前缀。"file:E:/SLFile/"是文件真实的存储路径(上传的图片在E盘下的SLFile目录下)
         //因此可以通过http://localhost:8031/SLFile/avatar/1/8.png来展示图片
-        registry.addResourceHandler("/SLFile/**").addResourceLocations("file:D:/SLFile/");
+        registry.addResourceHandler("/SLFile/**").addResourceLocations("file:E:/SLFile/");
     }
 }

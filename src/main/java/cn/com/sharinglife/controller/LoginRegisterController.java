@@ -5,11 +5,11 @@ import cn.com.sharinglife.containapis.LoginAndRegisterApis;
 import cn.com.sharinglife.pojo.User;
 import cn.com.sharinglife.pojo.requestdata.LoginRequest;
 import cn.com.sharinglife.pojo.requestdata.RegisterRequest;
-import cn.com.sharinglife.pojo.responsedata.StateMsgResponse;
+import cn.com.sharinglife.pojo.responsedata.CommonResponse;
 import cn.com.sharinglife.service.UserService;
 import cn.com.sharinglife.staticcomment.Const;
-import cn.com.sharinglife.util.Digest;
-import cn.com.sharinglife.util.Functions;
+import cn.com.sharinglife.util.CommonUtil;
+import cn.com.sharinglife.util.ImageUtil;
 import cn.com.sharinglife.util.SessionCookieUtil;
 import cn.com.sharinglife.util.VerifyCodeUtil;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,8 +26,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by hell on 2018/2/9
@@ -45,19 +47,26 @@ public class LoginRegisterController {
 
     @ApiOperation(value = "生成验证码图片")
     @GetMapping(value = LoginAndRegisterApis.VERIFY_CODE)
-    public void getVerifyCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Map getVerifyCode(HttpServletRequest request, HttpSession session){
         //利用图片工具生成图片
         //第一个参数是生成的验证码数字，第二个参数是生成的图片
+        Map res = new HashMap<String,String>();
         Object[] objs = VerifyCodeUtil.createImage();
         //将验证码数字存入Session
-        HttpSession session = request.getSession();
         session.setAttribute(Const.VERIFY_CODE,objs[0]);
-
         //将图片输出给浏览器
         BufferedImage image = (BufferedImage) objs[1];
-        response.setContentType("image/png");
-        OutputStream os = response.getOutputStream();
-        ImageIO.write(image, "png", os);
+        //response.setContentType("image/png");
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        //OutputStream os = response.getOutputStream();
+        try {
+            ImageIO.write(image, "png", baos);
+        } catch (IOException e) {
+            LOG.error("生成验证码图片报错—",e);
+        }
+        byte[] bytes = baos.toByteArray();
+        res.put("verifyCodeImg", ImageUtil.verifyCodeImageToBase64(bytes));
+        return res;
     }
 
     @ApiOperation(value = "用户注册")
@@ -77,33 +86,34 @@ public class LoginRegisterController {
 
     @ApiOperation(value = "用户登陆",notes = "登陆成功后，返回用户信息")
     @PostMapping(value = LoginAndRegisterApis.LOGIN)
-    public StateMsgResponse login(HttpServletResponse response, HttpServletRequest request,
-                                  HttpSession session, @RequestBody LoginRequest loginRequest) {
+    public CommonResponse login(HttpServletResponse response, HttpServletRequest request,
+                                HttpSession session, @RequestBody LoginRequest loginRequest) {
         LOG.info("login — 用户登陆");
-        final StateMsgResponse stateMsgResponse = new StateMsgResponse();
+        final CommonResponse commonResponse = new CommonResponse();
         //传入的对象不能有null的属性
         if(loginRequest.nonNull()){
-            if(loginRequest.getVerifyCode().equalsIgnoreCase(
-                    (String) session.getAttribute(Const.VERIFY_CODE))){
+            if("".equals(loginRequest.getVerifyCode()) || loginRequest.getVerifyCode()
+                    .equalsIgnoreCase((String) session.getAttribute(Const.VERIFY_CODE))){
                 final User user = userService.getUserByLoginData(loginRequest);
                 if(user == null){
-                    stateMsgResponse.setStateCode(0);
-                    stateMsgResponse.setMsg("手机号或邮箱不存在！");
+                    commonResponse.setStatusCode(0);
+                    commonResponse.setMsg("手机号或邮箱不存在！");
                 }else if(! loginRequest.getPassword().equals(user.getPassword())){
-                    stateMsgResponse.setStateCode(0);
-                    stateMsgResponse.setMsg("密码错误！");
+                    commonResponse.setStatusCode(0);
+                    commonResponse.setMsg("密码错误！");
                 }else{
-                    stateMsgResponse.setStateCode(1);
-                    stateMsgResponse.setMsg("登陆成功！");
+                    commonResponse.setStatusCode(1);
+                    commonResponse.setMsg("登陆成功！");
+                    commonResponse.setUser(user);
                     //登陆成功后，添加session、cookie等信息
                     longinAfter(request,response,user);
                     LOG.info("用户-[{}] 登陆成功！", loginRequest.getPhoneOrName());
                 }
             }else{
-                stateMsgResponse.setStateCode(0);
-                stateMsgResponse.setMsg("验证码错误!");
+                commonResponse.setStatusCode(0);
+                commonResponse.setMsg("验证码错误!");
             }
-            return stateMsgResponse;
+            return commonResponse;
         }
         LOG.error("login — 参数loginData不符合条件");
         response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
@@ -145,17 +155,22 @@ public class LoginRegisterController {
         return false;
     }
 
-    //登陆成功后，添加session、cookie等信息
+    /**
+     * 登陆成功后，添加session、cookie等信息
+     * @param request
+     * @param response
+     * @param user
+     */
     public void longinAfter(HttpServletRequest request,
                             HttpServletResponse response, User user) {
         //更新用户信息，包括当前用户登陆的ip、时间
         final User updateUser = new User(user.getId());
-        updateUser.setUserLastLoginIp(Functions.getIpAddr(request));
+        updateUser.setLastLoginIp(CommonUtil.getIpAddr(request));
         userService.updateUser(updateUser);
         //设置session
         SessionCookieUtil.setSessionUser(request,user);
         //设置cookie
-        final String encryptName = Digest.encryptBASE64(user.getName());
+        final String encryptName = CommonUtil.encryptBASE64(user.getName());
         final String cookieValue = String.valueOf(System.currentTimeMillis()) + encryptName;
         SessionCookieUtil.setCookies(response, Const.SL_COOKIE_NAME,cookieValue);
     }

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 限制接口访问量（限流）
  * Created by hell on 2018/2/6
  */
 @Configuration

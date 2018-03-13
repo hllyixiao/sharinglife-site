@@ -42,7 +42,6 @@ public class LoginRequest {
 
     public boolean nonNull(){
         if(StringUtils.isNotBlank(phoneOrName)
-                && StringUtils.isNotBlank(verifyCode)
                 && StringUtils.isNotBlank(password)){
             return true;
         }

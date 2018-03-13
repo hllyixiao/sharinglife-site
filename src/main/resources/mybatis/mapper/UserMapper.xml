@@ -76,7 +76,7 @@
 
     <update id="updateAvatarUrl">
         UPDATE user
-        SET avatarUrl = #{avatarurl}
+        SET avatarurl = #{avatarUrl}
         WHERE id = #{id}
     </update>
 

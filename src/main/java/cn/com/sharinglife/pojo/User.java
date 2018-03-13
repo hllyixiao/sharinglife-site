@@ -29,7 +29,7 @@ public class User {
 
     private String avatarUrl; //头像图片路径
 
-    private String userLastLoginIp;  //最后登陆的ip
+    private String lastLoginIp;  //最后登陆的ip
 
     private Date createTime;// 创建时间
 
@@ -46,7 +46,6 @@ public class User {
 
     public User(RegisterRequest registerRequest){
         name = registerRequest.getName();
-
         password = registerRequest.getPassword();
         phone = registerRequest.getPhone();
     }
@@ -131,12 +130,12 @@ public class User {
         this.updateTime = updateTime;
     }
 
-    public String getUserLastLoginIp() {
-        return userLastLoginIp;
+    public String getLastLoginIp() {
+        return lastLoginIp;
     }
 
-    public void setUserLastLoginIp(String userLastLoginIp) {
-        this.userLastLoginIp = userLastLoginIp;
+    public void setLastLoginIp(String lastLoginIp) {
+        this.lastLoginIp = lastLoginIp;
     }
 
     public String getAvatarUrl() {

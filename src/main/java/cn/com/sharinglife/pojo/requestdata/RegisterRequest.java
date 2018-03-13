@@ -49,8 +49,8 @@ public class RegisterRequest {
     }
 
     public boolean nonNull(){
-        if(StringUtils.isNotBlank(this.name) && StringUtils.isNotBlank(this.password)
-                && StringUtils.isNotBlank(this.phone)){
+        if(StringUtils.isNotBlank(name) && StringUtils.isNotBlank(password)
+                && StringUtils.isNotBlank(phone)){
             return true;
         }
         return false;
