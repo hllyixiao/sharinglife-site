@@ -29,8 +29,13 @@
         u.id, u.name, u.type, u.motto, u.avatarurl
     </sql>
 
+    <sql id="base_user">
+        id, name, password, type, motto, phone, sharecoin, avatarurl
+    </sql>
+
     <select id="getAllUsers" resultType="user">
-        SELECT * FROM user
+        SELECT <include refid="base_user"/>
+         FROM user
     </select>
 
     <insert id="addUser" parameterType="user" keyProperty="userId">
@@ -47,11 +52,13 @@
     </delete>
 
     <select id="getUserById" resultType="user">
-        SELECT * FROM user WHERE id = #{id} limit 1
+        SELECT <include refid="base_user"/>
+        FROM user WHERE id = #{id} Limit 1
     </select>
 
     <select id="getUserByLoginData" resultType="user">
-        SELECT * FROM user
+        SELECT <include refid="base_user"/>
+        FROM user
         <where>
             phone=#{phoneOrName} OR name=#{phoneOrName}
         </where>
@@ -104,10 +111,11 @@
         userid = #{userId}
         AND
         followerid = #{followerId}
+        AND delete = 0
         )
     </select>
 
-    <select id="getMyFollowerUser">
+    <select id="followToMeUsers">
         SELECT
         <include refid="follower_user"/>
         FROM user u
@@ -119,7 +127,7 @@
         AND delete = 0
     </select>
 
-    <select id="getFollowerMyUser">
+    <select id="myFollowUsers">
         SELECT
         <include refid="follower_user"/>
         FROM user u
@@ -134,6 +142,7 @@
     <insert id="addMyFollower">
         INSERT INTO user_follower (userid, followerid)
         VALUES (#{userId}, #{followerId})
+        ON DUPLICATE KEY UPDATE delete = 0
     </insert>
 
     <update id="deleteFollower">
@@ -144,5 +153,4 @@
         AND
         followerid = #{followerId}
     </update>
-
 </mapper>

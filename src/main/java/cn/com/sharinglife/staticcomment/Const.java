@@ -9,10 +9,14 @@ public class Const {
 
     public final static String SESSION_USERID_KEY = "session_userId";
 
-    // COOKIE名称
+    /**
+     *  COOKIE名称
+     */
     public final static String SL_COOKIE_NAME = "SHARING-LIFE";
 
-    // 验证码key
+    /**
+     * 验证码key
+     */
     public final static String VERIFY_CODE = "verify_Code";
 
 }

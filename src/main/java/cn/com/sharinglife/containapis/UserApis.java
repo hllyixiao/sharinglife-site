@@ -9,8 +9,6 @@ public class UserApis extends ApiContains{
 
     public static final String GET_ALL_USERS_URL = PREFIX + "/list";
 
-    public static final String GET_USERS_URL = PREFIX + "/get";
-
     public static final String UPDATE_USERS_URL = PREFIX + "/update";
 
     public static final String GET_USERS_BY_ID_URL = PREFIX + "/getbyid";
@@ -21,5 +19,9 @@ public class UserApis extends ApiContains{
 
     public static final String DELETE_USERS_FOLLOWER = PREFIX + "/deletefollower";
 
-    public static final String GET_USERS_FOLLOWER = PREFIX + "/getfollower";
+    public static final String GET_FOLLOW_TO_ME_USERS = PREFIX + "/followtome";
+
+    public static final String GET_MY_FOLLOW_USERS = PREFIX + "/myfollow";
+
+    public static final String MODIFY_PASSWORD_USERS = PREFIX + "/modifypassword";
 }

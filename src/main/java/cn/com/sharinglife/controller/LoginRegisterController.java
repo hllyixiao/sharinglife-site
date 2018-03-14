@@ -1,6 +1,5 @@
 package cn.com.sharinglife.controller;
 
-import cn.com.sharinglife.async.LoginAsync;
 import cn.com.sharinglife.containapis.LoginAndRegisterApis;
 import cn.com.sharinglife.pojo.User;
 import cn.com.sharinglife.pojo.requestdata.LoginRequest;
@@ -42,9 +41,6 @@ public class LoginRegisterController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private LoginAsync loginAsync;
-
     @ApiOperation(value = "生成验证码图片")
     @GetMapping(value = LoginAndRegisterApis.VERIFY_CODE)
     public Map getVerifyCode(HttpServletRequest request, HttpSession session){
@@ -56,13 +52,11 @@ public class LoginRegisterController {
         session.setAttribute(Const.VERIFY_CODE,objs[0]);
         //将图片输出给浏览器
         BufferedImage image = (BufferedImage) objs[1];
-        //response.setContentType("image/png");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        //OutputStream os = response.getOutputStream();
         try {
             ImageIO.write(image, "png", baos);
         } catch (IOException e) {
-            LOG.error("生成验证码图片报错—",e);
+            LOG.error("生成验证码图片报错 — ",e);
         }
         byte[] bytes = baos.toByteArray();
         res.put("verifyCodeImg", ImageUtil.verifyCodeImageToBase64(bytes));
@@ -98,7 +92,7 @@ public class LoginRegisterController {
                 if(user == null){
                     commonResponse.setStatusCode(0);
                     commonResponse.setMsg("手机号或邮箱不存在！");
-                }else if(! loginRequest.getPassword().equals(user.getPassword())){
+                }else if(!loginRequest.getPassword().equals(user.getPassword())){
                     commonResponse.setStatusCode(0);
                     commonResponse.setMsg("密码错误！");
                 }else{

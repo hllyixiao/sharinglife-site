@@ -86,12 +86,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getMyFollowerUser(Integer id) {
-        return userMapper.getMyFollowerUser(id);
+    public List<User> followToMeUsers(Integer id) {
+        return userMapper.followToMeUsers(id);
     }
 
     @Override
-    public List<User> getFollowerMyUser(Integer id) {
-        return userMapper.getFollowerMyUser(id);
+    public List<User> myFollowUsers(Integer id) {
+        return userMapper.myFollowUsers(id);
     }
 }

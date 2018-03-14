@@ -41,9 +41,17 @@ public interface UserMapper {
     void deleteFollower(@Param(value = "userId")Integer userId,
                        @Param(value = "followerId")Integer followerId);
 
-    //关注我的用户（我的粉丝）
-    List<User> getMyFollowerUser(Integer id);
+    /**
+     * 关注我的用户（我的粉丝）
+     * @param id
+     * @return
+     */
+    List<User> followToMeUsers(Integer id);
 
-    //我关注的用户
-    List<User> getFollowerMyUser(Integer id);
+    /**
+     * 我关注的用户
+     * @param id
+     * @return
+     */
+    List<User> myFollowUsers(Integer id);
 }

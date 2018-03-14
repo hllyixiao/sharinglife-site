@@ -14,6 +14,7 @@ import java.util.ArrayList;
 /**
  * Caffeine Cached的配置类，spring-boot推荐使用Caffeine Cache
  * 可以针对每个cache配置不同的参数
+ *
  * Created by hell on 2018/2/2
  *
  */
@@ -45,6 +46,8 @@ public class CaffeineCacheConfig {
                 break;
             case 3:
                 caffeine.refreshAfterWrite(c.getTtl(),c.getUnit());
+                break;
+            default:
                 break;
         }
         caffeine.maximumSize(c.getMaxSize());

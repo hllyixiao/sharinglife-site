@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Created by hell on 2018/2/11
+ * @author Created by hell on 2018/2/11
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RegisterRequest {

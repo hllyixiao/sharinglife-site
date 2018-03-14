@@ -35,9 +35,17 @@ public interface UserService {
 
     void deleteFollower(Integer userId, Integer followerId);
 
-    //获取关注我的用户（我的粉丝）
-    List<User> getMyFollowerUser(Integer id);
+    /**
+     * 获取关注我的用户（我的粉丝）
+     * @param id
+     * @return
+     */
+    List<User> followToMeUsers(Integer id);
 
-    //获取我关注的用户
-    List<User> getFollowerMyUser(Integer id);
+    /**
+     * 获取我关注的所有用户
+     * @param id
+     * @return
+     */
+    List<User> myFollowUsers(Integer id);
 }

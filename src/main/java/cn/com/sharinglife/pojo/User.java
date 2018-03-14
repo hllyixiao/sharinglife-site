@@ -21,19 +21,40 @@ public class User {
 
     private String email;
 
-    private Integer type;  //用户类型
+    /**
+     * 用户类型
+     */
+    private Integer type;
 
-    private Double shareCoin;  //分享币
+    /**
+     * 分享币
+     */
+    private Double shareCoin;
 
-    private String motto;  //座右铭
+    /**
+     * 座右铭
+     */
+    private String motto;
 
-    private String avatarUrl; //头像图片路径
+    /**
+     * 头像图片路径
+     */
+    private String avatarUrl;
 
-    private String lastLoginIp;  //最后登陆的ip
+    /**
+     * 最后登陆的ip
+     */
+    private String lastLoginIp;
 
-    private Date createTime;// 创建时间
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
-    private Date updateTime;// 更新时间
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
 
 
     public User(){
@@ -42,6 +63,11 @@ public class User {
 
     public User(Integer id) {
         this.id = id;
+    }
+
+    public User(Integer id, String password) {
+        this.id = id;
+        this.password = password;
     }
 
     public User(RegisterRequest registerRequest){

@@ -28,7 +28,11 @@ public class CommonUtil {
 
 	private static final String DISK_PATH = "E://SLFile//";
 
-	//获得物理ip
+	/**
+	 * 获得物理ip
+	 * @param request
+	 * @return
+	 */
 	public static String getIpAddr(HttpServletRequest request){
 		String ip = request.getHeader("X-Forwarded-For");
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -71,23 +75,23 @@ public class CommonUtil {
 	}
 
     /**
-     * 返回用户路径（为每一个用户配置一个文件路径）
+     * 返回文件的原始名称、后缀名、新的全路径（为每一个用户配置一个文件路径）
      * @param file
-     * @param status  true : 表示图片文件  false : 表示视频文件
+     * @param fileType  true : 表示图片文件  false : 表示视频文件
      * @param id
      * @return
      */
-	public static Map<String,String> getUserFilePath(MultipartFile file, boolean status,Integer id){
+	public static Map<String,String> getUserFilePath(MultipartFile file, boolean fileType,Integer id){
 	    Map<String,String> resMap = new HashMap();
 	    StringBuffer userPath = new StringBuffer(DISK_PATH);
 		// 获取文件原始名称（包括后缀）
 		String originalName = file.getOriginalFilename();
 		// 获取文件的后缀名（格式）
 		String suffixName = originalName.substring(originalName.lastIndexOf("."));
-		//一级路径
-		//String firsPath = status ? "image//" : "video//";
-        userPath.append(status ? "image//" : "video//");
-        //获取二级路径
+		//添加一级路径
+        userPath.append(fileType ? "image//" : "video//");
+
+        //根据用户id设置二级路径
         if(id == null){
             userPath.append("unknow//");
         }else{
@@ -130,6 +134,13 @@ public class CommonUtil {
 		return new String(encodeByte);
 	}
 
+	/**
+	 * 生成二维码图片
+	 * @param width
+	 * @param height
+	 * @param content
+	 * @param storagePath
+	 */
     public static void createQrCode (int width,int height,String content,String storagePath) {
         String format = "png";
         //定义二维码的参数

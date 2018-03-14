@@ -12,6 +12,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
@@ -48,20 +49,20 @@ public class UserController {
     @Qualifier(value = "myRateLimiter2")
     RateLimiter rateLimiter;
 
+
     @ApiOperation(value = "设置用户头像图片", notes = "设置用户头像图片")
     @PostMapping(value = UserApis.SET_USERS_AVATAR)
     public void setUserAvatar(HttpServletRequest request,HttpServletResponse response,
-                              @RequestParam("file")MultipartFile file) {
+                              @RequestParam("file") final MultipartFile file) {
         LOG.info("setUserAvatar — 设置用户头像图片");
         User user = SessionCookieUtil.getUserBySession(request);
         if(Objects.nonNull(user)){
             Map<String,String> res = CommonUtil.getUserFilePath(file, true, user.getId());
-            String originalName = res.get("originalName");
-            LOG.info("上传的原始文件名为：" + originalName);
+            //后缀名
             String suffixName = res.get("suffixName");
-            LOG.info("上传的后缀名为：" + suffixName);
+            //用户路径
             String userPath = res.get("userPath");
-            LOG.info("用户路径为：" + userPath);
+            //用户头像路径
             String avatarPath = userPath + "avatar//avatar" + suffixName;
             LOG.info("用户图像全路径为：" + avatarPath);
 
@@ -77,7 +78,7 @@ public class UserController {
                     user.setAvatarUrl(avatarPath);
                 }
             } catch (IOException e) {
-                LOG.error("setUserAvatar — 设置用户头像图片报错 —",e);
+                LOG.error("setUserAvatar — 设置用户头像出错 —",e);
             }
         }else{
             LOG.error("setUserAvatar — user为null，请登陆！");
@@ -85,31 +86,36 @@ public class UserController {
         }
     }
 
-    @ApiOperation(value = "添加关注", notes = "添加关注")
+
+    @ApiOperation(value = "添加关注", notes = "添加关注用户")
     @GetMapping(value = UserApis.ADD_USERS_FOLLOWER)
-    public CommonResponse addFollower(HttpServletResponse response,
-                                      @RequestParam(value = "userId", required = true) Integer userId,
-                                      @RequestParam(value = "followerId", required = true) Integer followerId){
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId",value = "用户Id",required = true, dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "followerId",value = "被关注的用户Id",required = true, paramType = "query")})
+    public CommonResponse addFollower(@RequestParam(value = "userId") final Integer userId,
+                                      @RequestParam(value = "followerId") final Integer followerId){
         LOG.info("addFollower — 添加关注");
         CommonResponse commonResponse = new CommonResponse();
         boolean isExistFollower = userService.isExistFollower(userId, followerId);
         if(isExistFollower){
-            commonResponse.setStatusCode(0);
+            commonResponse.setStatusCode(1);
             commonResponse.setMsg("该用户已关注！");
+            LOG.info("addFollower — 该用户已关注！");
         }else{
             userService.addMyFollower(userId,followerId);
             commonResponse.setStatusCode(1);
             commonResponse.setMsg("关注成功");
+            LOG.info("addFollower — 关注成功！");
         }
-        LOG.info("addFollower — 添加关注成功！");
         return commonResponse;
     }
 
+
     @ApiOperation(value = "取消关注", notes = "取消关注")
     @GetMapping(value = UserApis.DELETE_USERS_FOLLOWER)
-    public CommonResponse deleteFollower(HttpServletResponse response,
-                                         @RequestParam(value = "userId", required = true) Integer userId,
-                                         @RequestParam(value = "followerId", required = true) Integer followerId){
+    public CommonResponse deleteFollower(
+                                         @RequestParam(value = "userId") final Integer userId,
+                                         @RequestParam(value = "followerId") final Integer followerId){
         LOG.info("deleteFollower — 取消关注");
         CommonResponse commonResponse = new CommonResponse();
         userService.deleteFollower(userId,followerId);
@@ -119,13 +125,41 @@ public class UserController {
         return commonResponse;
     }
 
-    @ApiOperation(value = "获取所有关注用户", notes = "获取所有我关注的用户信息")
-    @GetMapping(value = UserApis.GET_USERS_FOLLOWER)
-    public List<User> getFollower(HttpServletResponse response,
-                                      @RequestParam(value = "userId", required = true) Integer userId){
-        LOG.info("getFollower — 获取所有关注用户");
-        return userService.getMyFollowerUser(userId);
+
+    @ApiOperation(value = "关注我的用户", notes = "获取所有关注我的用户信息")
+    @GetMapping(value = UserApis.GET_FOLLOW_TO_ME_USERS)
+    public List<User> getFollowToMeUsers(@RequestParam(value = "userId") final Integer userId){
+        LOG.info("getFollowToMeUsers — 所有关注我的用户");
+        return userService.followToMeUsers(userId);
     }
+
+
+    @ApiOperation(value = "我关注的用户", notes = "获取所有我关注的用户信息")
+    @GetMapping(value = UserApis.GET_MY_FOLLOW_USERS)
+    public List<User> getMyFollowUsers(@RequestParam(value = "userId") final Integer userId){
+        LOG.info("getMyFollowUsers — 所有关注我的用户");
+        return userService.myFollowUsers(userId);
+    }
+
+
+    @ApiOperation(value = "修改用户密码", notes = "修改用户密码")
+    @GetMapping(value = UserApis.MODIFY_PASSWORD_USERS)
+    public CommonResponse modifyPassword(@RequestParam(value = "userId") final Integer userId,
+                                         @RequestParam(value = "newPassword") final String newPassword){
+        LOG.info("modifyPassword — 修改用户密码");
+        CommonResponse commonResponse = new CommonResponse();
+        User user = userService.getUserById(userId);
+        if(user.getPassword().equals(newPassword)){
+            commonResponse.setStatusCode(0);
+            commonResponse.setMsg("新密码不能与旧密码相同！");
+        }else{
+            commonResponse.setStatusCode(1);
+            userService.updateUser(new User(userId,newPassword));
+            commonResponse.setMsg("密码修改成功！");
+        }
+        return commonResponse;
+    }
+
 
     @ApiOperation(value = "获取所有用户信息", notes = "获取所有用户信息")
     @GetMapping(value = UserApis.GET_ALL_USERS_URL)
@@ -133,24 +167,13 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-//    @ApiOperation(value = "获取用户信息", notes = "通过用户年龄和用户姓名来获取所有用户信息")
-//    @GetMapping(value = UserApis.GET_USERS_URL)
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "age",value = "用户年龄",required = true, dataType = "int",paramType = "query"),
-//            @ApiImplicitParam(name = "name",value = "用户姓名",required = true, paramType = "query")})
-//    public User getUser(@RequestParam(value = "age") Integer age,
-//                        @RequestParam(value = "name") String name) {
-//        logger.info("UserController - getUser");
-//        return userService.getByAgeAndName(age,name);
-//    }
 
-    //@LoginAnnotation
-    @ApiOperation(value = "获取用户信息",notes = "根据url的id来获取用户详细信息")
+    @ApiOperation(value = "通过用户id获取信息",notes = "根据id来获取用户详细信息")
     @ApiImplicitParam(name = "id",value = "用户id",required = true, paramType = "path")
     @GetMapping(value = UserApis.GET_USERS_BY_ID_URL + "/{id}")
     public User getUserById(HttpServletResponse response,
                             @PathVariable final Integer id) {
-        LOG.info("getUserById — 获取用户信息 用户Id:",id);
+        LOG.info("getUserById — 通过用户id获取信息 用户Id:",id);
         if(Objects.nonNull(id)){
             User user = userService.getUserById(id);
             if(Objects.nonNull(user)){
@@ -165,7 +188,7 @@ public class UserController {
         return null;
     }
 
-    //@LoginAnnotation
+
     @ApiOperation(value = "更新用户信息",notes = "更新用户信息")
     @GetMapping(value = UserApis.UPDATE_USERS_URL)
     public void updateUser(HttpServletResponse response,
@@ -177,6 +200,7 @@ public class UserController {
         LOG.error("updateUser — 参数user的id不能为null");
         response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
     }
+
 
     @GetMapping(value = "/home")
     @HystrixCommand(commandProperties = {

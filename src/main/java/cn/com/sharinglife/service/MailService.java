@@ -8,7 +8,7 @@ public interface MailService {
      * @param subject
      * @param content
      */
-    public void sendSimpleMail(String to, String subject, String content);
+    void sendSimpleMail(String to, String subject, String content);
 
 
     /**
@@ -17,7 +17,7 @@ public interface MailService {
      * @param subject
      * @param content
      */
-    public void sendHtmlMail(String to, String subject, String content);
+     void sendHtmlMail(String to, String subject, String content);
 
     /**
      * 发送带附件的邮件
@@ -26,7 +26,7 @@ public interface MailService {
      * @param content
      * @param filePath
      */
-    public void sendAttachmentsMail(String to, String subject, String content, String filePath);
+     void sendAttachmentsMail(String to, String subject, String content, String filePath);
 
 
     /**
@@ -37,6 +37,6 @@ public interface MailService {
      * @param rscPath 静态资源路径和文件名
      * @param rscId 静态资源id
      */
-    public void sendInlineResourceMail(String to, String subject, String content, String rscPath, String rscId);
+     void sendInlineResourceMail(String to, String subject, String content, String rscPath, String rscId);
 
 }
