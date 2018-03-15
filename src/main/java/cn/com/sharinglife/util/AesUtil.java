@@ -19,8 +19,10 @@ import java.util.logging.Logger;
 public class AesUtil {
 
     private static final String KEY_ALGORITHM = "AES";
-    private static final String DEFAULT_CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";//默认的加密算法
-    private static final String key = "sharinglife";  //加密密码
+    //默认的加密算法
+    private static final String DEFAULT_CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";
+    //加密密码
+    private static final String key = "sharinglife";
 
     /**
      * AES 加密操作
@@ -29,15 +31,19 @@ public class AesUtil {
      */
     public static String encrypt(String encryptPassword) {
         try {
-            Cipher cipher = Cipher.getInstance(DEFAULT_CIPHER_ALGORITHM);// 创建密码器
+            // 创建密码器
+            Cipher cipher = Cipher.getInstance(DEFAULT_CIPHER_ALGORITHM);
 
             byte[] byteContent = encryptPassword.getBytes("utf-8");
 
-            cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(key));// 初始化为加密模式的密码器
+            // 初始化为加密模式的密码器
+            cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(key));
 
-            byte[] result = cipher.doFinal(byteContent);// 加密
+            // 加密
+            byte[] result = cipher.doFinal(byteContent);
 
-            return Base64.encodeBase64String(result);//通过Base64转码返回
+            //通过Base64转码返回
+            return Base64.encodeBase64String(result);
         } catch (Exception ex) {
             Logger.getLogger(AesUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -88,7 +94,8 @@ public class AesUtil {
             //生成一个密钥
             SecretKey secretKey = kg.generateKey();
 
-            return new SecretKeySpec(secretKey.getEncoded(), KEY_ALGORITHM);// 转换为AES专用密钥
+            // 转换为AES专用密钥
+            return new SecretKeySpec(secretKey.getEncoded(), KEY_ALGORITHM);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(AesUtil.class.getName()).log(Level.SEVERE, null, ex);
         }

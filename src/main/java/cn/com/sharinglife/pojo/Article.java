@@ -1,6 +1,6 @@
 package cn.com.sharinglife.pojo;
 
-import cn.com.sharinglife.pojo.base.Base;
+import cn.com.sharinglife.pojo.base.ArticleBase;
 
 import java.util.Date;
 
@@ -8,7 +8,7 @@ import java.util.Date;
  * 生活录模块发表的文章
  * Created by hell on 2018/3/1
  */
-public class Article extends Base{
+public class Article extends ArticleBase {
 
     private Integer id;
 
@@ -20,9 +20,15 @@ public class Article extends Base{
 
     private String content;
 
-    private Date createTime;// 创建时间
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
-    private Date updateTime;// 更新时间
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
 
     public Article() {
     }

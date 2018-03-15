@@ -4,6 +4,8 @@ import cn.com.sharinglife.mapper.UserMapper;
 import cn.com.sharinglife.pojo.User;
 import cn.com.sharinglife.pojo.requestdata.LoginRequest;
 import cn.com.sharinglife.service.UserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,12 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<User> getAllUsers() {
-        return userMapper.getAllUsers();
+    public PageInfo<User> getAllUsers(int page, int limit) {
+        //mybatis分页插件
+        PageHelper.startPage(page, limit);
+        List<User> users = userMapper.getAllUsers();
+        PageInfo<User> pageInfo = new PageInfo<>(users);
+        return pageInfo;
     }
 
     @Override

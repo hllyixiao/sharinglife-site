@@ -30,7 +30,7 @@
     </sql>
 
     <sql id="base_user">
-        id, name, password, type, motto, phone, sharecoin, avatarurl
+        id, name, type, motto, phone, sharecoin, avatarurl
     </sql>
 
     <select id="getAllUsers" resultType="user">

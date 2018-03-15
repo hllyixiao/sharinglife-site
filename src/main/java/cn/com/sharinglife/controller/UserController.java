@@ -2,11 +2,15 @@ package cn.com.sharinglife.controller;
 
 import cn.com.sharinglife.client.ModelClient;
 import cn.com.sharinglife.containapis.UserApis;
+import cn.com.sharinglife.enums.LogActionEnum;
+import cn.com.sharinglife.pojo.Logs;
 import cn.com.sharinglife.pojo.User;
 import cn.com.sharinglife.pojo.responsedata.CommonResponse;
+import cn.com.sharinglife.service.LogsService;
 import cn.com.sharinglife.service.UserService;
 import cn.com.sharinglife.util.CommonUtil;
 import cn.com.sharinglife.util.SessionCookieUtil;
+import com.github.pagehelper.PageInfo;
 import com.google.common.util.concurrent.RateLimiter;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -44,6 +48,9 @@ public class UserController {
 
     @Autowired
     private ModelClient modelClient;
+
+    @Autowired
+    private LogsService logsService;
 
     @Autowired
     @Qualifier(value = "myRateLimiter2")
@@ -153,6 +160,11 @@ public class UserController {
             commonResponse.setStatusCode(0);
             commonResponse.setMsg("新密码不能与旧密码相同！");
         }else{
+            //添加成功信息到日志表
+            Logs logs = new Logs(user.getId(),user.getName(), LogActionEnum.UP_PWD.getAction(),
+                    "修改密码成功",user.getLastLoginIp());
+            logsService.addLog(logs);
+
             commonResponse.setStatusCode(1);
             userService.updateUser(new User(userId,newPassword));
             commonResponse.setMsg("密码修改成功！");
@@ -161,16 +173,19 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "获取所有用户信息", notes = "获取所有用户信息")
-    @GetMapping(value = UserApis.GET_ALL_USERS_URL)
-    public List<User> getAllUser() {
-        return userService.getAllUsers();
+    @ApiOperation(value = "获取用户列表", notes = "获取用户列表信息")
+    @GetMapping(value = UserApis.GET_USERS)
+    public PageInfo<User> getUsers(@RequestParam(value = "page", defaultValue = "1") final int page,
+                                 @RequestParam(value = "limit", defaultValue = "15") final int limit) {
+        LOG.info("getUsers —— 获取用户列表，当前页:第{}页，每页获取{}个用户信息",page,limit);
+        PageInfo<User> userPageInfo =  userService.getAllUsers(page,limit);
+        return userPageInfo;
     }
 
 
     @ApiOperation(value = "通过用户id获取信息",notes = "根据id来获取用户详细信息")
     @ApiImplicitParam(name = "id",value = "用户id",required = true, paramType = "path")
-    @GetMapping(value = UserApis.GET_USERS_BY_ID_URL + "/{id}")
+    @GetMapping(value = UserApis.GET_USERS_BY_ID + "/{id}")
     public User getUserById(HttpServletResponse response,
                             @PathVariable final Integer id) {
         LOG.info("getUserById — 通过用户id获取信息 用户Id:",id);
@@ -179,7 +194,7 @@ public class UserController {
             if(Objects.nonNull(user)){
                 return user;
             }
-            LOG.error("getUserById — 不存在id=" + id + "的用户");
+            LOG.error("getUserById — 不存在id={} 的用户",id);
             response.setStatus(HttpStatus.SC_BAD_REQUEST);
             return null;
         }
@@ -190,7 +205,7 @@ public class UserController {
 
 
     @ApiOperation(value = "更新用户信息",notes = "更新用户信息")
-    @GetMapping(value = UserApis.UPDATE_USERS_URL)
+    @GetMapping(value = UserApis.UPDATE_USER)
     public void updateUser(HttpServletResponse response,
                             @RequestBody final User user) {
         LOG.info("updateUser — 更新用户信息");

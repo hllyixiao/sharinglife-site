@@ -26,16 +26,24 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class Swagger2Config {
 
-    //swagger扫描的controller包路径
+    /**
+     * swagger扫描的controller包路径
+     */
     private String basePackage = "cn.com.sharinglife.controller";
 
-    //swagger文档标题信息
+    /**
+     * swagger文档标题信息
+     */
     private String title = "本项目是利用swagger构建Restful api文档";
 
-    //swagger文档描述
-    private String description = "简单优雅的restful api风格，可以很好的管理接口并且可以直接测试";
+    /**
+     * swagger文档描述
+     */
+    private String description = "简单优雅的restful api风格，可以更好的管理接口并且可以直接测试";
 
-    //swagger文档版本
+    /**
+     * swagger文档版本
+     */
     private String version = "2.0";
 
 

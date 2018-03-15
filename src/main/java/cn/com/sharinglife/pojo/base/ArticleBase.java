@@ -4,21 +4,33 @@ package cn.com.sharinglife.pojo.base;
  * 生活录、图片、视频等模块的共同字段
  * Created by hell on 2018/3/1
  */
-public class Base {
+public class ArticleBase {
 
     private String tags;
 
     private Integer categoryId;
 
-    private Integer status;  //0:删除  1：草稿  2：发布
+    /**
+     * 0:删除  1：草稿  2：发布
+     */
+    private Integer status;
 
-    private Integer comments; //评论数
+    /**
+     * 评论数
+     */
+    private Integer comments;
 
-    private Integer likes;  //喜欢
+    /**
+     * 喜欢
+     */
+    private Integer likes;
 
-    private Integer reads; //阅读数量
+    /**
+     * 阅读数量
+     */
+    private Integer reads;
 
-    public Base() {
+    public ArticleBase() {
     }
 
     public String getTags() {

@@ -7,11 +7,11 @@ public class UserApis extends ApiContains{
 
     private static final String PREFIX = API_PREFIX + "/user";
 
-    public static final String GET_ALL_USERS_URL = PREFIX + "/list";
+    public static final String GET_USERS = PREFIX + "/list";
 
-    public static final String UPDATE_USERS_URL = PREFIX + "/update";
+    public static final String UPDATE_USER = PREFIX + "/update";
 
-    public static final String GET_USERS_BY_ID_URL = PREFIX + "/getbyid";
+    public static final String GET_USERS_BY_ID = PREFIX + "/getbyid";
 
     public static final String SET_USERS_AVATAR = PREFIX + "/setavatar";
 

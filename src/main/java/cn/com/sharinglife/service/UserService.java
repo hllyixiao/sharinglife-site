@@ -2,6 +2,7 @@ package cn.com.sharinglife.service;
 
 import cn.com.sharinglife.pojo.User;
 import cn.com.sharinglife.pojo.requestdata.LoginRequest;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public interface UserService {
 
-    List<User> getAllUsers();
+    PageInfo<User> getAllUsers(int page, int limit);
 
     void delete();
 

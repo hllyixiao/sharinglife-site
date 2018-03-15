@@ -2,13 +2,16 @@ package cn.com.sharinglife.pojo;
 
 import cn.com.sharinglife.pojo.requestdata.RegisterRequest;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
 
 /**
- * Created by hell on 2018/1/31
+ * @author Created by hell on 2018/1/31
+ *  值为null则该字段不返回
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 
     private  Integer id;

@@ -1,10 +1,13 @@
 package cn.com.sharinglife.controller;
 
 import cn.com.sharinglife.containapis.LoginAndRegisterApis;
+import cn.com.sharinglife.enums.LogActionEnum;
+import cn.com.sharinglife.pojo.Logs;
 import cn.com.sharinglife.pojo.User;
 import cn.com.sharinglife.pojo.requestdata.LoginRequest;
 import cn.com.sharinglife.pojo.requestdata.RegisterRequest;
 import cn.com.sharinglife.pojo.responsedata.CommonResponse;
+import cn.com.sharinglife.service.LogsService;
 import cn.com.sharinglife.service.UserService;
 import cn.com.sharinglife.staticcomment.Const;
 import cn.com.sharinglife.util.CommonUtil;
@@ -31,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by hell on 2018/2/9
+ * @author Created by hell on 2018/2/9
  */
 @RestController
 public class LoginRegisterController {
@@ -40,6 +43,9 @@ public class LoginRegisterController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LogsService logsService;
 
     @ApiOperation(value = "生成验证码图片")
     @GetMapping(value = LoginAndRegisterApis.VERIFY_CODE)
@@ -139,7 +145,7 @@ public class LoginRegisterController {
     @ApiImplicitParam(name = "name",value = "合法的用户名",required = true,paramType = "query")
     @GetMapping(value = LoginAndRegisterApis.IS_EXITS_NAME)
     public boolean isExistName(HttpServletResponse response,
-                                @RequestParam(value = "name",required = true)String name){
+                                @RequestParam(value = "name")String name){
         LOG.info("isExistName — 判断用户名是否被注册");
         if(StringUtils.isNotBlank(name)){
             return userService.isExistName(name);
@@ -150,7 +156,7 @@ public class LoginRegisterController {
     }
 
     /**
-     * 登陆成功后，添加session、cookie等信息
+     * 登陆成功后，添加session、cookie、log等信息
      * @param request
      * @param response
      * @param user
@@ -159,8 +165,12 @@ public class LoginRegisterController {
                             HttpServletResponse response, User user) {
         //更新用户信息，包括当前用户登陆的ip、时间
         final User updateUser = new User(user.getId());
-        updateUser.setLastLoginIp(CommonUtil.getIpAddr(request));
+        String ip = CommonUtil.getIpAddr(request);
+        updateUser.setLastLoginIp(ip);
         userService.updateUser(updateUser);
+        //添加日志信息到日志表
+        Logs logs = new Logs(user.getId(),user.getName(), LogActionEnum.LOGIN.getAction(),ip);
+        logsService.addLog(logs);
         //设置session
         SessionCookieUtil.setSessionUser(request,user);
         //设置cookie
