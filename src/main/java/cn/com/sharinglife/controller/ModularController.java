@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 public class ModularController {
 
-    private final Logger logger = LoggerFactory.getLogger(ModularController.class);
+    private final Logger LOG = LoggerFactory.getLogger(ModularController.class);
 
     @Autowired
     ModularService modularService;

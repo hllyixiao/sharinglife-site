@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ArticleController {
 
-    private final Logger LOG = LoggerFactory.getLogger(LoginRegisterController.class);
+    private final Logger LOG = LoggerFactory.getLogger(ArticleController.class);
 
     @Autowired
     private ArticleService articleService;

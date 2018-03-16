@@ -19,7 +19,7 @@ public class MailController {
     @Autowired
     private MailService mailService;
 
-    private final Logger LOG = LoggerFactory.getLogger(LoginRegisterController.class);
+    private final Logger LOG = LoggerFactory.getLogger(MailController.class);
 
     @ApiOperation(value = "发送邮件" ,notes = "通过发邮件可以修改密码")
     @GetMapping(value = MailApis.SEND_MAIL)
