@@ -67,22 +67,26 @@ public class UserController {
             Map<String,String> res = CommonUtil.getUserFilePath(file, true, user.getId());
             //后缀名
             String suffixName = res.get("suffixName");
-            //用户路径
-            String userPath = res.get("userPath");
+            //用户数据库保存路径
+            String dataBasePath = res.get("userPath");
+            //用户磁盘保存路径
+            String diskPath = res.get("diskPath");
             //用户头像路径
-            String avatarPath = userPath + "avatar//avatar" + suffixName;
-            LOG.info("用户图像全路径为：" + avatarPath);
+            String diskAvatarPath = diskPath + "avatar//avatar" + suffixName;
+            LOG.info("用户图像全路径为：" + diskAvatarPath);
+            //用户数据库头像路径
+            String databaseAvatarPath = dataBasePath + "avatar//avatar" + suffixName;
 
-            File dest = new File(avatarPath);
+            File dest = new File(diskAvatarPath);
             // 检测是否存在目录
             if (!dest.getParentFile().exists()) {
                 dest.getParentFile().mkdirs();
             }
             try {
                 file.transferTo(dest);
-                if(! avatarPath.equals(user.getAvatarUrl())){
-                    userService.updateAvatarUrl(avatarPath,user.getId());
-                    user.setAvatarUrl(avatarPath);
+                if(! databaseAvatarPath.equals(user.getAvatarUrl())){
+                    userService.updateAvatarUrl(databaseAvatarPath,user.getId());
+                    user.setAvatarUrl(databaseAvatarPath);
                 }
             } catch (IOException e) {
                 LOG.error("setUserAvatar — 设置用户头像出错 —",e);

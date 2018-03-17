@@ -1,6 +1,7 @@
 package cn.com.sharinglife.service.impl;
 
 import cn.com.sharinglife.mapper.ArticleMapper;
+import cn.com.sharinglife.pojo.Article;
 import cn.com.sharinglife.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,10 @@ public class ArticlesServiceImpl implements ArticleService {
         if(Objects.nonNull(articleId)){
             articleMapper.addlike(articleId);
         }
+    }
+
+    @Override
+    public int addArticle(Article article) {
+        return articleMapper.addArticle(article);
     }
 }

@@ -26,11 +26,11 @@
     </sql>
 
     <sql id="follower_user">
-        u.id, u.name, u.type, u.motto, u.avatarurl
+        u.id, u.name, u.password, u.type, u.motto, u.avatarurl
     </sql>
 
     <sql id="base_user">
-        id, name, type, motto, phone, sharecoin, avatarurl
+        id, name, password, type, motto, phone, sharecoin, avatarurl
     </sql>
 
     <select id="getAllUsers" resultType="user">

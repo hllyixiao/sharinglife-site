@@ -1,6 +1,6 @@
 package cn.com.sharinglife.service;
 
-import org.springframework.stereotype.Service;
+import cn.com.sharinglife.pojo.Article;
 
 /**
  * Created by hell on 2018/3/1
@@ -8,4 +8,6 @@ import org.springframework.stereotype.Service;
 public interface ArticleService {
 
     void addlike(Integer articleId);
+
+    int addArticle(Article article);
 }

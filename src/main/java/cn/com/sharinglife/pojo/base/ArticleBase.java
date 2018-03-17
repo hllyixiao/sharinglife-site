@@ -28,7 +28,7 @@ public class ArticleBase {
     /**
      * 阅读数量
      */
-    private Integer reads;
+    private Integer readVolumes;
 
     public ArticleBase() {
     }
@@ -73,11 +73,11 @@ public class ArticleBase {
         this.likes = likes;
     }
 
-    public Integer getReads() {
-        return reads;
+    public Integer getReadVolumes() {
+        return readVolumes;
     }
 
-    public void setReads(Integer reads) {
-        this.reads = reads;
+    public void setReadVolumes(Integer readVolumes) {
+        this.readVolumes = readVolumes;
     }
 }

@@ -169,8 +169,8 @@ public class LoginRegisterController {
         updateUser.setLastLoginIp(ip);
         userService.updateUser(updateUser);
         //添加日志信息到日志表
-        Logs logs = new Logs(user.getId(),user.getName(), LogActionEnum.LOGIN.getAction(),ip);
-        logsService.addLog(logs);
+        //Logs logs = new Logs(user.getId(),user.getName(), LogActionEnum.LOGIN.getAction(),ip);
+        //logsService.addLog(logs);
         //设置session
         SessionCookieUtil.setSessionUser(request,user);
         //设置cookie

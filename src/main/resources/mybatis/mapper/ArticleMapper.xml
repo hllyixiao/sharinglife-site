@@ -12,7 +12,7 @@
             <if test="status != null">status,</if>
             <if test="comments != null">comments,</if>
             <if test="likes != null">likes,</if>
-            <if test="reads != null">reads,</if>
+            <if test="readVolumes != null">readvolumes,</if>
         </trim>
     </sql>
     <sql id="trim_data">
@@ -25,7 +25,7 @@
             <if test="status != null">#{status},</if>
             <if test="comments != null">#{comments},</if>
             <if test="likes != null">#{likes},</if>
-            <if test="reads != null">#{reads},</if>
+            <if test="readVolumes != null">#{readVolumes},</if>
         </trim>
     </sql>
 
@@ -105,6 +105,15 @@
 
     
     <update id="addlike">
-        UPDATE article SET likes=likes+1 WHERE id=#{articleId}
+    UPDATE article SET likes=likes+1 WHERE id=#{articleId}
     </update>
+
+    <insert id="addArticle" useGeneratedKeys="true" keyProperty="id" parameterType="article">
+        INSERT INTO article (
+        <include refid="trim_field"/>
+        )
+        VALUES (
+        <include refid="trim_data"/>
+        )
+    </insert>
 </mapper>

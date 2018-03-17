@@ -12,4 +12,6 @@ public class ArticleApis extends ApiContains {
     public static final String ADD_ARTICLE = PREFIX + "/addarticle";
 
     public static final String DELETE_ARTICLE = PREFIX + "/deletearticle";
+
+    public static final String ADD_ARTICLE_PICTURE = PREFIX + "/addarticlepicture";
 }

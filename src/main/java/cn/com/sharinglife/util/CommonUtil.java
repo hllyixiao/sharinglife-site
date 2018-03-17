@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class CommonUtil {
 
-	private static final String DISK_PATH = "E://SLFile//";
+	private static final String DISK_PATH = "E:";
 
 	/**
 	 * 获得物理ip
@@ -83,7 +83,7 @@ public class CommonUtil {
      */
 	public static Map<String,String> getUserFilePath(MultipartFile file, boolean fileType,Integer id){
 	    Map<String,String> resMap = new HashMap();
-	    StringBuffer userPath = new StringBuffer(DISK_PATH);
+	    StringBuffer userPath = new StringBuffer("//SLFile//");
 		// 获取文件原始名称（包括后缀）
 		String originalName = file.getOriginalFilename();
 		// 获取文件的后缀名（格式）
@@ -101,9 +101,11 @@ public class CommonUtil {
                     .append(id)
                     .append("//");
         }
+        String diskPath = DISK_PATH + userPath;
         resMap.put("originalName",originalName);
         resMap.put("suffixName",suffixName);
-        resMap.put("userPath",userPath.toString());
+        resMap.put("diskPath",diskPath);
+		resMap.put("userPath",userPath.toString());
         return resMap;
     }
 
