@@ -59,11 +59,11 @@ public class ArticleController {
     }
 
     @ApiOperation(value = "添加文章图片", notes = "添加文章图片")
-    @GetMapping(value = ArticleApis.ADD_ARTICLE_PICTURE)
+    @PostMapping(value = ArticleApis.ADD_ARTICLE_PICTURE)
     public String addArticlePicture(HttpServletRequest request, HttpServletResponse response,
                               @RequestParam("file") final MultipartFile file,
-                              @RequestParam("articleId") final Integer articleId,
-                              @RequestParam("userId") final Integer userId ) {
+                              @RequestParam("userId") final Integer userId,
+                              @RequestParam("articleId") final Integer articleId) {
         LOG.info("addArticlePicture — 添加文章图片");
         if(Objects.nonNull(file)){
             Map<String,String> res = CommonUtil.getUserFilePath(file, true, userId);
