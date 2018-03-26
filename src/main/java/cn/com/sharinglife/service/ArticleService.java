@@ -10,4 +10,6 @@ public interface ArticleService {
     void addlike(Integer articleId);
 
     int addArticle(Article article);
+
+    Article getArticleById(Integer articleId);
 }

@@ -37,8 +37,8 @@ import java.util.Objects;
 /**
  * Created by hell on 2018/1/31
  */
+@Api(value="用户controller",tags={"用户操作接口"})
 @RestController
-@Api("关于用户信息的控制器")
 public class UserController {
 
     private final Logger LOG = LoggerFactory.getLogger(UserController.class);

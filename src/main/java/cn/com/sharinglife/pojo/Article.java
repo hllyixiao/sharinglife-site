@@ -1,6 +1,7 @@
 package cn.com.sharinglife.pojo;
 
 import cn.com.sharinglife.pojo.base.ArticleBase;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
 
@@ -8,6 +9,7 @@ import java.util.Date;
  * 生活录模块发表的文章
  * Created by hell on 2018/3/1
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Article extends ArticleBase {
 
     private Integer id;
@@ -16,9 +18,17 @@ public class Article extends ArticleBase {
 
     private String title;
 
-    private String describes;
+    /**
+     * 纯文本内容
+     */
+    private String contentTxt;
 
-    private String content;
+    /**
+     * html内容
+     */
+    private String contentHtml;
+
+    private Integer contentSize;
 
     /**
      * 创建时间
@@ -57,20 +67,20 @@ public class Article extends ArticleBase {
         this.title = title;
     }
 
-    public String getDescribes() {
-        return describes;
+    public String getContentTxt() {
+        return contentTxt;
     }
 
-    public void setDescribes(String describes) {
-        this.describes = describes;
+    public void setContentTxt(String contentTxt) {
+        this.contentTxt = contentTxt;
     }
 
-    public String getContent() {
-        return content;
+    public String getContentHtml() {
+        return contentHtml;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setContentHtml(String contentHtml) {
+        this.contentHtml = contentHtml;
     }
 
     public Date getCreateTime() {
@@ -87,5 +97,13 @@ public class Article extends ArticleBase {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getContentSize() {
+        return contentSize;
+    }
+
+    public void setContentSize(Integer contentSize) {
+        this.contentSize = contentSize;
     }
 }

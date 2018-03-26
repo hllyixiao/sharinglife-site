@@ -7,8 +7,6 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.apache.commons.codec.binary.Base64;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -188,10 +186,5 @@ public class CommonUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        createQrCode(300, 300, "www.baidu.com", "E:/develop/qrcode.png");
-        readQrCode("E:/develop/qrcode.png");
     }
 }

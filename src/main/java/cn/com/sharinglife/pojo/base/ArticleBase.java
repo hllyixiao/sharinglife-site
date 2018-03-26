@@ -6,6 +6,7 @@ package cn.com.sharinglife.pojo.base;
  */
 public class ArticleBase {
 
+
     private String tags;
 
     private Integer categoryId;

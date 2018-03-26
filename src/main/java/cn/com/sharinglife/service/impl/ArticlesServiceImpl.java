@@ -28,4 +28,9 @@ public class ArticlesServiceImpl implements ArticleService {
     public int addArticle(Article article) {
         return articleMapper.addArticle(article);
     }
+
+    @Override
+    public Article getArticleById(Integer articleId) {
+        return articleMapper.getArticleById(articleId);
+    }
 }

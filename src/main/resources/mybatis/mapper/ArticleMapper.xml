@@ -6,8 +6,8 @@
         <trim suffixOverrides=",">
             <if test="userId != null">userid,</if>
             <if test="title != null">title,</if>
-            <if test="describes != null">describes,</if>
-            <if test="content != null">content,</if>
+            <if test="contentHtml != null">contenthtml,</if>
+            <if test="contentSize != null">contentsize,</if>
             <if test="categoryId != null">categoryid,</if>
             <if test="status != null">status,</if>
             <if test="comments != null">comments,</if>
@@ -17,15 +17,15 @@
     </sql>
     <sql id="trim_data">
         <trim suffixOverrides=",">
-            <if test="userId != null">#{userId},</if>
-            <if test="title != null">#{title},</if>
-            <if test="describes != null">#{describes},</if>
-            <if test="content != null">#{content},</if>
-            <if test="categoryId != null">#{categoryId},</if>
-            <if test="status != null">#{status},</if>
-            <if test="comments != null">#{comments},</if>
-            <if test="likes != null">#{likes},</if>
-            <if test="readVolumes != null">#{readVolumes},</if>
+            <if test="userId != null">#{userId,jdbcType=INTEGER},</if>
+            <if test="title != null">#{title,jdbcType=VARCHAR},</if>
+            <if test="contentHtml != null">#{contentHtml,jdbcType=VARCHAR},</if>
+            <if test="contentSize != null">#{contentSize,jdbcType=INTEGER},</if>
+            <if test="categoryId != null">#{categoryId,jdbcType=INTEGER},</if>
+            <if test="status != null">#{status,jdbcType=TINYINT},</if>
+            <if test="comments != null">#{comments,jdbcType=INTEGER},</if>
+            <if test="likes != null">#{likes,jdbcType=INTEGER},</if>
+            <if test="readVolumes != null">#{readVolumes,jdbcType=INTEGER},</if>
         </trim>
     </sql>
 
@@ -33,20 +33,20 @@
         id,
         userid,
         title,
-        describes,
-        content,
+        contenthtml,
+        contentsize,
         categoryid,
         status,
         comments,
         likes,
-        reads,
+        readvolumes,
         createtime,
         updatetime
     </sql>
 
     <!--获取文章总数-->
     <select id="countArticle" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM `article`
+        SELECT COUNT(1) FROM `article`
         <where>
             <if test="status!=null">
                 status=#{status}
@@ -82,9 +82,6 @@
         FROM
         `article`
         <where>
-            <if test="status!=null">
-                status=#{status} AND
-            </if>
             id=#{articleId}
         </where>
     </select>
@@ -108,7 +105,7 @@
     UPDATE article SET likes=likes+1 WHERE id=#{articleId}
     </update>
 
-    <insert id="addArticle" useGeneratedKeys="true" keyProperty="id" parameterType="article">
+    <insert id="addArticle" parameterType="article" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO article (
         <include refid="trim_field"/>
         )

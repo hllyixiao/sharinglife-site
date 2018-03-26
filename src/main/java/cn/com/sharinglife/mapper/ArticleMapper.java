@@ -35,12 +35,10 @@ public interface ArticleMapper {
 
     /**
      * 根据id获取文章信息
-     * @param status
      * @param id
      * @return
      */
-    Article getArticleById(@Param(value="status")Integer status,
-                           @Param(value="id")Integer id);
+    Article getArticleById(@Param(value="articleId")Integer articleId);
 
     /**
      * 根据用户id获取文章信息
@@ -50,7 +48,6 @@ public interface ArticleMapper {
      */
     List<Article> getArticleByUserId(@Param(value="status")Integer status,
                                      @Param(value="userId")Integer userId);
-
 
     void addlike(Integer articleId);
 
