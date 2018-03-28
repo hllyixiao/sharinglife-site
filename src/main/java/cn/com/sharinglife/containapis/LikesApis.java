@@ -3,7 +3,7 @@ package cn.com.sharinglife.containapis;
 /**
  * Created by hell on 2018/3/16
  */
-public class LikeApis extends ApiContains {
+public class LikesApis extends ApiContains {
 
     private static final String PREFIX = API_PREFIX + "/like";
 

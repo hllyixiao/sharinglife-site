@@ -1,6 +1,5 @@
 package cn.com.sharinglife.mapper;
 
-import cn.com.sharinglife.pojo.Modular;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

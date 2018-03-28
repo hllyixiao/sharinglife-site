@@ -9,6 +9,7 @@
             <if test="contentHtml != null">contenthtml,</if>
             <if test="contentSize != null">contentsize,</if>
             <if test="categoryId != null">categoryid,</if>
+            <if test="allowComments != null">allowcomments,</if>
             <if test="status != null">status,</if>
             <if test="comments != null">comments,</if>
             <if test="likes != null">likes,</if>
@@ -22,6 +23,7 @@
             <if test="contentHtml != null">#{contentHtml,jdbcType=VARCHAR},</if>
             <if test="contentSize != null">#{contentSize,jdbcType=INTEGER},</if>
             <if test="categoryId != null">#{categoryId,jdbcType=INTEGER},</if>
+            <if test="allowComments != null">#{allowComments,jdbcType=TINYINT},</if>
             <if test="status != null">#{status,jdbcType=TINYINT},</if>
             <if test="comments != null">#{comments,jdbcType=INTEGER},</if>
             <if test="likes != null">#{likes,jdbcType=INTEGER},</if>
@@ -36,6 +38,7 @@
         contenthtml,
         contentsize,
         categoryid,
+        allowcomments,
         status,
         comments,
         likes,
@@ -101,8 +104,12 @@
     </select>
 
     
-    <update id="addlike">
+    <update id="addLike">
     UPDATE article SET likes=likes+1 WHERE id=#{articleId}
+    </update>
+
+    <update id="deleteLike">
+    UPDATE article SET likes=likes-1 WHERE id=#{articleId}
     </update>
 
     <insert id="addArticle" parameterType="article" useGeneratedKeys="true" keyProperty="id">

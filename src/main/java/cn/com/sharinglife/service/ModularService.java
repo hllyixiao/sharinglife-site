@@ -1,8 +1,6 @@
 package cn.com.sharinglife.service;
 
 
-import cn.com.sharinglife.pojo.Modular;
-
 import java.util.List;
 
 /**

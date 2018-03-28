@@ -1,16 +1,14 @@
 package cn.com.sharinglife.pojo;
 
-import cn.com.sharinglife.pojo.base.ArticleBase;
-import com.fasterxml.jackson.annotation.JsonInclude;
+import cn.com.sharinglife.pojo.base.ModularBase;
 
 import java.util.Date;
 
 /**
- * 生活录模块发表的文章
- * Created by hell on 2018/3/1
+ * @author hell
+ * @data 2018/3/28 11:43
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class Article extends ArticleBase {
+public class Article extends ModularBase {
 
     private Integer id;
 
@@ -39,9 +37,6 @@ public class Article extends ArticleBase {
      * 更新时间
      */
     private Date updateTime;
-
-    public Article() {
-    }
 
     public Integer getId() {
         return id;
@@ -83,6 +78,14 @@ public class Article extends ArticleBase {
         this.contentHtml = contentHtml;
     }
 
+    public Integer getContentSize() {
+        return contentSize;
+    }
+
+    public void setContentSize(Integer contentSize) {
+        this.contentSize = contentSize;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -97,13 +100,5 @@ public class Article extends ArticleBase {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public Integer getContentSize() {
-        return contentSize;
-    }
-
-    public void setContentSize(Integer contentSize) {
-        this.contentSize = contentSize;
     }
 }

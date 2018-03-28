@@ -1,7 +1,6 @@
 package cn.com.sharinglife.service.impl;
 
 import cn.com.sharinglife.mapper.ModularMapper;
-import cn.com.sharinglife.pojo.Modular;
 import cn.com.sharinglife.service.ModularService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

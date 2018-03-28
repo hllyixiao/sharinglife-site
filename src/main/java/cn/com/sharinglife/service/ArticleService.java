@@ -7,7 +7,9 @@ import cn.com.sharinglife.pojo.Article;
  */
 public interface ArticleService {
 
-    void addlike(Integer articleId);
+    void addLike(Integer articleId);
+
+    void deleteLike(Integer articleId);
 
     int addArticle(Article article);
 

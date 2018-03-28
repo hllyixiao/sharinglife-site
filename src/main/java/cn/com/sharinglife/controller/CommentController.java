@@ -16,7 +16,6 @@ import java.util.Objects;
  * @author Created by hell on 2018/3/16
  *
  */
-@Api(value="评论controller",tags={"评论接口"})
 @RestController
 public class CommentController {
 

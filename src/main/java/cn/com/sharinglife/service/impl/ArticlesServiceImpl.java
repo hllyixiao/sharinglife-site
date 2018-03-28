@@ -18,9 +18,16 @@ public class ArticlesServiceImpl implements ArticleService {
     private ArticleMapper articleMapper;
 
     @Override
-    public void addlike(Integer articleId) {
+    public void addLike(Integer articleId) {
         if(Objects.nonNull(articleId)){
-            articleMapper.addlike(articleId);
+            articleMapper.addLike(articleId);
+        }
+    }
+
+    @Override
+    public void deleteLike(Integer articleId) {
+        if(Objects.nonNull(articleId)){
+            articleMapper.deleteLike(articleId);
         }
     }
 

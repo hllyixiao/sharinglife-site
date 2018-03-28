@@ -26,9 +26,9 @@ public class Comment {
     private Integer pId;
 
     /**
-     * 文章id
+     * 文章id、图片id、视频id
      */
-    private Integer articleId;
+    private Integer iid;
 
     /**
      * 发表文章的作者id
@@ -89,12 +89,12 @@ public class Comment {
         this.pId = pId;
     }
 
-    public Integer getArticleId() {
-        return articleId;
+    public Integer getIid() {
+        return iid;
     }
 
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
+    public void setIid(Integer iid) {
+        this.iid = iid;
     }
 
     public Integer getArticleUserId() {

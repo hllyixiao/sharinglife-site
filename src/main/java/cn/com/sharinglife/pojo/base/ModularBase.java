@@ -4,7 +4,7 @@ package cn.com.sharinglife.pojo.base;
  * 生活录、图片、视频等模块的共同字段
  * Created by hell on 2018/3/1
  */
-public class ArticleBase {
+public class ModularBase {
 
 
     private String tags;
@@ -12,11 +12,17 @@ public class ArticleBase {
     private Integer categoryId;
 
     /**
+     * 是否允许评论 0:否  1：是
+     */
+    private Integer allowComments;
+
+    /**
      * 0:删除  1：草稿  2：发布
      */
     private Integer status;
 
     /**
+
      * 评论数
      */
     private Integer comments;
@@ -31,7 +37,7 @@ public class ArticleBase {
      */
     private Integer readVolumes;
 
-    public ArticleBase() {
+    public ModularBase() {
     }
 
     public String getTags() {
@@ -48,6 +54,14 @@ public class ArticleBase {
 
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public Integer getAllowComments() {
+        return allowComments;
+    }
+
+    public void setAllowComments(Integer allowComments) {
+        this.allowComments = allowComments;
     }
 
     public Integer getStatus() {

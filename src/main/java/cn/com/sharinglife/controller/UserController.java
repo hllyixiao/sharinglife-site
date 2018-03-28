@@ -37,7 +37,6 @@ import java.util.Objects;
 /**
  * Created by hell on 2018/1/31
  */
-@Api(value="用户controller",tags={"用户操作接口"})
 @RestController
 public class UserController {
 

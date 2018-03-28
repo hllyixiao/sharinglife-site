@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.sharinglife.mapper.LikesMapper" >
+
+    <insert id="addLikeArticle">
+        insert into likes_article(articleid,userid)
+        values(#{articleId},#{userId})
+        on duplicate key update delete = 0
+    </insert>
+
+    <insert id="addLikePicture">
+        insert into likes_picture(pictureid,userid)
+        values(#{pictureId},#{userId})
+        on duplicate key update delete = 0
+    </insert>
+
+    <insert id="addLikeVideo">
+        insert into likes_video(videoid,userid)
+        values(#{videoId},#{userId})
+        on duplicate key update delete = 0
+    </insert>
+
+    <update id="deleteLikeArticle">
+        update likes_article set delete = 1
+        where articleid = #{articleId} and userid = #{userId}
+    </update>
+
+    <update id="deleteLikePicture">
+        update likes_picture set delete = 1
+        where pictureid = #{pictureId} and userid = #{userId}
+    </update>
+
+    <update id="deleteLikeVideo">
+        update likes_video set delete = 1
+        where videoid = #{videoId} and userid = #{userId}
+    </update>
+</mapper>
