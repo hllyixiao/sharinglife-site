@@ -5,12 +5,8 @@
     <sql id="trim_field">
         <trim suffixOverrides=",">
             <if test="pId != null">pid,</if>
-            <if test="articleId != null">articleid,</if>
-            <if test="articleUserId != null">articleuserid,</if>
             <if test="ownerUserId != null">owneruserid,</if>
             <if test="userId != null">userid,</if>
-            <if test="userName != null">username,</if>
-            <if test="userAvatarUrl != null">useravatarurl,</if>
             <if test="content != null">content,</if>
             <if test="deleted != null">deleted,</if>
         </trim>
@@ -18,27 +14,55 @@
     <sql id="trim_data">
         <trim suffixOverrides=",">
             <if test="pId != null">#{pId},</if>
-            <if test="articleId != null">#{articleId},</if>
-            <if test="articleUserId != null">#{articleUserId},</if>
             <if test="ownerUserId != null">#{ownerUserId},</if>
             <if test="userId != null">#{userId},</if>
-            <if test="userName != null">#{userName},</if>
-            <if test="userAvatarUrl != null">#{userAvatarUrl},</if>
             <if test="content != null">#{content},</if>
             <if test="deleted != null">#{deleted},</if>
         </trim>
     </sql>
 
-    <insert id="addComment" parameterType="comment">
-        INSERT INTO comment (
+    <insert id="addCommentArticle" parameterType="comment">
+        INSERT INTO comment_article (
+        <if test="iid != null">articleid,</if>
         <include refid="trim_field"/>
         )
         VALUES (
+        <if test="iid != null">#{iid},</if>
         <include refid="trim_data"/>
         )
     </insert>
 
-    <update id="deleteComment" parameterType="integer">
-        UPDATE comment SET delete = 1 WHERE id = #{commentId}
+    <insert id="addCommentPicture" parameterType="comment">
+        INSERT INTO comment_picture (
+        <if test="iid != null">pictureid,</if>
+        <include refid="trim_field"/>
+        )
+        VALUES (
+        <if test="iid != null">#{iid},</if>
+        <include refid="trim_data"/>
+        )
+    </insert>
+
+    <insert id="addCommentVideo" parameterType="comment">
+        INSERT INTO comment_video (
+        <if test="iid != null">videoid,</if>
+        <include refid="trim_field"/>
+        )
+        VALUES (
+        <if test="iid != null">#{iid},</if>
+        <include refid="trim_data"/>
+        )
+    </insert>
+
+    <update id="deleteCommentArticle" parameterType="integer">
+        UPDATE comment_article SET deleted = 1 WHERE id = #{commentId}
+    </update>
+
+    <update id="deleteCommentPicture" parameterType="integer">
+        UPDATE comment_picture SET deleted = 1 WHERE id = #{commentId}
+    </update>
+
+    <update id="deleteCommentVideo" parameterType="integer">
+        UPDATE comment_video SET deleted = 1 WHERE id = #{commentId}
     </update>
 </mapper>

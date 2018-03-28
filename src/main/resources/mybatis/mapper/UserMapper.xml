@@ -111,7 +111,7 @@
         userid = #{userId}
         AND
         followerid = #{followerId}
-        AND delete = 0
+        AND deleted = 0
         )
     </select>
 
@@ -124,7 +124,7 @@
         <where>
             uf.followerid = #{id}
         </where>
-        AND delete = 0
+        AND deleted = 0
     </select>
 
     <select id="myFollowUsers">
@@ -136,18 +136,18 @@
         <where>
             uf.userid = #{id}
         </where>
-        AND delete = 0
+        AND deleted = 0
     </select>
 
     <insert id="addMyFollower">
-        INSERT INTO user_follower (userid, followerid)
-        VALUES (#{userId}, #{followerId})
-        ON DUPLICATE KEY UPDATE delete = 0
+        INSERT INTO user_follower (userid, followerid, deleted)
+        VALUES (#{userId}, #{followerId},0)
+        ON DUPLICATE KEY UPDATE deleted = 0
     </insert>
 
     <update id="deleteFollower">
         UPDATE user_follower
-        SET delete = 1
+        SET deleted = 1
         WHERE
         userid = #{userId}
         AND

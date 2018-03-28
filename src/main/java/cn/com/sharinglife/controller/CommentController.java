@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 
 /**
+ * 评论控制器
  * @author Created by hell on 2018/3/16
  *
  */
@@ -28,16 +29,22 @@ public class CommentController {
     @PostMapping(value = CommentApis.ADD_COMMENT)
     public boolean addComment(@RequestBody final Comment comment){
         LOG.info(" addComment - 添加评论");
-        commentService.addComment(comment);
-        return true;
+        if(comment.nonNull()){
+            commentService.addComment(comment);
+            return true;
+        }
+        LOG.error(" addComment - 添加评论 失败！comment有些参数不能为null");
+        return false;
     }
 
     @ApiOperation(value = "删除评论", notes = "删除评论")
-    @GetMapping(value = CommentApis.DELETE_COMMENT + "/{commentId}")
-    public boolean deleteComment(@PathVariable final Integer commentId){
-        LOG.info(" addComment - 删除评论");
-        if(Objects.nonNull(commentId)){
-            commentService.deleteComment(commentId);
+    @GetMapping(value = CommentApis.DELETE_COMMENT)
+    public boolean deleteComment(@RequestParam("commentId") final Integer commentId,
+                                 @RequestParam("iid") final Integer iid,
+                                 @RequestParam("type") final Integer type){
+        LOG.info(" deleteComment - 删除评论");
+        if(Objects.nonNull(commentId) && Objects.nonNull(type)){
+            commentService.deleteComment(commentId,iid,type);
             LOG.info("删除评论成功！commentId = {}",commentId);
             return true;
         }

@@ -11,6 +11,10 @@ public interface ArticleService {
 
     void deleteLike(Integer articleId);
 
+    void addComment(Integer articleId);
+
+    void deleteComment(Integer articleId);
+
     int addArticle(Article article);
 
     Article getArticleById(Integer articleId);

@@ -32,6 +32,20 @@ public class ArticlesServiceImpl implements ArticleService {
     }
 
     @Override
+    public void addComment(Integer articleId) {
+        if(Objects.nonNull(articleId)){
+            articleMapper.addComment(articleId);
+        }
+    }
+
+    @Override
+    public void deleteComment(Integer articleId) {
+        if(Objects.nonNull(articleId)){
+            articleMapper.deleteComment(articleId);
+        }
+    }
+
+    @Override
     public int addArticle(Article article) {
         return articleMapper.addArticle(article);
     }

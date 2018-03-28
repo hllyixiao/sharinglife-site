@@ -9,5 +9,5 @@ public interface CommentService {
 
     void addComment(Comment comment);
 
-    void deleteComment(Integer commentId);
+    void deleteComment(Integer commentId,Integer iid, Integer type);
 }

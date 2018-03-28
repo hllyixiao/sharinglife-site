@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  *
@@ -31,11 +32,6 @@ public class Comment {
     private Integer iid;
 
     /**
-     * 发表文章的作者id
-     */
-    private Integer articleUserId;
-
-    /**
      * 被回复的作者id
      */
     private Integer ownerUserId;
@@ -44,6 +40,11 @@ public class Comment {
      * 评论者id
      */
     private Integer userId;
+
+    /**
+     * 模块类型 1：文章模块  2：图片模块  3：视频模块
+     */
+    private Integer type;
 
     /**
      * 评论者用户名
@@ -95,14 +96,6 @@ public class Comment {
 
     public void setIid(Integer iid) {
         this.iid = iid;
-    }
-
-    public Integer getArticleUserId() {
-        return articleUserId;
-    }
-
-    public void setArticleUserId(Integer articleUserId) {
-        this.articleUserId = articleUserId;
     }
 
     public Integer getOwnerUserId() {
@@ -159,5 +152,22 @@ public class Comment {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public boolean nonNull(){
+        if(Objects.nonNull(pId) && Objects.nonNull(iid)
+                && Objects.nonNull(ownerUserId) && Objects.nonNull(userId)
+                && Objects.nonNull(type)){
+            return true;
+        }
+        return false;
     }
 }

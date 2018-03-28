@@ -35,7 +35,7 @@ public interface ArticleMapper {
 
     /**
      * 根据id获取文章信息
-     * @param id
+     * @param articleId
      * @return
      */
     Article getArticleById(@Param(value="articleId")Integer articleId);
@@ -52,6 +52,10 @@ public interface ArticleMapper {
     void addLike(Integer articleId);
 
     void deleteLike(Integer articleId);
+
+    void addComment(Integer articleId);
+
+    void deleteComment(Integer articleId);
 
     int addArticle(Article article);
 }
