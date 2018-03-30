@@ -7,9 +7,9 @@ package cn.com.sharinglife.pojo.base;
 public class ModularBase {
 
 
-    private String tags;
+    private String tagsName;
 
-    private Integer categoryId;
+    private Integer tagId;
 
     /**
      * 是否允许评论 0:否  1：是
@@ -40,20 +40,20 @@ public class ModularBase {
     public ModularBase() {
     }
 
-    public String getTags() {
-        return tags;
+    public String getTagsName() {
+        return tagsName;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setTagsName(String tagsName) {
+        this.tagsName = tagsName;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public Integer getTagId() {
+        return tagId;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setTagId(Integer tagId) {
+        this.tagId = tagId;
     }
 
     public Integer getAllowComments() {
