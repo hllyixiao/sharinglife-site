@@ -2,10 +2,15 @@ package cn.com.sharinglife.service.impl;
 
 import cn.com.sharinglife.mapper.ArticleMapper;
 import cn.com.sharinglife.pojo.Article;
+import cn.com.sharinglife.pojo.User;
+import cn.com.sharinglife.pojo.responsedata.ArticleResponse;
 import cn.com.sharinglife.service.ArticleService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -51,7 +56,26 @@ public class ArticlesServiceImpl implements ArticleService {
     }
 
     @Override
+    public void deleteArticleByIds(List<Integer> articleIds,int status) {
+        articleMapper.deleteArticleByIds(articleIds,status);
+    }
+
+    @Override
+    public void thoroughDeleteArticleByIds(List<Integer> articleIds) {
+        articleMapper.thoroughDeleteArticleByIds(articleIds);
+    }
+
+    @Override
     public Article getArticleById(Integer articleId) {
         return articleMapper.getArticleById(articleId);
+    }
+
+    @Override
+    public PageInfo<ArticleResponse> getArticlesByUserId(Integer userId, Integer status, Integer page, Integer limit) {
+        //mybatis分页插件
+        PageHelper.startPage(page, limit);
+        List<ArticleResponse> articles = articleMapper.getArticleByUserId(userId,status);
+        PageInfo<ArticleResponse> pageInfo = new PageInfo<>(articles);
+        return pageInfo;
     }
 }

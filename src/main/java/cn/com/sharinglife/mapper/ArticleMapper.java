@@ -1,6 +1,7 @@
 package cn.com.sharinglife.mapper;
 
 import cn.com.sharinglife.pojo.Article;
+import cn.com.sharinglife.pojo.responsedata.ArticleResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -41,13 +42,13 @@ public interface ArticleMapper {
     Article getArticleById(@Param(value="articleId")Integer articleId);
 
     /**
-     * 根据用户id获取文章信息
+     * 根据用户id获取显示的文章文章信息
      * @param status
      * @param userId
      * @return
      */
-    List<Article> getArticleByUserId(@Param(value="status")Integer status,
-                                     @Param(value="userId")Integer userId);
+    List<ArticleResponse> getArticleByUserId(@Param(value="userId")Integer userId,
+                                             @Param(value="status")Integer status);
 
     void addLike(Integer articleId);
 
@@ -58,4 +59,9 @@ public interface ArticleMapper {
     void deleteComment(Integer articleId);
 
     int addArticle(Article article);
+
+    void deleteArticleByIds(@Param(value = "articleIds") List<Integer> articleIds,
+                            @Param(value = "status") int status);
+
+    void thoroughDeleteArticleByIds (@Param(value = "articleIds") List<Integer> articleIds);
 }

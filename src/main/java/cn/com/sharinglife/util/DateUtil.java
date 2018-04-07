@@ -333,4 +333,22 @@ public class DateUtil {
     public static Long diffMinute(Date date, Date date1) {
         return (Long) ((getMillis(date) - getMillis(date1)) / (60 * 1000));
     }
+
+    /**
+     * 今天的凌晨时刻
+     * @param date
+     * @return
+     */
+    public static Date todayZeroDate(Date date){
+        Calendar current = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+        today.setTime(date);
+        today.set(Calendar.YEAR, current.get(Calendar.YEAR));
+        today.set(Calendar.MONTH, current.get(Calendar.MONTH));
+        today.set(Calendar.DAY_OF_MONTH, current.get(Calendar.DAY_OF_MONTH));
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        return today.getTime();
+    }
 }

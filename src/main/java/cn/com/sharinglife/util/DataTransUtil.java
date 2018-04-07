@@ -15,7 +15,7 @@ public class DataTransUtil {
     
     private static final String COMPANY_DEFAULT = "0.0";
 
-    private static final String TIME_DISPLAY_SECOND = "刚刚";
+    private static final String TIME_DISPLAY_JUST_NOW = "刚刚";
 
     private static final String TIME_DISPLAY_MINUTE = "分钟前";
 
@@ -90,18 +90,26 @@ public class DataTransUtil {
         if(Objects.nonNull(date)){
             long seconds = DateUtil.diffSecond(currentDate,date);
             if(seconds < RANGE_SECOND){
-                return seconds + TIME_DISPLAY_SECOND;
-            }else if(seconds >= RANGE_SECOND &&  seconds < RANGE_MINUTE){
+                return   TIME_DISPLAY_JUST_NOW;
+            }else if(seconds >= RANGE_SECOND && seconds < RANGE_MINUTE){
                 return DateUtil.diffMinute(currentDate,date) + TIME_DISPLAY_MINUTE;
-            }else if(seconds >= RANGE_MINUTE &&  seconds < RANGE_HOUR){
-                return DateUtil.diffHour(currentDate,date) + TIME_DISPLAY_HOUR;
-            }else if(seconds >= RANGE_HOUR &&  seconds < RANGE_YESTERDAY){
-                return TIME_DISPLAY_YESTERDAY;
-            }else if(seconds >= RANGE_MINUTE &&  seconds < RANGE_HOUR){
-                return TIME_DISPLAY_YESTERDAY_BEFOR;
+            }else {
+                Date todayDate = DateUtil.todayZeroDate(currentDate);
+                int h = DateUtil.diffHour(todayDate, date);
+                if(h > 0){
+                    if(h <= 24){
+                        return TIME_DISPLAY_YESTERDAY;
+                    }else if(h <= 48){
+                        return TIME_DISPLAY_YESTERDAY_BEFOR;
+                    }else{
+                        return DateUtil.formatTimesTampDate(date);
+                    }
+                }else{
+                    return DateUtil.diffHour(currentDate, todayDate) + h + TIME_DISPLAY_HOUR;
+                }
             }
-            return DateUtil.formatTimesTampDate(date);
+        }else{
+            return DateUtil.formatTimesTampDate(currentDate);
         }
-        return DateUtil.formatTimesTampDate(currentDate);
     }
 }

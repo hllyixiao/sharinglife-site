@@ -43,10 +43,4 @@ public final class MD5Utils {
 		}
 		return returnVal;
 	}
-
-	public static void main(String[] args){
-		String a = "1234huyittth8899";
-		System.out.println(md5(a));
-	}
-	
 }

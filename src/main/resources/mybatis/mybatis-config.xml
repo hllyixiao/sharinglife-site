@@ -10,6 +10,7 @@
         <typeAlias type="cn.com.sharinglife.pojo.User" alias="user"/>
         <typeAlias type="cn.com.sharinglife.pojo.Modular" alias="modular"/>
         <typeAlias type="cn.com.sharinglife.pojo.Article" alias="article"/>
+        <typeAlias type="cn.com.sharinglife.pojo.responsedata.ArticleResponse" alias="articleResponse"/>
         <typeAlias type="cn.com.sharinglife.pojo.Comment" alias="comment"/>
 
     </typeAliases>

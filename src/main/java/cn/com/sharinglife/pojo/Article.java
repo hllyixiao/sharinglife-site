@@ -1,6 +1,7 @@
 package cn.com.sharinglife.pojo;
 
 import cn.com.sharinglife.pojo.base.ModularBase;
+import cn.com.sharinglife.util.DataTransUtil;
 
 import java.util.Date;
 

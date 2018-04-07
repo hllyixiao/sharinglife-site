@@ -2,8 +2,13 @@ package cn.com.sharinglife.controller.liferecord;
 
 import cn.com.sharinglife.containapis.ArticleApis;
 import cn.com.sharinglife.pojo.Article;
+import cn.com.sharinglife.pojo.User;
+import cn.com.sharinglife.pojo.responsedata.ArticleResponse;
+import cn.com.sharinglife.pojo.responsedata.PageResponse;
 import cn.com.sharinglife.service.ArticleService;
 import cn.com.sharinglife.util.CommonUtil;
+import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +20,7 @@ import org.thymeleaf.util.ListUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.POST;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -95,5 +101,56 @@ public class ArticleController {
         }
         LOG.error("getArticleById - 参数articleId不能有为null");
         return null;
+    }
+
+    @ApiOperation(value = "获取文章列表", notes = "获取文章列表")
+    @GetMapping(value = ArticleApis.GET_ALL_ARTICLE_BY_USER_ID)
+    public PageResponse getAllArticlesByUserId(HttpServletResponse response,HttpServletRequest request,
+                                 @RequestParam("userId") final Integer userId,
+                                 @RequestParam("status") final Integer status,
+                                 @RequestParam(value = "page", defaultValue = "1") final int page,
+                                 @RequestParam(value = "limit", defaultValue = "3") final int limit) {
+        LOG.info("getAllArticlesByUserId —— 获取文章列表，当前页:第{}页，每页获取{}个文章信息",page,limit);
+        PageInfo<ArticleResponse> articlePageInfo =  articleService.getArticlesByUserId(userId,status,page,limit);
+        List<ArticleResponse> articleResponses = articlePageInfo.getList();
+        PageResponse<ArticleResponse> pageResponse = new PageResponse<>(articlePageInfo);
+        pageResponse.setDatas(articleResponses);
+        return pageResponse;
+    }
+
+    @ApiOperation(value = "删除文章", notes = "删除文章")
+    @PostMapping(value = ArticleApis.DELETE_ARTICLE_BY_IDS)
+    public boolean deleteArticleByIds(@RequestBody List<Integer> articleIds) {
+        LOG.info("deleteArticleByIds —— 删除文章，文章ids={}",articleIds.toString());
+        if(!ListUtils.isEmpty(articleIds)){
+            articleService.deleteArticleByIds(articleIds,0);
+            return true;
+        }
+        LOG.info("deleteArticleByIds —— 删除文章失败，articleIds不符合要求");
+        return false;
+    }
+
+    @ApiOperation(value = "恢复已删除的文章", notes = "恢复已删除的文章")
+    @PostMapping(value = ArticleApis.RECOVERY_ARTICLE_BY_IDS)
+    public boolean recoveryArticleByIds(@RequestParam("articleIds") final List<Integer> articleIds) {
+        LOG.info("recoveryArticleById —— 恢复已删除的文章，文章ids={}",articleIds.toString());
+        if(!ListUtils.isEmpty(articleIds)){
+            articleService.deleteArticleByIds(articleIds,1);
+            return true;
+        }
+        LOG.info("recoveryArticleById —— 恢复已删除的文章，articleIds不符合要求");
+        return false;
+    }
+
+    @ApiOperation(value = "彻底删除文章", notes = "彻底删除文章")
+    @PostMapping(value = ArticleApis.THOROUGH_DELETE_ARTICLE_BY_IDS)
+    public boolean thoroughDeleteArticleByIds(@RequestBody final List<Integer> articleIds) {
+        LOG.info("thoroughDeleteArticleByIds —— 彻底删除文章，文章ids={}",articleIds.toString());
+        if(!ListUtils.isEmpty(articleIds)){
+            articleService.thoroughDeleteArticleByIds(articleIds);
+            return true;
+        }
+        LOG.info("thoroughDeleteArticleByIds —— 彻底删除文章，articleIds不符合要求");
+        return false;
     }
 }

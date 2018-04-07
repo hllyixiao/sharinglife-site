@@ -17,4 +17,11 @@ public class ArticleApis extends ApiContains {
 
     public static final String GET_ARTICLE_BY_ID = PREFIX + "/getbyid";
 
+    public static final String GET_ALL_ARTICLE_BY_USER_ID = PREFIX + "/getbyuserid";
+
+    public static final String DELETE_ARTICLE_BY_IDS = PREFIX + "/deletebyids";
+
+    public static final String RECOVERY_ARTICLE_BY_IDS = PREFIX + "/recoverybyids";
+
+    public static final String THOROUGH_DELETE_ARTICLE_BY_IDS = PREFIX + "/thoroughdeletebyids";
 }

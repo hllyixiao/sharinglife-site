@@ -41,6 +41,8 @@ public class LoginRegisterController {
 
     private final Logger LOG = LoggerFactory.getLogger(LoginRegisterController.class);
 
+    private static final String DEFAULT_USER_AVATAR = "/SLFile/image/defaultpath/avatar/avatar.jpg";
+
     @Autowired
     private UserService userService;
 
@@ -76,6 +78,7 @@ public class LoginRegisterController {
         LOG.info("register - 用户注册");
         if(registerRequest.nonNull()){
             final User user = new User(registerRequest);
+            user.setAvatarUrl(DEFAULT_USER_AVATAR);
             userService.addUser(user);
             return true;
         }

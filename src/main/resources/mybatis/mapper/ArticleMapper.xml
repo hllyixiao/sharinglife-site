@@ -47,6 +47,21 @@
         updatetime
     </sql>
 
+    <sql id="article_table_display_columns">
+        id AS articleId,
+        userid,
+        title,
+        contenthtml,
+        SUBSTRING(contenttxt,1,30) AS displayContextTxt,
+        contentsize,
+        categoryid,
+        allowcomments,
+        comments,
+        likes,
+        readvolumes,
+        updatetime
+    </sql>
+
     <!--获取文章总数-->
     <select id="countArticle" resultType="java.lang.Integer">
         SELECT COUNT(1) FROM `article`
@@ -90,9 +105,9 @@
     </select>
 
     <!--根据用户id获取文章信息-->
-    <select id="getArticleByUserId" resultType="article">
+    <select id="getArticleByUserId" resultType="articleResponse">
         SELECT
-        <include refid="article_table_all_columns"/>
+        <include refid="article_table_display_columns"/>
         FROM
         `article`
         <where>
@@ -128,4 +143,18 @@
         <include refid="trim_data"/>
         )
     </insert>
+
+    <update id="deleteArticleByIds" parameterType="list">
+        UPDATE article SET status= #{status} WHERE id IN
+        <foreach collection="articleIds" item="articleId" open="(" separator="," close=")">
+            #{articleId}
+        </foreach>
+    </update>
+
+    <delete id="thoroughDeleteArticleByIds" parameterType="list">
+        DELETE FROM article WHERE id IN
+        <foreach collection="articleIds" item="articleId" open="(" separator="," close=")">
+            #{articleId}
+        </foreach>
+    </delete>
 </mapper>

@@ -22,7 +22,7 @@ public class AesUtil {
     //默认的加密算法
     private static final String DEFAULT_CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";
     //加密密码
-    private static final String key = "sharinglife";
+    private static final String KEY = "hll_sharinglife";
 
     /**
      * AES 加密操作
@@ -37,7 +37,7 @@ public class AesUtil {
             byte[] byteContent = encryptPassword.getBytes("utf-8");
 
             // 初始化为加密模式的密码器
-            cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(key));
+            cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(KEY));
 
             // 加密
             byte[] result = cipher.doFinal(byteContent);
@@ -63,7 +63,7 @@ public class AesUtil {
             Cipher cipher = Cipher.getInstance(DEFAULT_CIPHER_ALGORITHM);
 
             //使用密钥初始化，设置为解密模式
-            cipher.init(Cipher.DECRYPT_MODE, getSecretKey(key));
+            cipher.init(Cipher.DECRYPT_MODE, getSecretKey(KEY));
 
             //执行操作
             byte[] result = cipher.doFinal(Base64.decodeBase64(decryptPassword));
@@ -101,5 +101,10 @@ public class AesUtil {
         }
 
         return null;
+    }
+
+    public static void main(String[] args){
+        System.out.println(encrypt("hll"));
+        System.out.println(decrypt("jIm1elEsfnml6zwxEULKiw=="));
     }
 }
