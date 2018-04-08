@@ -19,9 +19,13 @@ import java.util.logging.Logger;
 public class AesUtil {
 
     private static final String KEY_ALGORITHM = "AES";
-    //默认的加密算法
+    /**
+     * 默认的加密算法
+     */
     private static final String DEFAULT_CIPHER_ALGORITHM = "AES/ECB/PKCS5Padding";
-    //加密密码
+    /**
+     * 加密的密钥
+     */
     private static final String KEY = "hll_sharinglife";
 
     /**
@@ -101,10 +105,5 @@ public class AesUtil {
         }
 
         return null;
-    }
-
-    public static void main(String[] args){
-        System.out.println(encrypt("hll"));
-        System.out.println(decrypt("jIm1elEsfnml6zwxEULKiw=="));
     }
 }

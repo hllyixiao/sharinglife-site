@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Created by hell on 2018/2/27
+ * @author hell
  */
 public class SessionCookieUtil {
 
@@ -19,7 +20,7 @@ public class SessionCookieUtil {
             session.setAttribute(Const.SESSION_USER_KEY, user);
             session.setAttribute(Const.SESSION_USERID_KEY, user.getId());
             //单位为秒，在没有活动30分钟后，session将失效。设置为-1将永不关闭。
-            session.setMaxInactiveInterval(30 * 60);
+            session.setMaxInactiveInterval(3 * 2);
         }
     }
 

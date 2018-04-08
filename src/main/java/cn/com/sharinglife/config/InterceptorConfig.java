@@ -16,7 +16,7 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
 
     public void addInterceptors(InterceptorRegistry registry) {
         //拦截所有请求,注册用于验证登陆权限的拦截器
-        registry.addInterceptor(loginInterceptor()).addPathPatterns("/**");
+       // registry.addInterceptor(loginInterceptor()).addPathPatterns("/**");
     }
 
     @Bean

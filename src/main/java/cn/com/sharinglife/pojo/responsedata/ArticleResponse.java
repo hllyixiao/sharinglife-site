@@ -1,6 +1,8 @@
 package cn.com.sharinglife.pojo.responsedata;
 
+import cn.com.sharinglife.util.CommonUtil;
 import cn.com.sharinglife.util.DataTransUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 
@@ -20,6 +22,9 @@ public class ArticleResponse {
 
     private String displayContentSize;
 
+    @JsonIgnore
+    private String contentHtml;
+
     /**
      * 更新时间
      */
@@ -28,7 +33,6 @@ public class ArticleResponse {
     private String displayUpdateTime;
 
     /**
-
      * 评论数
      */
     private Integer comments;
@@ -49,7 +53,7 @@ public class ArticleResponse {
 
     private String displayReadVolumes;
 
-    private String firstImg = "/SLFile/image/defaultpath/avatar/avatar.jpg";
+    private String firstImg;
 
     /**
      * 是否允许评论 0:否  1：是
@@ -174,6 +178,14 @@ public class ArticleResponse {
 
     public void setFirstImg(String firstImg) {
         this.firstImg = firstImg;
+    }
+
+    public String getContentHtml() {
+        return contentHtml;
+    }
+
+    public void setContentHtml(String contentHtml) {
+        this.firstImg = CommonUtil.showFirstImgUrl(contentHtml);
     }
 
     public Integer getAllowComments() {

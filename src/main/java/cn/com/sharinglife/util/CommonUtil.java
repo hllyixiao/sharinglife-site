@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 常用的方法
@@ -187,4 +189,27 @@ public class CommonUtil {
             e.printStackTrace();
         }
     }
+
+	/**
+	 * 获取文章第一张图片
+	 *
+	 * @return
+	 */
+	public static String showFirstImgUrl(String content) {
+		if (content.contains("<img")) {
+			String img = "";
+			String regEx_img = "<img.*src\\s*=\\s*(.*?)[^>]*?>";
+			Pattern p_image = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);
+			Matcher m_image = p_image.matcher(content);
+			if (m_image.find()) {
+				img = img + "," + m_image.group();
+				// //匹配src
+				Matcher m = Pattern.compile("src\\s*=\\s*\'?\"?(.*?)(\'|\"|>|\\s+)").matcher(img);
+				if (m.find()) {
+					return m.group(1);
+				}
+			}
+		}
+		return "";
+	}
 }
