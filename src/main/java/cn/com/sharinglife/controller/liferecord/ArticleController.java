@@ -1,5 +1,6 @@
 package cn.com.sharinglife.controller.liferecord;
 
+import cn.com.sharinglife.anno.LoginAnnotation;
 import cn.com.sharinglife.containapis.ArticleApis;
 import cn.com.sharinglife.pojo.Article;
 import cn.com.sharinglife.pojo.User;
@@ -7,6 +8,7 @@ import cn.com.sharinglife.pojo.responsedata.ArticleResponse;
 import cn.com.sharinglife.pojo.responsedata.PageResponse;
 import cn.com.sharinglife.service.ArticleService;
 import cn.com.sharinglife.util.CommonUtil;
+import cn.com.sharinglife.util.SessionCookieUtil;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
@@ -36,11 +38,14 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
+    @LoginAnnotation
     @ApiOperation(value = "添加文章", notes = "添加文章,返回文章id")
     @PostMapping(value = ArticleApis.ADD_ARTICLE)
-    public Integer addArticle(@RequestBody final Article article ){
+    public Integer addArticle(HttpServletRequest request,
+                              @RequestBody final Article article ){
         LOG.info("addArticle - 添加文章");
         if(Objects.nonNull(article)){
+            article.setUserId(SessionCookieUtil.getCurrentUserIdBySession(request));
             articleService.addArticle(article);
             return article.getId();
         }
@@ -48,11 +53,12 @@ public class ArticleController {
         return null;
     }
 
+    @LoginAnnotation
     @ApiOperation(value = "添加文章图片", notes = "添加文章图片")
     @PostMapping(value = ArticleApis.ADD_ARTICLE_PICTURE)
-    public Map addArticlePicture(HttpServletResponse response,HttpServletRequest request,
-                              @RequestParam("userId") final Integer userId,
+    public Map addArticlePicture(HttpServletRequest request,
                               @RequestParam("articleId") final Integer articleId) {
+        Integer userId = SessionCookieUtil.getCurrentUserIdBySession(request);
         LOG.info("addArticlePicture — 添加文章图片");
         List<MultipartFile> files =((MultipartHttpServletRequest)request).getFiles("file");
         if(!ListUtils.isEmpty(files)) {
@@ -92,25 +98,38 @@ public class ArticleController {
         }
     }
 
+    @ApiOperation(value = "通过id获取已发布的文章", notes = "通过id获取已发布的文章")
+    @GetMapping(value = ArticleApis.GET_PUBLISH_ARTICLE_BY_ID + "/{articleId}")
+    public Article getPublishArticleById(@PathVariable final Integer articleId ){
+        LOG.info("getPublishArticleById - 通过id获取已发布的文章");
+        if(Objects.nonNull(articleId)){
+            return articleService.getArticleById(articleId,2);
+        }
+        LOG.error("getPublishArticleById - 参数articleId不能有为null");
+        return null;
+    }
+
+    @LoginAnnotation
     @ApiOperation(value = "通过id获取文章", notes = "通过id获取文章")
     @GetMapping(value = ArticleApis.GET_ARTICLE_BY_ID + "/{articleId}")
     public Article getArticleById(@PathVariable final Integer articleId ){
         LOG.info("getArticleById - 通过id获取文章");
         if(Objects.nonNull(articleId)){
-            return articleService.getArticleById(articleId);
+            return articleService.getArticleById(articleId,null);
         }
         LOG.error("getArticleById - 参数articleId不能有为null");
         return null;
     }
 
-    @ApiOperation(value = "获取文章列表", notes = "获取文章列表")
+    @LoginAnnotation
+    @ApiOperation(value = "获取当前用户的文章列表", notes = "获取当前用户的文章列表")
     @GetMapping(value = ArticleApis.GET_ALL_ARTICLE_BY_USER_ID)
-    public PageResponse getAllArticlesByUserId(HttpServletResponse response,HttpServletRequest request,
-                                 @RequestParam("userId") final Integer userId,
+    public PageResponse getAllArticlesByUserId(HttpServletRequest request,
                                  @RequestParam("status") final Integer status,
                                  @RequestParam(value = "page", defaultValue = "1") final int page,
-                                 @RequestParam(value = "limit", defaultValue = "3") final int limit) {
+                                 @RequestParam(value = "limit", defaultValue = "5") final int limit) {
         LOG.info("getAllArticlesByUserId —— 获取文章列表，当前页:第{}页，每页获取{}个文章信息",page,limit);
+        Integer userId = SessionCookieUtil.getCurrentUserIdBySession(request);
         PageInfo<ArticleResponse> articlePageInfo =  articleService.getArticlesByUserId(userId,status,page,limit);
         List<ArticleResponse> articleResponses = articlePageInfo.getList();
         PageResponse<ArticleResponse> pageResponse = new PageResponse<>(articlePageInfo);
@@ -118,6 +137,7 @@ public class ArticleController {
         return pageResponse;
     }
 
+    @LoginAnnotation
     @ApiOperation(value = "删除文章", notes = "删除文章")
     @PostMapping(value = ArticleApis.DELETE_ARTICLE_BY_IDS)
     public boolean deleteArticleByIds(@RequestBody List<Integer> articleIds) {
@@ -142,6 +162,7 @@ public class ArticleController {
         return false;
     }
 
+    @LoginAnnotation
     @ApiOperation(value = "彻底删除文章", notes = "彻底删除文章")
     @PostMapping(value = ArticleApis.THOROUGH_DELETE_ARTICLE_BY_IDS)
     public boolean thoroughDeleteArticleByIds(@RequestBody final List<Integer> articleIds) {

@@ -25,7 +25,7 @@ public interface ArticleService {
 
     void thoroughDeleteArticleByIds(List<Integer> articleIds);
 
-    Article getArticleById(Integer articleId);
+    Article getArticleById(Integer articleId,Integer status);
 
     PageInfo<ArticleResponse> getArticlesByUserId(Integer userId, Integer status, Integer page, Integer limit);
 }

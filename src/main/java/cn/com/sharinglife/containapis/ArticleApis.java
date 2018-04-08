@@ -15,6 +15,8 @@ public class ArticleApis extends ApiContains {
 
     public static final String ADD_ARTICLE_PICTURE = PREFIX + "/addarticlepicture";
 
+    public static final String GET_PUBLISH_ARTICLE_BY_ID = PREFIX + "/getpublishbyid";
+
     public static final String GET_ARTICLE_BY_ID = PREFIX + "/getbyid";
 
     public static final String GET_ALL_ARTICLE_BY_USER_ID = PREFIX + "/getbyuserid";

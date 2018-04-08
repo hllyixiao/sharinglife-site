@@ -32,6 +32,8 @@ public interface UserMapper {
 
     boolean isExistName(String name);
 
+    User getUserByUsername(String name);
+
     boolean isExistFollower(@Param(value = "userId")Integer userId,
                             @Param(value = "followerId")Integer followerId);
 

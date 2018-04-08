@@ -36,16 +36,16 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void addComment(Comment comment) {
-        if(comment.getType() == ModularEnum.ARTICLE_TYPE.getTypeId()){
+        if(ModularEnum.ARTICLE_TYPE.getTypeId().equals(comment.getType())){
             LOG.info(" 用户id={} 评论 id={}的用户,文章id={}",comment.getUserId(),
                     comment.getOwnerUserId(),comment.getIid());
             commentMapper.addCommentArticle(comment);
             articleService.addComment(comment.getIid());
-        }else if(comment.getType() == ModularEnum.PICTURE_TYPE.getTypeId()){
+        }else if(ModularEnum.PICTURE_TYPE.getTypeId().equals(comment.getType())){
             LOG.info(" 用户id={} 评论 id={}的用户,图片id={}",comment.getUserId(),
                     comment.getOwnerUserId(),comment.getIid());
             commentMapper.addCommentPicture(comment);
-        }else if(comment.getType() == ModularEnum.VIDEO_TYPE.getTypeId()){
+        }else if(ModularEnum.VIDEO_TYPE.getTypeId().equals(comment.getType())){
             LOG.info(" 用户id={} 评论 id={}的用户,视频id={}",comment.getUserId(),
                     comment.getOwnerUserId(),comment.getIid());
             commentMapper.addCommentVideo(comment);
@@ -54,14 +54,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteComment(Integer commentId,Integer iid,Integer type) {
-        if(type == ModularEnum.ARTICLE_TYPE.getTypeId()){
+        if(ModularEnum.ARTICLE_TYPE.getTypeId().equals(type)){
             LOG.info(" 用户删除 文章评论commentId={} 的评论",commentId);
             commentMapper.deleteCommentArticle(commentId);
             articleService.deleteComment(iid);
-        }else if(type == ModularEnum.PICTURE_TYPE.getTypeId()){
+        }else if(ModularEnum.PICTURE_TYPE.getTypeId().equals(type)){
             LOG.info(" 用户删除 图片评论commentId={} 的评论",commentId);
             commentMapper.deleteCommentPicture(commentId);
-        }else if(type == ModularEnum.VIDEO_TYPE.getTypeId()){
+        }else if(ModularEnum.VIDEO_TYPE.getTypeId().equals(type)){
             LOG.info(" 用户删除 视频评论commentId={} 的评论",commentId);
             commentMapper.deleteCommentVideo(commentId);
         }

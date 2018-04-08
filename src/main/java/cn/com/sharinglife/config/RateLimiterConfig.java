@@ -16,11 +16,17 @@ public class RateLimiterConfig {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * 线程池维护线程的最少数量
+     */
     @Value("${my.ratelimiter.number1:1.0}")
-    private double number1; //线程池维护线程的最少数量
+    private double number1;
 
+    /**
+     * 线程池维护线程的最少数量
+     */
     @Value("${my.ratelimiter.number2:5.0}")
-    private double number2; //线程池维护线程的最少数量
+    private double number2;
 
     @Bean(name = "myRateLimiter1")
     public RateLimiter getRateLimiter1(){

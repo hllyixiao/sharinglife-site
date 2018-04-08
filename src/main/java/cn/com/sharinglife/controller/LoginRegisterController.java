@@ -1,15 +1,13 @@
 package cn.com.sharinglife.controller;
 
+import cn.com.sharinglife.comment.Const;
 import cn.com.sharinglife.containapis.LoginAndRegisterApis;
-import cn.com.sharinglife.enums.LogActionEnum;
-import cn.com.sharinglife.pojo.Logs;
 import cn.com.sharinglife.pojo.User;
 import cn.com.sharinglife.pojo.requestdata.LoginRequest;
 import cn.com.sharinglife.pojo.requestdata.RegisterRequest;
 import cn.com.sharinglife.pojo.responsedata.CommonResponse;
 import cn.com.sharinglife.service.LogsService;
 import cn.com.sharinglife.service.UserService;
-import cn.com.sharinglife.staticcomment.Const;
 import cn.com.sharinglife.util.CommonUtil;
 import cn.com.sharinglife.util.ImageUtil;
 import cn.com.sharinglife.util.SessionCookieUtil;

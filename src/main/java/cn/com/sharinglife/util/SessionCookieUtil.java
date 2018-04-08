@@ -1,7 +1,7 @@
 package cn.com.sharinglife.util;
 
 import cn.com.sharinglife.pojo.User;
-import cn.com.sharinglife.staticcomment.Const;
+import cn.com.sharinglife.comment.Const;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +18,8 @@ public class SessionCookieUtil {
             final HttpSession session = request.getSession();
             session.setAttribute(Const.SESSION_USER_KEY, user);
             session.setAttribute(Const.SESSION_USERID_KEY, user.getId());
+            //单位为秒，在没有活动30分钟后，session将失效。设置为-1将永不关闭。
+            session.setMaxInactiveInterval(30 * 60);
         }
     }
 
@@ -28,12 +30,16 @@ public class SessionCookieUtil {
         response.addCookie(newCookie);
     }
 
-    public static User getUserBySession(HttpServletRequest request){
+    public static User getCurrentUserBySession(HttpServletRequest request){
         Object user = request.getSession().getAttribute(Const.SESSION_USER_KEY);
         if(user != null && user instanceof User){
             return (User)user;
         }
         return null;
+    }
+
+    public static Integer getCurrentUserIdBySession(HttpServletRequest request){
+        return (Integer)request.getSession().getAttribute(Const.SESSION_USERID_KEY);
     }
 
     public static String getCookieByName(HttpServletRequest request,String name){

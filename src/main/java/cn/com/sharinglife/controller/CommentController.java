@@ -1,9 +1,9 @@
 package cn.com.sharinglife.controller;
 
+import cn.com.sharinglife.anno.LoginAnnotation;
 import cn.com.sharinglife.containapis.CommentApis;
 import cn.com.sharinglife.pojo.Comment;
 import cn.com.sharinglife.service.CommentService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +25,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
+    @LoginAnnotation
     @ApiOperation(value = "添加评论", notes = "添加评论")
     @PostMapping(value = CommentApis.ADD_COMMENT)
     public boolean addComment(@RequestBody final Comment comment){
@@ -37,6 +38,7 @@ public class CommentController {
         return false;
     }
 
+    @LoginAnnotation
     @ApiOperation(value = "删除评论", notes = "删除评论")
     @GetMapping(value = CommentApis.DELETE_COMMENT)
     public boolean deleteComment(@RequestParam("commentId") final Integer commentId,

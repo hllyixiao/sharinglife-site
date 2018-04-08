@@ -1,10 +1,11 @@
 package cn.com.sharinglife.interceptor;
 
 import cn.com.sharinglife.anno.LoginAnnotation;
-import cn.com.sharinglife.pojo.User;
+import cn.com.sharinglife.enums.FrontUrlEnum;
 import cn.com.sharinglife.service.UserService;
-import org.apache.http.HttpStatus;
+import cn.com.sharinglife.comment.Const;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -21,13 +22,18 @@ import java.util.Objects;
  */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
-    @Autowired
-    private UserService userService;
+    @Value("${my.loginannotation.open:false}")
+    private boolean isOpenLoginAnnotation;
 
-    // 在调用方法之前执行拦截
+    /**
+     * 在调用方法之前执行拦截
+     */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        if(!isOpenLoginAnnotation){
+            return true;
+        }
         // 将handler强转为HandlerMethod
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         // 从方法处理器中获取出要调用的方法
@@ -37,18 +43,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         // 如果登陆验证不为null,表示需要登陆验证
         if (Objects.nonNull(loginAnnotation)) {
             HttpSession session = request.getSession();
-            Object obj = session.getAttribute("user");
-            if(!(obj instanceof User)) {
-                String userId = request.getHeader("user_id");
-                if(Objects.nonNull(userId)){
-                    User user = userService.getUserById(Integer.parseInt(userId));
-                    if(Objects.isNull(user)){
-                        response.setStatus(HttpStatus.SC_NOT_IMPLEMENTED);
-                        return false;
-                    }
-                }else{
-                    return false;
-                }
+            Object obj = session.getAttribute(Const.SESSION_USER_KEY);
+            if(Objects.isNull(obj)){
+                response.sendRedirect(FrontUrlEnum.LOGIN_PAGE.getUrl());
+                return false;
             }
         }
         // 返回true表示不用拦截

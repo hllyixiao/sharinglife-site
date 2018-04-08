@@ -1,5 +1,6 @@
 package cn.com.sharinglife.controller;
 
+import cn.com.sharinglife.anno.LoginAnnotation;
 import cn.com.sharinglife.containapis.LikesApis;
 import cn.com.sharinglife.service.LikesService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -24,6 +25,7 @@ public class LikesController {
     @Autowired
     private LikesService likesService;
 
+    @LoginAnnotation
     @ApiOperation(value = "点赞")
     @GetMapping(value = LikesApis.ADD_LIKE)
     public boolean addLike(@RequestParam(value = "id") Integer id,
@@ -34,6 +36,7 @@ public class LikesController {
         return true;
     }
 
+    @LoginAnnotation
     @ApiOperation(value = "取消点赞")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "type",value = "点赞模块对象的类型，1：文章、2：图片、3：视频",

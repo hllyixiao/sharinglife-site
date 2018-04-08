@@ -103,6 +103,14 @@
         )
     </select>
 
+    <select id="getUserByUsername" resultType="user">
+        SELECT
+        <include refid="base_user"/>
+        FROM user
+        WHERE name = #{name}
+        limit 1
+    </select>
+
     <select id="isExistFollower" resultType="boolean">
         SELECT EXISTS (
         SELECT *

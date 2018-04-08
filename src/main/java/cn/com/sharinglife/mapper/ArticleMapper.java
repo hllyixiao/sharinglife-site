@@ -39,7 +39,8 @@ public interface ArticleMapper {
      * @param articleId
      * @return
      */
-    Article getArticleById(@Param(value="articleId")Integer articleId);
+    Article getArticleById(@Param(value="articleId")Integer articleId,
+                           @Param(value="status")Integer status);
 
     /**
      * 根据用户id获取显示的文章文章信息

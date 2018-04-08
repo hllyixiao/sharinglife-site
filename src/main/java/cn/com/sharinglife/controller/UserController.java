@@ -1,5 +1,6 @@
 package cn.com.sharinglife.controller;
 
+import cn.com.sharinglife.anno.LoginAnnotation;
 import cn.com.sharinglife.client.ModelClient;
 import cn.com.sharinglife.containapis.UserApis;
 import cn.com.sharinglife.enums.LogActionEnum;
@@ -61,7 +62,7 @@ public class UserController {
     public void setUserAvatar(HttpServletRequest request,HttpServletResponse response,
                               @RequestParam("file") final MultipartFile file) {
         LOG.info("setUserAvatar — 设置用户头像图片");
-        User user = SessionCookieUtil.getUserBySession(request);
+        User user = SessionCookieUtil.getCurrentUserBySession(request);
         if(Objects.nonNull(user)){
             Map<String,String> res = CommonUtil.getUserFilePath(file, true, user.getId());
             //后缀名
@@ -136,6 +137,7 @@ public class UserController {
     }
 
 
+    @LoginAnnotation
     @ApiOperation(value = "关注我的用户", notes = "获取所有关注我的用户信息")
     @GetMapping(value = UserApis.GET_FOLLOW_TO_ME_USERS)
     public List<User> getFollowToMeUsers(@RequestParam(value = "userId") final Integer userId){
@@ -143,7 +145,7 @@ public class UserController {
         return userService.followToMeUsers(userId);
     }
 
-
+    @LoginAnnotation
     @ApiOperation(value = "我关注的用户", notes = "获取所有我关注的用户信息")
     @GetMapping(value = UserApis.GET_MY_FOLLOW_USERS)
     public List<User> getMyFollowUsers(@RequestParam(value = "userId") final Integer userId){
@@ -151,7 +153,7 @@ public class UserController {
         return userService.myFollowUsers(userId);
     }
 
-
+    @LoginAnnotation
     @ApiOperation(value = "修改用户密码", notes = "修改用户密码")
     @GetMapping(value = UserApis.MODIFY_PASSWORD_USERS)
     public CommonResponse modifyPassword(@RequestParam(value = "userId") final Integer userId,
@@ -175,7 +177,7 @@ public class UserController {
         return commonResponse;
     }
 
-
+    @LoginAnnotation
     @ApiOperation(value = "获取用户列表", notes = "获取用户列表信息")
     @GetMapping(value = UserApis.GET_USERS)
     public PageInfo<User> getUsers(@RequestParam(value = "page", defaultValue = "1") final int page,
@@ -206,7 +208,7 @@ public class UserController {
         return null;
     }
 
-
+    @LoginAnnotation
     @ApiOperation(value = "更新用户信息",notes = "更新用户信息")
     @GetMapping(value = UserApis.UPDATE_USER)
     public void updateUser(HttpServletResponse response,
