@@ -2,6 +2,8 @@ package cn.com.sharinglife.controller;
 
 import cn.com.sharinglife.comment.Const;
 import cn.com.sharinglife.containapis.LoginAndRegisterApis;
+import cn.com.sharinglife.enums.LogActionEnum;
+import cn.com.sharinglife.pojo.Logs;
 import cn.com.sharinglife.pojo.User;
 import cn.com.sharinglife.pojo.requestdata.LoginRequest;
 import cn.com.sharinglife.pojo.requestdata.RegisterRequest;
@@ -87,8 +89,10 @@ public class LoginRegisterController {
 
     @ApiOperation(value = "用户登陆",notes = "登陆成功后，返回用户信息")
     @PostMapping(value = LoginAndRegisterApis.LOGIN)
-    public CommonResponse login(HttpServletResponse response, HttpServletRequest request,
-                                HttpSession session, @RequestBody LoginRequest loginRequest) {
+    public CommonResponse login(HttpServletResponse response,
+                                HttpServletRequest request,
+                                HttpSession session,
+                                @RequestBody LoginRequest loginRequest) {
         LOG.info("login — 用户登陆");
         final CommonResponse commonResponse = new CommonResponse();
         //传入的对象不能有null的属性
@@ -170,8 +174,8 @@ public class LoginRegisterController {
         updateUser.setLastLoginIp(ip);
         userService.updateUser(updateUser);
         //添加日志信息到日志表
-        //Logs logs = new Logs(user.getId(),user.getName(), LogActionEnum.LOGIN.getAction(),ip);
-        //logsService.addLog(logs);
+        Logs logs = new Logs(user.getId(),user.getName(), LogActionEnum.LOGIN.getAction(),ip);
+        logsService.addLog(logs);
         //设置session
         SessionCookieUtil.setSessionUser(request,user);
         //设置cookie

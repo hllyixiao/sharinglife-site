@@ -100,10 +100,10 @@
         FROM
         `article`
         <where>
-            <if test="status!=null">
-                status=#{status} AND
-            </if>
             id=#{articleId}
+            <if test="status!=null">
+              AND  status=#{status}
+            </if>
         </where>
     </select>
 
@@ -114,10 +114,10 @@
         FROM
         `article`
         <where>
-            <if test="status!=null">
-                status=#{status} AND
-            </if>
             userid=#{userId}
+            <if test="status!=null">
+              AND status=#{status}
+            </if>
         </where>
     </select>
 

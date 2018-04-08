@@ -57,6 +57,7 @@ public class UserController {
     RateLimiter rateLimiter;
 
 
+    @LoginAnnotation
     @ApiOperation(value = "设置用户头像图片", notes = "设置用户头像图片")
     @PostMapping(value = UserApis.SET_USERS_AVATAR)
     public void setUserAvatar(HttpServletRequest request,HttpServletResponse response,
@@ -97,7 +98,7 @@ public class UserController {
         }
     }
 
-
+    @LoginAnnotation
     @ApiOperation(value = "添加关注", notes = "添加关注用户")
     @GetMapping(value = UserApis.ADD_USERS_FOLLOWER)
     @ApiImplicitParams({

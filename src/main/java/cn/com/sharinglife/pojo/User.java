@@ -1,6 +1,8 @@
 package cn.com.sharinglife.pojo;
 
 import cn.com.sharinglife.pojo.requestdata.RegisterRequest;
+import cn.com.sharinglife.util.AesUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -14,10 +16,20 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User {
 
+    /**
+     * 用户Id,不会像传给前端
+     */
+    @JsonIgnore
     private  Integer id;
+
+    /**
+     * 加密的用户Id
+     */
+    private String obsUserId;
 
     private String name;
 
+    @JsonIgnore
     private String password;
 
     private String phone;
@@ -85,6 +97,7 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
+        this.obsUserId = AesUtil.encrypt(id.toString());
     }
 
     public String getName() {
@@ -173,5 +186,14 @@ public class User {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public String getObsUserId() {
+        return obsUserId;
+    }
+
+    public void setObsUserId(String obsUserId) {
+        this.obsUserId = obsUserId;
+        this.id = Integer.valueOf(AesUtil.decrypt(obsUserId));
     }
 }

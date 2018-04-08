@@ -1,7 +1,9 @@
 package cn.com.sharinglife.pojo;
 
 import cn.com.sharinglife.pojo.base.ModularBase;
+import cn.com.sharinglife.util.AesUtil;
 import cn.com.sharinglife.util.DataTransUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 
@@ -13,7 +15,13 @@ public class Article extends ModularBase {
 
     private Integer id;
 
+    @JsonIgnore
     private Integer userId;
+
+    /**
+     * 加密的用户Id
+     */
+    private String obsUserId;
 
     private String title;
 
@@ -53,6 +61,7 @@ public class Article extends ModularBase {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+        this.obsUserId = AesUtil.encrypt(userId.toString());
     }
 
     public String getTitle() {
@@ -101,5 +110,14 @@ public class Article extends ModularBase {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getObsUserId() {
+        return obsUserId;
+    }
+
+    public void setObsUserId(String obsUserId) {
+        this.obsUserId = obsUserId;
+        this.userId = Integer.valueOf(AesUtil.decrypt(obsUserId));
     }
 }
