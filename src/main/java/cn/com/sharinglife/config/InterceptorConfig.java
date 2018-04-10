@@ -10,10 +10,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 /**
  * Created by hell on 2018/2/2
  * 拦截器
+ * @author hell
  */
 @Configuration
 public class InterceptorConfig extends WebMvcConfigurerAdapter {
 
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //拦截所有请求,注册用于验证登陆权限的拦截器
        // registry.addInterceptor(loginInterceptor()).addPathPatterns("/**");

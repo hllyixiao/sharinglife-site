@@ -15,7 +15,6 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.util.concurrent.RateLimiter;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -37,6 +36,7 @@ import java.util.Objects;
 
 /**
  * Created by hell on 2018/1/31
+ * @author hell
  */
 @RestController
 public class UserController {

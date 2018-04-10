@@ -3,35 +3,30 @@ package cn.com.sharinglife.pojo.base;
 /**
  * 生活录、图片、视频等模块的共同字段
  * Created by hell on 2018/3/1
+ * @author hell
  */
 public class ModularBase {
 
 
     private String tagsName;
-
     private Integer tagId;
-
     /**
      * 是否允许评论 0:否  1：是
      */
     private Integer allowComments;
-
     /**
      * 0:删除  1：草稿  2：发布
      */
     private Integer status;
-
     /**
 
      * 评论数
      */
     private Integer comments;
-
     /**
      * 喜欢
      */
     private Integer likes;
-
     /**
      * 阅读数量
      */

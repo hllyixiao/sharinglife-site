@@ -2,6 +2,7 @@ package cn.com.sharinglife.enums;
 
 /**
  * Created by hell on 2018/2/9
+ * @author hell
  */
 public enum UserTypeEnum {
 

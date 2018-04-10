@@ -2,6 +2,7 @@ package cn.com.sharinglife.enums;
 
 /**
  * Created by hell on 2018/4/8
+ * @author hell
  */
 public enum FrontUrlEnum {
 

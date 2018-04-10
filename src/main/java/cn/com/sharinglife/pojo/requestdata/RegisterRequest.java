@@ -10,9 +10,7 @@ import org.apache.commons.lang.StringUtils;
 public class RegisterRequest {
 
     private String name;
-
     private String password;
-
     private String phone;
 
     public RegisterRequest() {

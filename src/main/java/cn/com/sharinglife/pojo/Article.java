@@ -17,31 +17,24 @@ public class Article extends ModularBase {
 
     @JsonIgnore
     private Integer userId;
-
     /**
      * 加密的用户Id
      */
     private String obsUserId;
-
     private String title;
-
     /**
      * 纯文本内容
      */
     private String contentTxt;
-
     /**
      * html内容
      */
     private String contentHtml;
-
     private Integer contentSize;
-
     /**
      * 创建时间
      */
     private Date createTime;
-
     /**
      * 更新时间
      */

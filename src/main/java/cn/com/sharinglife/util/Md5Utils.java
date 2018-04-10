@@ -13,11 +13,11 @@ import java.security.NoSuchAlgorithmException;
  * @since 1.0.0
  *
  */
-public final class MD5Utils {
+public final class Md5Utils {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(MD5Utils.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(Md5Utils.class);
 	
-	private MD5Utils() {
+	private Md5Utils() {
 		super();
 	}
 

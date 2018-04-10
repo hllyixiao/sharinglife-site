@@ -1,10 +1,8 @@
 package cn.com.sharinglife.interceptor;
 
 import cn.com.sharinglife.anno.LoginAnnotation;
-import cn.com.sharinglife.enums.FrontUrlEnum;
-import cn.com.sharinglife.service.UserService;
 import cn.com.sharinglife.comment.Const;
-import org.springframework.beans.factory.annotation.Autowired;
+import cn.com.sharinglife.enums.FrontUrlEnum;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -19,10 +17,11 @@ import java.util.Objects;
 /**
  * Created by hell on 2018/2/2
  * 通过拦截器的方式实现自定义
+ * @author hell
  */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
-    @Value("${my.loginannotation.open:false}")
+    @Value("${my.annotation.login:false}")
     private boolean isOpenLoginAnnotation;
 
     /**

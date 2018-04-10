@@ -2,6 +2,7 @@ package cn.com.sharinglife.comment;
 
 /**
  * Created by hell on 2018/2/28
+ * @author hell
  */
 public class Const {
 

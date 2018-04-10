@@ -15,6 +15,7 @@ import java.util.logging.Logger;
  * AES加解密算法
  *
  * Created by hell on 2018/2/9
+ * @author hell
  */
 public class AesUtil {
 
@@ -37,21 +38,16 @@ public class AesUtil {
         try {
             // 创建密码器
             Cipher cipher = Cipher.getInstance(DEFAULT_CIPHER_ALGORITHM);
-
             byte[] byteContent = encryptPassword.getBytes("utf-8");
-
             // 初始化为加密模式的密码器
             cipher.init(Cipher.ENCRYPT_MODE, getSecretKey(KEY));
-
             // 加密
             byte[] result = cipher.doFinal(byteContent);
-
             //通过Base64转码返回
             return Base64.encodeBase64String(result);
         } catch (Exception ex) {
             Logger.getLogger(AesUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return null;
     }
 
@@ -61,22 +57,17 @@ public class AesUtil {
      * @return
      */
     public static String decrypt(String decryptPassword) {
-
         try {
             //实例化
             Cipher cipher = Cipher.getInstance(DEFAULT_CIPHER_ALGORITHM);
-
             //使用密钥初始化，设置为解密模式
             cipher.init(Cipher.DECRYPT_MODE, getSecretKey(KEY));
-
             //执行操作
             byte[] result = cipher.doFinal(Base64.decodeBase64(decryptPassword));
-
             return new String(result, "utf-8");
         } catch (Exception ex) {
             Logger.getLogger(AesUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return null;
     }
 
@@ -88,22 +79,17 @@ public class AesUtil {
     private static SecretKeySpec getSecretKey(final String password) {
         //返回生成指定算法密钥生成器的 KeyGenerator 对象
         KeyGenerator kg = null;
-
         try {
             kg = KeyGenerator.getInstance(KEY_ALGORITHM);
-
             //AES 要求密钥长度为 128
             kg.init(128, new SecureRandom(password.getBytes()));
-
             //生成一个密钥
             SecretKey secretKey = kg.generateKey();
-
             // 转换为AES专用密钥
             return new SecretKeySpec(secretKey.getEncoded(), KEY_ALGORITHM);
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(AesUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return null;
     }
 }

@@ -20,52 +20,42 @@ public class Comment {
      * comment表主键
      */
     private Integer id;
-
     /**
      * 上一级评论id（默认为0）
      */
     private Integer pId;
-
     /**
      * 文章id、图片id、视频id
      */
     private Integer iid;
-
     /**
      * 被回复的作者id
      */
     private Integer ownerUserId;
-
     /**
      * 评论者id
      */
     private Integer userId;
-
     /**
      * 模块类型 1：文章模块  2：图片模块  3：视频模块
      */
     private Integer type;
-
     /**
      * 评论者用户名
      */
     private String userName;
-
     /**
      * 评论者头像
      */
     private String userAvatarUrl;
-
     /**
      * 评论内容
      */
     private String content;
-
     /**
      * 评论是否被删除(0:否 1:是)
      */
     private Boolean deleted;
-
     /**
      * 评论时间
      */

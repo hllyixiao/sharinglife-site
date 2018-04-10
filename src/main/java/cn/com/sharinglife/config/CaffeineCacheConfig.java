@@ -1,6 +1,6 @@
 package cn.com.sharinglife.config;
 
-import cn.com.sharinglife.config.Enum.CachesEnum;
+import cn.com.sharinglife.config.cacheenum.CachesEnum;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -17,6 +17,7 @@ import java.util.ArrayList;
  *
  * Created by hell on 2018/2/2
  *
+ * @author hell
  */
 @Configuration
 @EnableCaching
@@ -25,7 +26,6 @@ public class CaffeineCacheConfig {
     @Bean
     public CacheManager caffeineCacheManager(){
         SimpleCacheManager cacheManager = new SimpleCacheManager();
-
         ArrayList<CaffeineCache> caffeineCaches = new ArrayList<>();
         for(CachesEnum c : CachesEnum.values()){
             caffeineCaches.add(new CaffeineCache(c.getCacheName(), getCaffeine(c).build()));

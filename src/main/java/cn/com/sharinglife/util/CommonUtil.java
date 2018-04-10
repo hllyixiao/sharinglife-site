@@ -7,6 +7,8 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,11 +25,16 @@ import java.util.regex.Pattern;
 
 /**
  * 常用的方法
- * Created by 贺淋亮 on 2017/8/24.
+ *
+ * @author 贺淋亮
+ * @date 2017/8/24
  */
 public class CommonUtil {
 
+	private static final Logger LOG = LoggerFactory.getLogger(CommonUtil.class);
+
 	private static final String DISK_PATH = "E:";
+	private static final String UNKNOWN = "unknown";
 
 	/**
 	 * 获得物理ip
@@ -35,22 +43,22 @@ public class CommonUtil {
 	 */
 	public static String getIpAddr(HttpServletRequest request){
 		String ip = request.getHeader("X-Forwarded-For");
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("Proxy-Client-IP");
 		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("WL-Proxy-Client-IP");
 		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("HTTP_CLIENT_IP");
 		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
 		}
-		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 			ip = request.getRemoteAddr();
 		}
-		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+		if(ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 //			ip = request.getRemoteAddr();
 //			//这个地方会有5s延迟
 //			if(ip.equals("127.0.0.1") || ip.equals("0:0:0:0:0:0:0:1")){
@@ -90,7 +98,6 @@ public class CommonUtil {
 		String suffixName = originalName.substring(originalName.lastIndexOf("."));
 		//添加一级路径
         userPath.append(fileType ? "image//" : "video//");
-
         //根据用户id设置二级路径
         if(id == null){
             userPath.append("unknow//");
@@ -211,5 +218,25 @@ public class CommonUtil {
 			}
 		}
 		return "";
+	}
+
+	/**
+	 * 将POJO对象转成Map
+	 */
+	public static Map<String, Object> pojoToMap(Object obj) {
+		Map<String, Object> hashMap = new HashMap<>();
+		try {
+			Class<?> c = obj.getClass();
+			Method m[] = c.getDeclaredMethods();
+			for (Method aM : m) {
+				String methodName = aM.getName();
+				if (methodName.indexOf("get") == 0) {
+					hashMap.put((char) (methodName.charAt(3) + 32) + methodName.substring(4), aM.invoke(obj));
+				}
+			}
+		} catch (Exception e) {
+			LOG.error("POJO对象转成Map过程中出错",e);
+		}
+		return hashMap;
 	}
 }

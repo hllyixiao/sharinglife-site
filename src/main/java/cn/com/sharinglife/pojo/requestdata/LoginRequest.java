@@ -4,13 +4,12 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by hell on 2018/2/12
+ * @author hell
  */
 public class LoginRequest {
 
     private String verifyCode;
-
     private String phoneOrName;
-
     private String password;
 
     public LoginRequest() {

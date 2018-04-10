@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * 2、http://localhost:8031/hystrix.stream 可以看到具体数据
  * 3、http://localhost:8031/hystrix 图形界面，然后再里面输入
  * Created by hell on 2018/2/8
+ * @author hell
  */
 @Configuration
 @EnableHystrix

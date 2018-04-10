@@ -26,51 +26,40 @@ public class User {
      * 加密的用户Id
      */
     private String obsUserId;
-
     private String name;
 
     @JsonIgnore
     private String password;
-
     private String phone;
-
     private String email;
-
     /**
      * 用户类型
      */
     private Integer type;
-
     /**
      * 分享币
      */
     private Double shareCoin;
-
     /**
      * 座右铭
      */
     private String motto;
-
     /**
      * 头像图片路径
      */
     private String avatarUrl;
-
     /**
      * 最后登陆的ip
      */
     private String lastLoginIp;
-
     /**
      * 创建时间
      */
     private Date createTime;
-
     /**
      * 更新时间
      */
     private Date updateTime;
-
 
     public User(){
 

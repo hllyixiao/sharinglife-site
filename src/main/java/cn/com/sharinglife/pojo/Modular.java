@@ -4,18 +4,21 @@ import java.util.Date;
 
 /**
  * Created by hell on 2018/2/22
+ * @author hell
  */
 public class Modular {
 
     private Integer id;
-
     private String name;
-
     private String remarks;
-
-    private Date createTime;// 创建时间
-
-    private Date updateTime;// 更新时间
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
 
     public Modular() {
     }

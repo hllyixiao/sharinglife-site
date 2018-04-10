@@ -11,21 +11,33 @@ import java.util.Random;
  */
 public class VerifyCodeUtil {
 
-    // 验证码字符集
+    /**
+     * 验证码字符集
+      */
     private static final char[] chars = { 'A', 'B', 'C', 'D', 'E', 'F',
             'G', 'H',  'J','K', 'L', 'M', 'N',  'P', 'Q', 'R', 'S',
             'T', 'U', 'V', 'W','X', 'Y', 'Z', '2', '3', '4', '5',
             '6', '7', '8', '9' };
 
-    // 字符数量
+    /**
+     * 字符数量
+     */
     private static final int SIZE = 4;
-    // 干扰线数量
+    /**
+     * 干扰线数量
+     */
     private static final int LINES = 10;
-    // 宽度
+    /**
+     * 宽度
+     */
     private static final int WIDTH = 100;
-    // 高度
+    /**
+     * 高度
+     */
     private static final int HEIGHT = 40;
-    // 字体大小
+    /**
+     * 字体大小
+     */
     private static final int FONT_SIZE = 30;
 
     /**
@@ -71,7 +83,6 @@ public class VerifyCodeUtil {
         // 7.返回验证码和图片
         return new Object[]{sb.toString(), image};
     }
-
 
     /**
      * 随机取色

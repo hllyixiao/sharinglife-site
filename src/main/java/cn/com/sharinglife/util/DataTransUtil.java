@@ -10,29 +10,17 @@ import java.util.Objects;
 public class DataTransUtil {
 
     private static final String COMPANY_QIAN = "K";
-
     private static final String COMPANY_WAN = "W";
-    
     private static final String COMPANY_DEFAULT = "0.0";
-
     private static final String TIME_DISPLAY_JUST_NOW = "刚刚";
-
     private static final String TIME_DISPLAY_MINUTE = "分钟前";
-
     private static final String TIME_DISPLAY_HOUR = "小时前";
-
     private static final String TIME_DISPLAY_YESTERDAY = "昨天";
-
     private static final String TIME_DISPLAY_YESTERDAY_BEFOR = "前天";
-
     private static final long RANGE_SECOND = 60;
-
     private static final long RANGE_MINUTE = 3600;
-
     private static final long RANGE_HOUR = 86400;
-
     private static final long RANGE_YESTERDAY = 172800;
-
     private static final long RANGE_YESTERDAY_BEFOR = 259200;
 
     public static String getChineseNum(final Integer index) {

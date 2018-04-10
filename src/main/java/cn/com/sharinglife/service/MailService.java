@@ -1,5 +1,8 @@
 package cn.com.sharinglife.service;
 
+/**
+ * @author hell
+ */
 public interface MailService {
 
     /**

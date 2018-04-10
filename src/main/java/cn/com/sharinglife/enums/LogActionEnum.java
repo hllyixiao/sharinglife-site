@@ -2,6 +2,7 @@ package cn.com.sharinglife.enums;
 
 /**
  * Created by hell on 2018/3/15
+ * @author hell
  */
 public enum LogActionEnum {
 

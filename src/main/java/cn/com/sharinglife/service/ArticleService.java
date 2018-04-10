@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Created by hell on 2018/3/1
+ * @author hell
  */
 public interface ArticleService {
 

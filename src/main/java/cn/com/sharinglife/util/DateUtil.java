@@ -7,6 +7,7 @@ import java.util.Date;
 /**
  * 日期转换工具
  * Created by hell on 2018/2/9
+ * @author hell
  */
 public class DateUtil {
 
@@ -15,7 +16,6 @@ public class DateUtil {
     public static String TIMESTAMP_PATTERN = "yyyy-MM-dd HH:mm:ss";
     public static String TIMES_PATTERN = "HH:mm:ss";
     public static String NOCHAR_PATTERN = "yyyyMMddHHmmss";
-
 
     /**
      * 日期转换为字符串

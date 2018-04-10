@@ -4,6 +4,7 @@ import cn.com.sharinglife.pojo.User;
 
 /**
  * Created by hell on 2018/2/27
+ * @author hell
  */
 public class CommonResponse {
     
@@ -15,7 +16,6 @@ public class CommonResponse {
      * 返回登陆失败或成功的信息
      */
     private String msg;
-
     private User user;
 
     public CommonResponse(){}

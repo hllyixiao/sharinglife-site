@@ -1,39 +1,32 @@
 package cn.com.sharinglife.pojo;
 
-import cn.com.sharinglife.enums.LogActionEnum;
-
 /**
  * Created by hell on 2018/3/15
+ * @author hell
  */
 public class Logs {
 
     private Integer id;
-
     /**
      * 操作用户ID
      */
     private Integer userId;
-
     /**
      * 操作用户名称
      */
     private String userName;
-
     /**
      * 操作动作名称
      */
     private String action;
-
     /**
      * 简单描述
      */
     private String describe;
-
     /**
      * true : 成功     false : 失败
      */
     private boolean status;
-
     /**
      * 操作ip
      */

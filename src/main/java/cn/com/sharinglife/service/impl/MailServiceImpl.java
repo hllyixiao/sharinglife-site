@@ -17,6 +17,7 @@ import java.io.File;
 
 /**
  * Created by hell on 2018/3/8
+ * @author hell
  */
 @Service
 public class MailServiceImpl implements MailService{

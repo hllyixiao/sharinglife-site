@@ -13,48 +13,34 @@ import java.util.Date;
 public class ArticleResponse {
 
     private Integer articleId;
-
     private String title;
-
     private String displayContextTxt;
-
     private Integer contentSize;
-
     private String displayContentSize;
 
     @JsonIgnore
     private String contentHtml;
-
     /**
      * 更新时间
      */
     private Date updateTime;
-
     private String displayUpdateTime;
-
     /**
      * 评论数
      */
     private Integer comments;
-
     private String displayComments;
-
     /**
      * 喜欢
      */
     private Integer likes;
-
     private String displayLikes;
-
     /**
      * 阅读数量
      */
     private Integer readVolumes;
-
     private String displayReadVolumes;
-
     private String firstImg;
-
     /**
      * 是否允许评论 0:否  1：是
      */

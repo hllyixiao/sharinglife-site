@@ -19,27 +19,22 @@ public class Like {
      * Like
      */
     private Integer id;
-
     /**
      * 被点赞的文章id
      */
     private Integer articleId;
-
     /**
      * 发表文章的作者id
      */
     private Integer articleUserId;
-
     /**
      * 点赞人id
      */
     private Integer userId;
-
     /**
      * 点赞是否被删除(0:否 1:是)
      */
     private Boolean deleted;
-
     /**
      * 点赞时间
      */

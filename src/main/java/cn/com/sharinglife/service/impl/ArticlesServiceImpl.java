@@ -2,7 +2,6 @@ package cn.com.sharinglife.service.impl;
 
 import cn.com.sharinglife.mapper.ArticleMapper;
 import cn.com.sharinglife.pojo.Article;
-import cn.com.sharinglife.pojo.User;
 import cn.com.sharinglife.pojo.responsedata.ArticleResponse;
 import cn.com.sharinglife.service.ArticleService;
 import com.github.pagehelper.PageHelper;
@@ -15,6 +14,7 @@ import java.util.Objects;
 
 /**
  * Created by hell on 2018/3/1
+ * @author hell
  */
 @Service
 public class ArticlesServiceImpl implements ArticleService {

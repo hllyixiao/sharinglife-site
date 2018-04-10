@@ -4,6 +4,7 @@ import cn.com.sharinglife.pojo.Comment;
 
 /**
  * Created by hell on 2018/3/16
+ * @author hell
  */
 public interface CommentService {
 
