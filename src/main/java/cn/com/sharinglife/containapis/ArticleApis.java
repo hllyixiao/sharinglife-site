@@ -8,19 +8,15 @@ public class ArticleApis extends ApiContains {
 
     private static final String PREFIX = API_PREFIX + "/article";
 
-    public static final String LIKE = PREFIX + "/like";
+    public static final String ADD_ARTICLE = PREFIX + "/add";
 
-    public static final String ADD_ARTICLE = PREFIX + "/addarticle";
-
-    public static final String DELETE_ARTICLE = PREFIX + "/deletearticle";
-
-    public static final String ADD_ARTICLE_PICTURE = PREFIX + "/addarticlepicture";
+    public static final String ADD_ARTICLE_PICTURE = PREFIX + "/addpicture";
 
     public static final String GET_PUBLISH_ARTICLE_BY_ID = PREFIX + "/getpublishbyid";
 
     public static final String GET_ARTICLE_BY_ID = PREFIX + "/getbyid";
 
-    public static final String GET_ALL_ARTICLE_BY_USER_ID = PREFIX + "/getbyuserid";
+    public static final String LIST_ALL_ARTICLE_BY_USER_ID = PREFIX + "/listbyuserid";
 
     public static final String DELETE_ARTICLE_BY_IDS = PREFIX + "/deletebyids";
 

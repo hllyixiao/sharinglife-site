@@ -113,4 +113,19 @@ public class Article extends ModularBase {
         this.obsUserId = obsUserId;
         this.userId = Integer.valueOf(AesUtil.decrypt(obsUserId));
     }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", obsUserId='" + obsUserId + '\'' +
+                ", title='" + title + '\'' +
+                ", contentTxt='" + contentTxt + '\'' +
+                ", contentHtml='" + contentHtml + '\'' +
+                ", contentSize=" + contentSize +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "} " + super.toString();
+    }
 }

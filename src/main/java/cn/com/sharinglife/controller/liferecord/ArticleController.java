@@ -124,7 +124,7 @@ public class ArticleController {
 
     @LoginAnnotation
     @ApiOperation(value = "获取当前用户的文章列表", notes = "获取当前用户的文章列表")
-    @GetMapping(value = ArticleApis.GET_ALL_ARTICLE_BY_USER_ID)
+    @GetMapping(value = ArticleApis.LIST_ALL_ARTICLE_BY_USER_ID)
     public PageResponse getAllArticlesByUserId(HttpServletRequest request,
                                  @RequestParam("status") final Integer status,
                                  @RequestParam(value = "page", defaultValue = "1") final int page,

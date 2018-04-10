@@ -185,4 +185,23 @@ public class User {
         this.obsUserId = obsUserId;
         this.id = Integer.valueOf(AesUtil.decrypt(obsUserId));
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", obsUserId='" + obsUserId + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", type=" + type +
+                ", shareCoin=" + shareCoin +
+                ", motto='" + motto + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", lastLoginIp='" + lastLoginIp + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

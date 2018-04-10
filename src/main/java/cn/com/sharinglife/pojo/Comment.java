@@ -160,4 +160,21 @@ public class Comment {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", pId=" + pId +
+                ", iid=" + iid +
+                ", ownerUserId=" + ownerUserId +
+                ", userId=" + userId +
+                ", type=" + type +
+                ", userName='" + userName + '\'' +
+                ", userAvatarUrl='" + userAvatarUrl + '\'' +
+                ", content='" + content + '\'' +
+                ", deleted=" + deleted +
+                ", createTime=" + createTime +
+                '}';
+    }
 }

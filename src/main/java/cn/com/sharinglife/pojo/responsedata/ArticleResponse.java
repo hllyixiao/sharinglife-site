@@ -181,4 +181,26 @@ public class ArticleResponse {
     public void setAllowComments(Integer allowComments) {
         this.allowComments = allowComments;
     }
+
+    @Override
+    public String toString() {
+        return "ArticleResponse{" +
+                "articleId=" + articleId +
+                ", title='" + title + '\'' +
+                ", displayContextTxt='" + displayContextTxt + '\'' +
+                ", contentSize=" + contentSize +
+                ", displayContentSize='" + displayContentSize + '\'' +
+                ", contentHtml='" + contentHtml + '\'' +
+                ", updateTime=" + updateTime +
+                ", displayUpdateTime='" + displayUpdateTime + '\'' +
+                ", comments=" + comments +
+                ", displayComments='" + displayComments + '\'' +
+                ", likes=" + likes +
+                ", displayLikes='" + displayLikes + '\'' +
+                ", readVolumes=" + readVolumes +
+                ", displayReadVolumes='" + displayReadVolumes + '\'' +
+                ", firstImg='" + firstImg + '\'' +
+                ", allowComments=" + allowComments +
+                '}';
+    }
 }

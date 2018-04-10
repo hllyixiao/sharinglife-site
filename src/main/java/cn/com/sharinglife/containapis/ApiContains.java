@@ -11,5 +11,8 @@ public class ApiContains {
      */
     public static final String ENCRYPTED_API_PREFIX = "/sl/api/c";
 
+    /**
+     * 对返回的数据不加密
+     */
     public static final String API_PREFIX = "/sl/api";
 }

@@ -90,4 +90,17 @@ public class ModularBase {
     public void setReadVolumes(Integer readVolumes) {
         this.readVolumes = readVolumes;
     }
+
+    @Override
+    public String toString() {
+        return "ModularBase{" +
+                "tagsName='" + tagsName + '\'' +
+                ", tagId=" + tagId +
+                ", allowComments=" + allowComments +
+                ", status=" + status +
+                ", comments=" + comments +
+                ", likes=" + likes +
+                ", readVolumes=" + readVolumes +
+                '}';
+    }
 }
