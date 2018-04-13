@@ -210,7 +210,7 @@ public class CommonUtil {
 			Matcher m_image = p_image.matcher(content);
 			if (m_image.find()) {
 				img = img + "," + m_image.group();
-				// //匹配src
+				// 匹配src
 				Matcher m = Pattern.compile("src\\s*=\\s*\'?\"?(.*?)(\'|\"|>|\\s+)").matcher(img);
 				if (m.find()) {
 					return m.group(1);

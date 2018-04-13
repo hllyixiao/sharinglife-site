@@ -3,14 +3,12 @@ package cn.com.sharinglife.controller.liferecord;
 import cn.com.sharinglife.anno.LoginAnnotation;
 import cn.com.sharinglife.containapis.ArticleApis;
 import cn.com.sharinglife.pojo.Article;
-import cn.com.sharinglife.pojo.User;
 import cn.com.sharinglife.pojo.responsedata.ArticleResponse;
 import cn.com.sharinglife.pojo.responsedata.PageResponse;
 import cn.com.sharinglife.service.ArticleService;
 import cn.com.sharinglife.util.CommonUtil;
 import cn.com.sharinglife.util.SessionCookieUtil;
 import com.github.pagehelper.PageInfo;
-import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +20,6 @@ import org.thymeleaf.util.ListUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.POST;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -126,10 +123,12 @@ public class ArticleController {
     @ApiOperation(value = "获取当前用户的文章列表", notes = "获取当前用户的文章列表")
     @GetMapping(value = ArticleApis.LIST_ALL_ARTICLE_BY_USER_ID)
     public PageResponse getAllArticlesByUserId(HttpServletRequest request,
+                                 HttpServletResponse response,
                                  @RequestParam("status") final Integer status,
                                  @RequestParam(value = "page", defaultValue = "1") final int page,
                                  @RequestParam(value = "limit", defaultValue = "5") final int limit) {
         LOG.info("getAllArticlesByUserId —— 获取文章列表，当前页:第{}页，每页获取{}个文章信息",page,limit);
+        response.addHeader("Access-Control-Allow-Origin","*");
         Integer userId = SessionCookieUtil.getCurrentUserIdBySession(request);
         PageInfo<ArticleResponse> articlePageInfo =  articleService.getArticlesByUserId(userId,status,page,limit);
         List<ArticleResponse> articleResponses = articlePageInfo.getList();

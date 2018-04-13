@@ -9,8 +9,8 @@ spring:
   # mysql数据库
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-#    url: jdbc:mysql://192.168.16.128:3306/sl?useUnicode=true&characterEncoding=UTF-8
-    url: jdbc:mysql://192.168.32.128:3306/wnc?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://192.168.16.128:3306/sl?useUnicode=true&characterEncoding=UTF-8
+#    url: jdbc:mysql://192.168.32.128:3306/wnc?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: root
   mail:
@@ -60,7 +60,7 @@ my:
     keepAlive: 100
   #是否开启登陆验证的注解
   loginannotation:
-    open: true
+    open: false
 
 
 

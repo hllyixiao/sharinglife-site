@@ -1,5 +1,6 @@
 package cn.com.sharinglife.controller;
 
+import cn.com.sharinglife.anno.LoginAnnotation;
 import cn.com.sharinglife.comment.Const;
 import cn.com.sharinglife.containapis.LoginAndRegisterApis;
 import cn.com.sharinglife.enums.LogActionEnum;
@@ -71,6 +72,7 @@ public class LoginRegisterController {
         return res;
     }
 
+    @LoginAnnotation
     @ApiOperation(value = "用户注册")
     @PostMapping(value = LoginAndRegisterApis.REGISTER)
     public boolean register(HttpServletResponse response,

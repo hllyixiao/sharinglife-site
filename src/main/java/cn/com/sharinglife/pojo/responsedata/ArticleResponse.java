@@ -40,7 +40,7 @@ public class ArticleResponse {
      */
     private Integer readVolumes;
     private String displayReadVolumes;
-    private String firstImg;
+    private String firstImg = "/SLFile/image/defaultpath/avatar/avatar.jpg";
     /**
      * 是否允许评论 0:否  1：是
      */
@@ -163,7 +163,7 @@ public class ArticleResponse {
     }
 
     public void setFirstImg(String firstImg) {
-        this.firstImg = firstImg;
+        this.firstImg = "/SLFile/image/defaultpath/avatar/avatar.jpg";
     }
 
     public String getContentHtml() {
