@@ -52,15 +52,16 @@ public class DataTransUtil {
 
     /**
      * 用于向前端提供点击量的展示数据
+     *
      * @param number
      * @return
      */
-    public static String numberToCompany(Double number){
+    public static String numberToCompany(Double number) {
         DecimalFormat df = new DecimalFormat("#.00");
-        if(Objects.nonNull(number)){
-            if(number > 100000){
+        if (Objects.nonNull(number)) {
+            if (number > 100000) {
                 return df.format(number / 10000) + COMPANY_WAN;
-            }else if(number > 1000){
+            } else if (number > 1000) {
                 return df.format(number / 1000) + COMPANY_QIAN;
             }
             return number.toString();
@@ -70,33 +71,34 @@ public class DataTransUtil {
 
     /**
      * 用于向前端提供时间数据展示
+     *
      * @param date
      * @return
      */
-    public static String dateToDisplay(Date date){
+    public static String dateToDisplay(Date date) {
         Date currentDate = new Date();
-        if(Objects.nonNull(date)){
-            long seconds = DateUtil.diffSecond(currentDate,date);
-            if(seconds < RANGE_SECOND){
-                return   TIME_DISPLAY_JUST_NOW;
-            }else if(seconds >= RANGE_SECOND && seconds < RANGE_MINUTE){
-                return DateUtil.diffMinute(currentDate,date) + TIME_DISPLAY_MINUTE;
-            }else {
+        if (Objects.nonNull(date)) {
+            long seconds = DateUtil.diffSecond(currentDate, date);
+            if (seconds < RANGE_SECOND) {
+                return TIME_DISPLAY_JUST_NOW;
+            } else if (seconds >= RANGE_SECOND && seconds < RANGE_MINUTE) {
+                return DateUtil.diffMinute(currentDate, date) + TIME_DISPLAY_MINUTE;
+            } else {
                 Date todayDate = DateUtil.todayZeroDate(currentDate);
                 int h = DateUtil.diffHour(todayDate, date);
-                if(h > 0){
-                    if(h <= 24){
+                if (h > 0) {
+                    if (h <= 24) {
                         return TIME_DISPLAY_YESTERDAY;
-                    }else if(h <= 48){
+                    } else if (h <= 48) {
                         return TIME_DISPLAY_YESTERDAY_BEFOR;
-                    }else{
+                    } else {
                         return DateUtil.formatTimesTampDate(date);
                     }
-                }else{
+                } else {
                     return DateUtil.diffHour(currentDate, todayDate) + h + TIME_DISPLAY_HOUR;
                 }
             }
-        }else{
+        } else {
             return DateUtil.formatTimesTampDate(currentDate);
         }
     }

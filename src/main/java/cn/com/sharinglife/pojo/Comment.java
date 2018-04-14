@@ -7,10 +7,9 @@ import java.util.Date;
 import java.util.Objects;
 
 /**
- *
  * 评论对象
- * @author Created by hell on 2018/3/16
  *
+ * @author Created by hell on 2018/3/16
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -152,10 +151,10 @@ public class Comment {
         this.type = type;
     }
 
-    public boolean nonNull(){
-        if(Objects.nonNull(pId) && Objects.nonNull(iid)
+    public boolean nonNull() {
+        if (Objects.nonNull(pId) && Objects.nonNull(iid)
                 && Objects.nonNull(ownerUserId) && Objects.nonNull(userId)
-                && Objects.nonNull(type)){
+                && Objects.nonNull(type)) {
             return true;
         }
         return false;

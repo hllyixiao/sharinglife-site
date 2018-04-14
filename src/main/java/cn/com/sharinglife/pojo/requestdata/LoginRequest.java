@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by hell on 2018/2/12
+ *
  * @author hell
  */
 public class LoginRequest {
@@ -39,9 +40,9 @@ public class LoginRequest {
         this.verifyCode = verifyCode;
     }
 
-    public boolean nonNull(){
-        if(StringUtils.isNotBlank(phoneOrName)
-                && StringUtils.isNotBlank(password)){
+    public boolean nonNull() {
+        if (StringUtils.isNotBlank(phoneOrName)
+                && StringUtils.isNotBlank(password)) {
             return true;
         }
         return false;

@@ -31,34 +31,35 @@ import java.util.regex.Pattern;
  */
 public class CommonUtil {
 
-	private static final Logger LOG = LoggerFactory.getLogger(CommonUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CommonUtil.class);
 
-	private static final String DISK_PATH = "E:";
-	private static final String UNKNOWN = "unknown";
+    private static final String DISK_PATH = "E:";
+    private static final String UNKNOWN = "unknown";
 
-	/**
-	 * 获得物理ip
-	 * @param request
-	 * @return
-	 */
-	public static String getIpAddr(HttpServletRequest request){
-		String ip = request.getHeader("X-Forwarded-For");
-		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getHeader("Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getHeader("WL-Proxy-Client-IP");
-		}
-		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_CLIENT_IP");
-		}
-		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-		}
-		if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getRemoteAddr();
-		}
-		if(ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+    /**
+     * 获得物理ip
+     *
+     * @param request
+     * @return
+     */
+    public static String getIpAddr(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        if (ip == null || ip.length() == 0 || UNKNOWN.equalsIgnoreCase(ip)) {
 //			ip = request.getRemoteAddr();
 //			//这个地方会有5s延迟
 //			if(ip.equals("127.0.0.1") || ip.equals("0:0:0:0:0:0:0:1")){
@@ -71,37 +72,38 @@ public class CommonUtil {
 //				}
 //				ip= inet.getHostAddress();
 //			}
-			ip = "127.0.0.1";
-		}
-		//对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
-		if(ip!=null && ip.length()>15){
-			if(ip.indexOf(",")>0){
-				ip = ip.substring(0,ip.indexOf(","));
-			}
-		}
-		return ip;
-	}
+            ip = "127.0.0.1";
+        }
+        //对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
+        if (ip != null && ip.length() > 15) {
+            if (ip.indexOf(",") > 0) {
+                ip = ip.substring(0, ip.indexOf(","));
+            }
+        }
+        return ip;
+    }
 
     /**
      * 返回文件的原始名称、后缀名、新的全路径（为每一个用户配置一个文件路径）
+     *
      * @param file
-     * @param fileType  true : 表示图片文件  false : 表示视频文件
+     * @param fileType true : 表示图片文件  false : 表示视频文件
      * @param id
      * @return
      */
-	public static Map<String,String> getUserFilePath(MultipartFile file, boolean fileType,Integer id){
-	    Map<String,String> resMap = new HashMap();
-	    StringBuffer userPath = new StringBuffer("//SLFile//");
-		// 获取文件原始名称（包括后缀）
-		String originalName = file.getOriginalFilename();
-		// 获取文件的后缀名（格式）
-		String suffixName = originalName.substring(originalName.lastIndexOf("."));
-		//添加一级路径
+    public static Map<String, String> getUserFilePath(MultipartFile file, boolean fileType, Integer id) {
+        Map<String, String> resMap = new HashMap();
+        StringBuffer userPath = new StringBuffer("//SLFile//");
+        // 获取文件原始名称（包括后缀）
+        String originalName = file.getOriginalFilename();
+        // 获取文件的后缀名（格式）
+        String suffixName = originalName.substring(originalName.lastIndexOf("."));
+        //添加一级路径
         userPath.append(fileType ? "image//" : "video//");
         //根据用户id设置二级路径
-        if(id == null){
+        if (id == null) {
             userPath.append("unknow//");
-        }else{
+        } else {
             userPath
                     .append(String.valueOf((id / 1000 + 1)))
                     .append("//")
@@ -109,48 +111,49 @@ public class CommonUtil {
                     .append("//");
         }
         String diskPath = DISK_PATH + userPath;
-        resMap.put("originalName",originalName);
-        resMap.put("suffixName",suffixName);
-        resMap.put("diskPath",diskPath);
-		resMap.put("userPath",userPath.toString());
+        resMap.put("originalName", originalName);
+        resMap.put("suffixName", suffixName);
+        resMap.put("diskPath", diskPath);
+        resMap.put("userPath", userPath.toString());
         return resMap;
     }
 
-	/**
-	 * BASE64加密
-	 *
-	 * @param plainText
-	 * @return
-	 * @throws Exception
-	 */
-	public static String encryptBASE64(final String plainText) {
-		byte[] plainByte = plainText.getBytes();
-		final Base64 base64 = new Base64();
-		plainByte = base64.encode(plainByte);
-		return new String(plainByte);
-	}
+    /**
+     * BASE64加密
+     *
+     * @param plainText
+     * @return
+     * @throws Exception
+     */
+    public static String encryptBASE64(final String plainText) {
+        byte[] plainByte = plainText.getBytes();
+        final Base64 base64 = new Base64();
+        plainByte = base64.encode(plainByte);
+        return new String(plainByte);
+    }
 
-	/**
-	 * BASE64解密
-	 *
-	 * @param encodeStr
-	 * @return
-	 */
-	public static String decryptBASE64(final String encodeStr) {
-		byte[] encodeByte = encodeStr.getBytes();
-		final Base64 base64 = new Base64();
-		encodeByte = base64.decode(encodeByte);
-		return new String(encodeByte);
-	}
+    /**
+     * BASE64解密
+     *
+     * @param encodeStr
+     * @return
+     */
+    public static String decryptBASE64(final String encodeStr) {
+        byte[] encodeByte = encodeStr.getBytes();
+        final Base64 base64 = new Base64();
+        encodeByte = base64.decode(encodeByte);
+        return new String(encodeByte);
+    }
 
-	/**
-	 * 生成二维码图片
-	 * @param width
-	 * @param height
-	 * @param content
-	 * @param storagePath
-	 */
-    public static void createQrCode (int width,int height,String content,String storagePath) {
+    /**
+     * 生成二维码图片
+     *
+     * @param width
+     * @param height
+     * @param content
+     * @param storagePath
+     */
+    public static void createQrCode(int width, int height, String content, String storagePath) {
         String format = "png";
         //定义二维码的参数
         HashMap map = new HashMap();
@@ -171,17 +174,17 @@ public class CommonUtil {
         }
     }
 
-/**
- * 读取二维码
- */
-    public static void readQrCode (String filePath) {
+    /**
+     * 读取二维码
+     */
+    public static void readQrCode(String filePath) {
         try {
             MultiFormatReader multiFormatReader = new MultiFormatReader();
             File file = new File(filePath);
             BufferedImage image = ImageIO.read(file);
             //定义二维码参数
             Map hints = new HashMap();
-            hints.put(EncodeHintType.CHARACTER_SET,"utf-8");
+            hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
 
             //获取读取二维码结果
             BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
@@ -197,46 +200,46 @@ public class CommonUtil {
         }
     }
 
-	/**
-	 * 获取文章第一张图片
-	 *
-	 * @return
-	 */
-	public static String showFirstImgUrl(String content) {
-		if (content.contains("<img")) {
-			String img = "";
-			String regEx_img = "<img.*src\\s*=\\s*(.*?)[^>]*?>";
-			Pattern p_image = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);
-			Matcher m_image = p_image.matcher(content);
-			if (m_image.find()) {
-				img = img + "," + m_image.group();
-				// 匹配src
-				Matcher m = Pattern.compile("src\\s*=\\s*\'?\"?(.*?)(\'|\"|>|\\s+)").matcher(img);
-				if (m.find()) {
-					return m.group(1);
-				}
-			}
-		}
-		return "";
-	}
+    /**
+     * 获取文章第一张图片
+     *
+     * @return
+     */
+    public static String showFirstImgUrl(String content) {
+        if (content.contains("<img")) {
+            String img = "";
+            String regEx_img = "<img.*src\\s*=\\s*(.*?)[^>]*?>";
+            Pattern p_image = Pattern.compile(regEx_img, Pattern.CASE_INSENSITIVE);
+            Matcher m_image = p_image.matcher(content);
+            if (m_image.find()) {
+                img = img + "," + m_image.group();
+                // 匹配src
+                Matcher m = Pattern.compile("src\\s*=\\s*\'?\"?(.*?)(\'|\"|>|\\s+)").matcher(img);
+                if (m.find()) {
+                    return m.group(1);
+                }
+            }
+        }
+        return "";
+    }
 
-	/**
-	 * 将POJO对象转成Map
-	 */
-	public static Map<String, Object> pojoToMap(Object obj) {
-		Map<String, Object> hashMap = new HashMap<>();
-		try {
-			Class<?> c = obj.getClass();
-			Method m[] = c.getDeclaredMethods();
-			for (Method aM : m) {
-				String methodName = aM.getName();
-				if (methodName.indexOf("get") == 0) {
-					hashMap.put((char) (methodName.charAt(3) + 32) + methodName.substring(4), aM.invoke(obj));
-				}
-			}
-		} catch (Exception e) {
-			LOG.error("POJO对象转成Map过程中出错",e);
-		}
-		return hashMap;
-	}
+    /**
+     * 将POJO对象转成Map
+     */
+    public static Map<String, Object> pojoToMap(Object obj) {
+        Map<String, Object> hashMap = new HashMap<>();
+        try {
+            Class<?> c = obj.getClass();
+            Method m[] = c.getDeclaredMethods();
+            for (Method aM : m) {
+                String methodName = aM.getName();
+                if (methodName.indexOf("get") == 0) {
+                    hashMap.put((char) (methodName.charAt(3) + 32) + methodName.substring(4), aM.invoke(obj));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("POJO对象转成Map过程中出错", e);
+        }
+        return hashMap;
+    }
 }

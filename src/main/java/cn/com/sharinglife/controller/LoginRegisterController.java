@@ -52,20 +52,20 @@ public class LoginRegisterController {
 
     @ApiOperation(value = "生成验证码图片")
     @GetMapping(value = LoginAndRegisterApis.VERIFY_CODE)
-    public Map getVerifyCode(HttpServletRequest request, HttpSession session){
+    public Map getVerifyCode(HttpServletRequest request, HttpSession session) {
         //利用图片工具生成图片
         //第一个参数是生成的验证码数字，第二个参数是生成的图片
-        Map res = new HashMap<String,String>();
+        Map res = new HashMap<String, String>();
         Object[] objs = VerifyCodeUtil.createImage();
         //将验证码数字存入Session
-        session.setAttribute(Const.VERIFY_CODE,objs[0]);
+        session.setAttribute(Const.VERIFY_CODE, objs[0]);
         //将图片输出给浏览器
         BufferedImage image = (BufferedImage) objs[1];
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             ImageIO.write(image, "png", baos);
         } catch (IOException e) {
-            LOG.error("生成验证码图片报错 — ",e);
+            LOG.error("生成验证码图片报错 — ", e);
         }
         byte[] bytes = baos.toByteArray();
         res.put("verifyCodeImg", ImageUtil.verifyCodeImageToBase64(bytes));
@@ -76,9 +76,9 @@ public class LoginRegisterController {
     @ApiOperation(value = "用户注册")
     @PostMapping(value = LoginAndRegisterApis.REGISTER)
     public boolean register(HttpServletResponse response,
-                            @RequestBody RegisterRequest registerRequest){
+                            @RequestBody RegisterRequest registerRequest) {
         LOG.info("register - 用户注册");
-        if(registerRequest.nonNull()){
+        if (registerRequest.nonNull()) {
             final User user = new User(registerRequest);
             user.setAvatarUrl(DEFAULT_USER_AVATAR);
             userService.addUser(user);
@@ -89,7 +89,7 @@ public class LoginRegisterController {
         return false;
     }
 
-    @ApiOperation(value = "用户登陆",notes = "登陆成功后，返回用户信息")
+    @ApiOperation(value = "用户登陆", notes = "登陆成功后，返回用户信息")
     @PostMapping(value = LoginAndRegisterApis.LOGIN)
     public CommonResponse login(HttpServletResponse response,
                                 HttpServletRequest request,
@@ -98,25 +98,25 @@ public class LoginRegisterController {
         LOG.info("login — 用户登陆");
         final CommonResponse commonResponse = new CommonResponse();
         //传入的对象不能有null的属性
-        if(loginRequest.nonNull()){
-            if("".equals(loginRequest.getVerifyCode()) || loginRequest.getVerifyCode()
-                    .equalsIgnoreCase((String) session.getAttribute(Const.VERIFY_CODE))){
+        if (loginRequest.nonNull()) {
+            if ("".equals(loginRequest.getVerifyCode()) || loginRequest.getVerifyCode()
+                    .equalsIgnoreCase((String) session.getAttribute(Const.VERIFY_CODE))) {
                 final User user = userService.getUserByLoginData(loginRequest);
-                if(user == null){
+                if (user == null) {
                     commonResponse.setStatusCode(0);
                     commonResponse.setMsg("手机号或邮箱不存在！");
-                }else if(!loginRequest.getPassword().equals(user.getPassword())){
+                } else if (!loginRequest.getPassword().equals(user.getPassword())) {
                     commonResponse.setStatusCode(0);
                     commonResponse.setMsg("密码错误！");
-                }else{
+                } else {
                     commonResponse.setStatusCode(1);
                     commonResponse.setMsg("登陆成功！");
                     commonResponse.setUser(user);
                     //登陆成功后，添加session、cookie等信息
-                    longinAfter(request,response,user);
+                    longinAfter(request, response, user);
                     LOG.info("用户-[{}] 登陆成功！", loginRequest.getPhoneOrName());
                 }
-            }else{
+            } else {
                 commonResponse.setStatusCode(0);
                 commonResponse.setMsg("验证码错误!");
             }
@@ -127,20 +127,20 @@ public class LoginRegisterController {
         return null;
     }
 
-    @ApiOperation(value = "退出登陆",notes = "退出登陆会清空session和cookie等信息")
+    @ApiOperation(value = "退出登陆", notes = "退出登陆会清空session和cookie等信息")
     @GetMapping(value = LoginAndRegisterApis.LOGOUT)
-    public void logout(HttpSession session){
+    public void logout(HttpSession session) {
         LOG.info("logout — 退出登陆");
         session.invalidate();
     }
 
     @ApiOperation(value = "判断手机号是否被注册")
-    @ApiImplicitParam(name = "phone",value = "合法的手机号",required = true,paramType = "query")
+    @ApiImplicitParam(name = "phone", value = "合法的手机号", required = true, paramType = "query")
     @GetMapping(value = LoginAndRegisterApis.IS_EXITS_PHONE)
     public boolean isExistPhone(HttpServletResponse response,
-                                @RequestParam("phone")String phone){
+                                @RequestParam("phone") String phone) {
         LOG.info("isExistPho — 判断手机号是否被注册");
-        if(StringUtils.isNotBlank(phone)){
+        if (StringUtils.isNotBlank(phone)) {
             return userService.isExistPho(phone);
         }
         LOG.error("isExistPho — 参数 phone 不能为null");
@@ -149,12 +149,12 @@ public class LoginRegisterController {
     }
 
     @ApiOperation(value = "判断用户名是否被注册")
-    @ApiImplicitParam(name = "name",value = "合法的用户名",required = true,paramType = "query")
+    @ApiImplicitParam(name = "name", value = "合法的用户名", required = true, paramType = "query")
     @GetMapping(value = LoginAndRegisterApis.IS_EXITS_NAME)
     public boolean isExistName(HttpServletResponse response,
-                                @RequestParam(value = "name")String name){
+                               @RequestParam(value = "name") String name) {
         LOG.info("isExistName — 判断用户名是否被注册");
-        if(StringUtils.isNotBlank(name)){
+        if (StringUtils.isNotBlank(name)) {
             return userService.isExistName(name);
         }
         LOG.error("isExistName — 参数 name 不能为null");
@@ -164,6 +164,7 @@ public class LoginRegisterController {
 
     /**
      * 登陆成功后，添加session、cookie、log等信息
+     *
      * @param request
      * @param response
      * @param user
@@ -176,13 +177,13 @@ public class LoginRegisterController {
         updateUser.setLastLoginIp(ip);
         userService.updateUser(updateUser);
         //添加日志信息到日志表
-        Logs logs = new Logs(user.getId(),user.getName(), LogActionEnum.LOGIN.getAction(),ip);
+        Logs logs = new Logs(user.getId(), user.getName(), LogActionEnum.LOGIN.getAction(), ip);
         logsService.addLog(logs);
         //设置session
-        SessionCookieUtil.setSessionUser(request,user);
+        SessionCookieUtil.setSessionUser(request, user);
         //设置cookie
         final String encryptName = CommonUtil.encryptBASE64(user.getName());
         final String cookieValue = String.valueOf(System.currentTimeMillis()) + encryptName;
-        SessionCookieUtil.setCookies(response, Const.SL_COOKIE_NAME,cookieValue);
+        SessionCookieUtil.setCookies(response, Const.SL_COOKIE_NAME, cookieValue);
     }
 }

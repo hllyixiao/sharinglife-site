@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.com.sharinglife.mapper.ArticleMapper" >
+<mapper namespace="cn.com.sharinglife.mapper.ArticleMapper">
 
     <sql id="trim_field">
         <trim suffixOverrides=",">
@@ -102,7 +102,7 @@
         <where>
             id=#{articleId}
             <if test="status!=null">
-              AND  status=#{status}
+                AND status=#{status}
             </if>
         </where>
     </select>
@@ -116,26 +116,26 @@
         <where>
             userid=#{userId}
             <if test="status!=null">
-              AND status=#{status}
+                AND status=#{status}
             </if>
         </where>
     </select>
 
-    
+
     <update id="addLike">
-    UPDATE article SET likes=likes+1 WHERE id=#{articleId}
+        UPDATE article SET likes=likes+1 WHERE id=#{articleId}
     </update>
 
     <update id="deleteLike">
-    UPDATE article SET likes=likes-1 WHERE id=#{articleId}
+        UPDATE article SET likes=likes-1 WHERE id=#{articleId}
     </update>
 
     <update id="addComment">
-    UPDATE article SET comments=comments+1 WHERE id=#{articleId}
+        UPDATE article SET comments=comments+1 WHERE id=#{articleId}
     </update>
 
     <update id="deleteComment">
-    UPDATE article SET comments=comments-1 WHERE id=#{articleId}
+        UPDATE article SET comments=comments-1 WHERE id=#{articleId}
     </update>
 
     <insert id="addArticle" parameterType="article" useGeneratedKeys="true" keyProperty="id">

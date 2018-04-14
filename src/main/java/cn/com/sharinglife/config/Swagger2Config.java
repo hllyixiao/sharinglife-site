@@ -12,15 +12,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Swagger2构建强大的RESTful API文档
- *
+ * <p>
  * 通过 http://localhost:8031/swagger-ui.html 直接访问
- *
+ * <p>
  * 解决的问题：
- *     1、文档需要更新的时候，需要再次发送一份给前端，也就是文档更新交流不及时。
- *     2、接口返回结果不明确
- *     3、不能直接在线测试接口，通常需要使用工具，比如postman
- *     4、接口文档太多，不好管理
+ * 1、文档需要更新的时候，需要再次发送一份给前端，也就是文档更新交流不及时。
+ * 2、接口返回结果不明确
+ * 3、不能直接在线测试接口，通常需要使用工具，比如postman
+ * 4、接口文档太多，不好管理
  * Created by hell on 2018/2/7
+ *
  * @author hell
  */
 @Configuration
@@ -46,22 +47,22 @@ public class Swagger2Config {
 
 
     @Bean
-    public Docket createRestApi(){
+    public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                        .apiInfo(apiInfo())
-                        .select()
-                        .apis(RequestHandlerSelectors.basePackage(basePackage))
-                        .paths(PathSelectors.any())
-                        .build();
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage(basePackage))
+                .paths(PathSelectors.any())
+                .build();
     }
 
-    private ApiInfo apiInfo(){
+    private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                        .title(title)
-                        .description(description)
-                        .termsOfServiceUrl("http://www.baidu.com")
-                        .version(version)
-                        .build();
+                .title(title)
+                .description(description)
+                .termsOfServiceUrl("http://www.baidu.com")
+                .version(version)
+                .build();
     }
 
 }

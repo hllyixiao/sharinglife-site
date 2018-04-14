@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * @author Created by hell on 2018/1/31
- *  值为null则该字段不返回
+ * 值为null则该字段不返回
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -20,7 +20,7 @@ public class User {
      * 用户Id,不会像传给前端
      */
     @JsonIgnore
-    private  Integer id;
+    private Integer id;
 
     /**
      * 加密的用户Id
@@ -61,7 +61,7 @@ public class User {
      */
     private Date updateTime;
 
-    public User(){
+    public User() {
 
     }
 
@@ -74,7 +74,7 @@ public class User {
         this.password = password;
     }
 
-    public User(RegisterRequest registerRequest){
+    public User(RegisterRequest registerRequest) {
         name = registerRequest.getName();
         password = registerRequest.getPassword();
         phone = registerRequest.getPhone();

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Caffeine Cached的配置类，spring-boot推荐使用Caffeine Cache
  * 可以针对每个cache配置不同的参数
- *
+ * <p>
  * Created by hell on 2018/2/2
  *
  * @author hell
@@ -24,28 +24,28 @@ import java.util.ArrayList;
 public class CaffeineCacheConfig {
 
     @Bean
-    public CacheManager caffeineCacheManager(){
+    public CacheManager caffeineCacheManager() {
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         ArrayList<CaffeineCache> caffeineCaches = new ArrayList<>();
-        for(CachesEnum c : CachesEnum.values()){
+        for (CachesEnum c : CachesEnum.values()) {
             caffeineCaches.add(new CaffeineCache(c.getCacheName(), getCaffeine(c).build()));
         }
         cacheManager.setCaches(caffeineCaches);
         return cacheManager;
     }
 
-    private Caffeine<Object, Object>  getCaffeine(CachesEnum c){
+    private Caffeine<Object, Object> getCaffeine(CachesEnum c) {
         Caffeine<Object, Object> caffeine = Caffeine.newBuilder().recordStats();
         int strategy = c.getStrategy();
-        switch (strategy){
+        switch (strategy) {
             case 1:
-                caffeine.expireAfterAccess(c.getTtl(),c.getUnit());
+                caffeine.expireAfterAccess(c.getTtl(), c.getUnit());
                 break;
             case 2:
-                caffeine.expireAfterWrite(c.getTtl(),c.getUnit());
+                caffeine.expireAfterWrite(c.getTtl(), c.getUnit());
                 break;
             case 3:
-                caffeine.refreshAfterWrite(c.getTtl(),c.getUnit());
+                caffeine.refreshAfterWrite(c.getTtl(), c.getUnit());
                 break;
             default:
                 break;

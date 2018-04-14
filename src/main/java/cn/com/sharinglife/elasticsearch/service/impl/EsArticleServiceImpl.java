@@ -28,7 +28,7 @@ public class EsArticleServiceImpl implements EsArticleService {
 
     private static final String EMPTY_KEYWORD = "";
 
-    private static final Pageable TOP_5_PAGEABLE = new PageRequest(0,5);
+    private static final Pageable TOP_5_PAGEABLE = new PageRequest(0, 5);
 
     @Override
     public void removeEsArticle(String id) {
@@ -48,21 +48,21 @@ public class EsArticleServiceImpl implements EsArticleService {
     @Override
     public Page<EsArticle> listNewestEsArticles(String keyword, Pageable pageable) throws SearchParseException {
         Page<EsArticle> pages = null;
-        Sort sort = new Sort(Sort.Direction.DESC,"updateTime");
-        if(pageable.getSort() == null){
-            pageable = new PageRequest(pageable.getPageNumber(),pageable.getPageSize(),sort);
+        Sort sort = new Sort(Sort.Direction.DESC, "updateTime");
+        if (pageable.getSort() == null) {
+            pageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
         }
-        pages = esArticleRepository.findDistinctByTitleContainsOrContentTxtContainsOrTagsNameContains(keyword,keyword,keyword,pageable);
+        pages = esArticleRepository.findDistinctByTitleContainsOrContentTxtContainsOrTagsNameContains(keyword, keyword, keyword, pageable);
         return null;
     }
 
     @Override
     public Page<EsArticle> listHotestEsArticle(String keyword, Pageable pageable) {
-        Sort sort = new Sort(Sort.Direction.DESC,"readVolumes","comments","likes","updateTime");
-        if(pageable.getSort() == null){
-            pageable = new PageRequest(pageable.getPageNumber(),pageable.getPageSize(),sort);
+        Sort sort = new Sort(Sort.Direction.DESC, "readVolumes", "comments", "likes", "updateTime");
+        if (pageable.getSort() == null) {
+            pageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
         }
-        return esArticleRepository.findDistinctByTitleContainsOrContentTxtContainsOrTagsNameContains(keyword,keyword,keyword,pageable);
+        return esArticleRepository.findDistinctByTitleContainsOrContentTxtContainsOrTagsNameContains(keyword, keyword, keyword, pageable);
     }
 
     @Override
@@ -72,13 +72,13 @@ public class EsArticleServiceImpl implements EsArticleService {
 
     @Override
     public List<EsArticle> listTop5NewestEsArticle() {
-        Page<EsArticle> pages = listNewestEsArticles(EMPTY_KEYWORD,TOP_5_PAGEABLE);
+        Page<EsArticle> pages = listNewestEsArticles(EMPTY_KEYWORD, TOP_5_PAGEABLE);
         return pages.getContent();
     }
 
     @Override
     public List<EsArticle> listTop5HotestEsArticle() {
-        Page<EsArticle> pages = listHotestEsArticle(EMPTY_KEYWORD,TOP_5_PAGEABLE);
+        Page<EsArticle> pages = listHotestEsArticle(EMPTY_KEYWORD, TOP_5_PAGEABLE);
         return pages.getContent();
     }
 }

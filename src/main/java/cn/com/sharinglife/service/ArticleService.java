@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Created by hell on 2018/3/1
+ *
  * @author hell
  */
 public interface ArticleService {
@@ -22,11 +23,11 @@ public interface ArticleService {
 
     int addArticle(Article article);
 
-    void deleteArticleByIds(List<Integer> articleIds,int status);
+    void deleteArticleByIds(List<Integer> articleIds, int status);
 
     void thoroughDeleteArticleByIds(List<Integer> articleIds);
 
-    Article getArticleById(Integer articleId,Integer status);
+    Article getArticleById(Integer articleId, Integer status);
 
     PageInfo<ArticleResponse> getArticlesByUserId(Integer userId, Integer status, Integer page, Integer limit);
 }

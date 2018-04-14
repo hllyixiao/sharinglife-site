@@ -30,23 +30,23 @@ public class LikesController {
     @GetMapping(value = LikesApis.ADD_LIKE)
     public boolean addLike(@RequestParam(value = "id") Integer id,
                            @RequestParam(value = "userId") Integer userId,
-                           @RequestParam(value = "type") Integer type){
+                           @RequestParam(value = "type") Integer type) {
         LOG.info("addLike - 点赞");
-        likesService.addLike(id,userId,type);
+        likesService.addLike(id, userId, type);
         return true;
     }
 
     @LoginAnnotation
     @ApiOperation(value = "取消点赞")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "type",value = "点赞模块对象的类型，1：文章、2：图片、3：视频",
-                    required = true, dataType = "int",paramType = "query")})
+            @ApiImplicitParam(name = "type", value = "点赞模块对象的类型，1：文章、2：图片、3：视频",
+                    required = true, dataType = "int", paramType = "query")})
     @GetMapping(value = LikesApis.DELETE_LIKE)
     public boolean deleteLike(@RequestParam(value = "id") Integer id,
-                           @RequestParam(value = "userId") Integer userId,
-                           @RequestParam(value = "type") Integer type){
+                              @RequestParam(value = "userId") Integer userId,
+                              @RequestParam(value = "type") Integer type) {
         LOG.info("deleteLike - 取消点赞");
-        likesService.deleteLike(id,userId,type);
+        likesService.deleteLike(id, userId, type);
         return true;
     }
 }

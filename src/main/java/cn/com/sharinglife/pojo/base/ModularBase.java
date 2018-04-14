@@ -3,6 +3,7 @@ package cn.com.sharinglife.pojo.base;
 /**
  * 生活录、图片、视频等模块的共同字段
  * Created by hell on 2018/3/1
+ *
  * @author hell
  */
 public class ModularBase {
@@ -19,7 +20,6 @@ public class ModularBase {
      */
     private Integer status;
     /**
-
      * 评论数
      */
     private Integer comments;

@@ -14,6 +14,7 @@ import java.util.List;
 
 /**
  * Created by hell on 2018/1/31
+ *
  * @author hell
  */
 @Service
@@ -45,9 +46,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Cacheable(value = "userServiceCache")
     public User getUserById(Integer id) {
-        if(id != null){
+        if (id != null) {
             System.out.println("数据不是从缓存中获取");
-           return userMapper.getUserById(id);
+            return userMapper.getUserById(id);
         }
         return null;
     }
@@ -63,8 +64,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateAvatarUrl(String avatarUrl,Integer id) {
-        userMapper.updateAvatarUrl(avatarUrl,id);
+    public void updateAvatarUrl(String avatarUrl, Integer id) {
+        userMapper.updateAvatarUrl(avatarUrl, id);
     }
 
     @Override
@@ -79,17 +80,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isExistFollower(Integer userId, Integer followerId) {
-        return userMapper.isExistFollower(userId,followerId);
+        return userMapper.isExistFollower(userId, followerId);
     }
 
     @Override
     public void addMyFollower(Integer userId, Integer followerId) {
-        userMapper.addMyFollower(userId,followerId);
+        userMapper.addMyFollower(userId, followerId);
     }
 
     @Override
     public void deleteFollower(Integer userId, Integer followerId) {
-        userMapper.deleteFollower(userId,followerId);
+        userMapper.deleteFollower(userId, followerId);
     }
 
     @Override

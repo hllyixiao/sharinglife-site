@@ -16,6 +16,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 /**
  * 自定义线程池
  * Created by hell on 2018/2/6
+ *
  * @author hell
  */
 @Configuration
@@ -28,7 +29,7 @@ public class ThreadPoolConfig implements AsyncConfigurer {
      * 是否启用自定义的线程池，否则启用默认的线程池
      */
     @Value("${my.thread.pool.enable:false}")
-    private boolean enable ;
+    private boolean enable;
     /**
      * 线程池维护线程的最少数量
      */
@@ -38,21 +39,21 @@ public class ThreadPoolConfig implements AsyncConfigurer {
      * 线程池维护线程的最大数量
      */
     @Value("${my.thread.pool.maxPoolSize:10}")
-    private int maxPoolSize ;
+    private int maxPoolSize;
     /**
      * 缓存队列大小
      */
     @Value("${my.thread.pool.queueCapacity:2}")
-    private int queueCapacity ;
+    private int queueCapacity;
     /**
      * 允许的空闲时间
      */
     @Value("${my.thread.pool.keepAlive:60}")
-    private int keepAlive ;
+    private int keepAlive;
 
     @Override
     public Executor getAsyncExecutor() {
-        if(enable){
+        if (enable) {
             ThreadPoolTaskExecutor threadPool = new ThreadPoolTaskExecutor();
             //当前线程数
             threadPool.setCorePoolSize(corePoolSize);
@@ -70,7 +71,7 @@ public class ThreadPoolConfig implements AsyncConfigurer {
             threadPool.initialize();
             LOG.info("--------------------------》》》开启自定义线程池");
             return threadPool;
-        }else{
+        } else {
             //启用默认的线程池
             return null;
         }
@@ -78,15 +79,15 @@ public class ThreadPoolConfig implements AsyncConfigurer {
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        if(enable){
+        if (enable) {
             return new AsyncUncaughtExceptionHandler() {
                 @Override
                 public void handleUncaughtException(Throwable arg0, Method arg1, Object... arg2) {
-                    LOG.error("=========================="+arg0.getMessage()+"=======================", arg0);
-                    LOG.error("exception method:"+arg1.getName());
+                    LOG.error("==========================" + arg0.getMessage() + "=======================", arg0);
+                    LOG.error("exception method:" + arg1.getName());
                 }
             };
-        }else{
+        } else {
             return null;
         }
     }

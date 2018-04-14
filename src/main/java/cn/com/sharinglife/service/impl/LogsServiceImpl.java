@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Created by hell on 2018/3/15
+ *
  * @author hell
  */
 @Service
@@ -15,6 +16,7 @@ public class LogsServiceImpl implements LogsService {
 
     @Autowired
     private LogsMapper logsMapper;
+
     @Override
     public void addLog(Logs logs) {
         logsMapper.addLog(logs);

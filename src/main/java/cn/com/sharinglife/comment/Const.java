@@ -2,6 +2,7 @@ package cn.com.sharinglife.comment;
 
 /**
  * Created by hell on 2018/2/28
+ *
  * @author hell
  */
 public class Const {
@@ -11,7 +12,7 @@ public class Const {
     public final static String SESSION_USERID_KEY = "session_userId";
 
     /**
-     *  COOKIE名称
+     * COOKIE名称
      */
     public final static String SL_COOKIE_NAME = "SHARING-LIFE";
 

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by hell on 2018/2/2
  * 拦截器
+ *
  * @author hell
  */
 @Configuration
@@ -26,12 +27,13 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public LoginInterceptor loginInterceptor(){
+    public LoginInterceptor loginInterceptor() {
         return new LoginInterceptor();
     }
 
     /**
      * 静态资源处理（自定义配置）
+     *
      * @param registry
      */
     @Override

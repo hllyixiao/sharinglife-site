@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.com.sharinglife.mapper.UserMapper" >
+<mapper namespace="cn.com.sharinglife.mapper.UserMapper">
 
     <sql id="trim_field">
         <trim suffixOverrides=",">
@@ -34,8 +34,9 @@
     </sql>
 
     <select id="getAllUsers" resultType="user">
-        SELECT <include refid="base_user"/>
-         FROM user
+        SELECT
+        <include refid="base_user"/>
+        FROM user
     </select>
 
     <insert id="addUser" parameterType="user" keyProperty="userId">
@@ -52,12 +53,14 @@
     </delete>
 
     <select id="getUserById" resultType="user">
-        SELECT <include refid="base_user"/>
+        SELECT
+        <include refid="base_user"/>
         FROM user WHERE id = #{id} Limit 1
     </select>
 
     <select id="getUserByLoginData" resultType="user">
-        SELECT <include refid="base_user"/>
+        SELECT
+        <include refid="base_user"/>
         FROM user
         <where>
             phone=#{phoneOrName} OR name=#{phoneOrName}

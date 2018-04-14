@@ -13,8 +13,8 @@ import java.util.Date;
  * @author hell
  * @data 2018/3/28 17:26
  */
-@Document(indexName="chuyun",type="article",indexStoreType="fs",
-        shards=5,replicas=1,refreshInterval="-1")
+@Document(indexName = "chuyun", type = "article", indexStoreType = "fs",
+        shards = 5, replicas = 1, refreshInterval = "-1")
 public class EsArticle implements Serializable {
 
     private static final long serialVersionUID = 1L;

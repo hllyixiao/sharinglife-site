@@ -14,6 +14,7 @@ import java.util.Objects;
 
 /**
  * Created by hell on 2018/3/1
+ *
  * @author hell
  */
 @Service
@@ -24,28 +25,28 @@ public class ArticlesServiceImpl implements ArticleService {
 
     @Override
     public void addLike(Integer articleId) {
-        if(Objects.nonNull(articleId)){
+        if (Objects.nonNull(articleId)) {
             articleMapper.addLike(articleId);
         }
     }
 
     @Override
     public void deleteLike(Integer articleId) {
-        if(Objects.nonNull(articleId)){
+        if (Objects.nonNull(articleId)) {
             articleMapper.deleteLike(articleId);
         }
     }
 
     @Override
     public void addComment(Integer articleId) {
-        if(Objects.nonNull(articleId)){
+        if (Objects.nonNull(articleId)) {
             articleMapper.addComment(articleId);
         }
     }
 
     @Override
     public void deleteComment(Integer articleId) {
-        if(Objects.nonNull(articleId)){
+        if (Objects.nonNull(articleId)) {
             articleMapper.deleteComment(articleId);
         }
     }
@@ -56,8 +57,8 @@ public class ArticlesServiceImpl implements ArticleService {
     }
 
     @Override
-    public void deleteArticleByIds(List<Integer> articleIds,int status) {
-        articleMapper.deleteArticleByIds(articleIds,status);
+    public void deleteArticleByIds(List<Integer> articleIds, int status) {
+        articleMapper.deleteArticleByIds(articleIds, status);
     }
 
     @Override
@@ -66,15 +67,15 @@ public class ArticlesServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article getArticleById(Integer articleId,Integer status) {
-        return articleMapper.getArticleById(articleId,status);
+    public Article getArticleById(Integer articleId, Integer status) {
+        return articleMapper.getArticleById(articleId, status);
     }
 
     @Override
     public PageInfo<ArticleResponse> getArticlesByUserId(Integer userId, Integer status, Integer page, Integer limit) {
         //mybatis分页插件
         PageHelper.startPage(page, limit);
-        List<ArticleResponse> articles = articleMapper.getArticleByUserId(userId,status);
+        List<ArticleResponse> articles = articleMapper.getArticleByUserId(userId, status);
         PageInfo<ArticleResponse> pageInfo = new PageInfo<>(articles);
         return pageInfo;
     }

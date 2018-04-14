@@ -79,7 +79,7 @@ public class ArticleResponse {
 
     public void setContentSize(Integer contentSize) {
         this.contentSize = contentSize;
-        displayContentSize = DataTransUtil.numberToCompany((double)contentSize);
+        displayContentSize = DataTransUtil.numberToCompany((double) contentSize);
     }
 
     public String getDisplayContentSize() {
@@ -113,7 +113,7 @@ public class ArticleResponse {
 
     public void setComments(Integer comments) {
         this.comments = comments;
-        displayComments = DataTransUtil.numberToCompany((double)comments);
+        displayComments = DataTransUtil.numberToCompany((double) comments);
     }
 
     public String getDisplayComments() {
@@ -130,7 +130,7 @@ public class ArticleResponse {
 
     public void setLikes(Integer likes) {
         this.likes = likes;
-        displayLikes = DataTransUtil.numberToCompany((double)likes);
+        displayLikes = DataTransUtil.numberToCompany((double) likes);
     }
 
     public String getDisplayLikes() {
@@ -147,7 +147,7 @@ public class ArticleResponse {
 
     public void setReadVolumes(Integer readVolumes) {
         this.readVolumes = readVolumes;
-        displayReadVolumes = DataTransUtil.numberToCompany((double)readVolumes);
+        displayReadVolumes = DataTransUtil.numberToCompany((double) readVolumes);
     }
 
     public String getDisplayReadVolumes() {

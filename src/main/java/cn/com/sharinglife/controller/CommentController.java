@@ -14,8 +14,8 @@ import java.util.Objects;
 
 /**
  * 评论控制器
- * @author Created by hell on 2018/3/16
  *
+ * @author Created by hell on 2018/3/16
  */
 @RestController
 public class CommentController {
@@ -28,9 +28,9 @@ public class CommentController {
     @LoginAnnotation
     @ApiOperation(value = "添加评论", notes = "添加评论")
     @PostMapping(value = CommentApis.ADD_COMMENT)
-    public boolean addComment(@RequestBody final Comment comment){
+    public boolean addComment(@RequestBody final Comment comment) {
         LOG.info(" addComment - 添加评论");
-        if(comment.nonNull()){
+        if (comment.nonNull()) {
             commentService.addComment(comment);
             return true;
         }
@@ -43,11 +43,11 @@ public class CommentController {
     @GetMapping(value = CommentApis.DELETE_COMMENT)
     public boolean deleteComment(@RequestParam("commentId") final Integer commentId,
                                  @RequestParam("iid") final Integer iid,
-                                 @RequestParam("type") final Integer type){
+                                 @RequestParam("type") final Integer type) {
         LOG.info(" deleteComment - 删除评论");
-        if(Objects.nonNull(commentId) && Objects.nonNull(type)){
-            commentService.deleteComment(commentId,iid,type);
-            LOG.info("删除评论成功！commentId = {}",commentId);
+        if (Objects.nonNull(commentId) && Objects.nonNull(type)) {
+            commentService.deleteComment(commentId, iid, type);
+            LOG.info("删除评论成功！commentId = {}", commentId);
             return true;
         }
         LOG.info("删除评论失败，参数commentId 不能为null！");

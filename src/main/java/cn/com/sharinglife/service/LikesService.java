@@ -6,7 +6,7 @@ package cn.com.sharinglife.service;
  */
 public interface LikesService {
 
-    void addLike(Integer id,Integer userId, Integer type);
+    void addLike(Integer id, Integer userId, Integer type);
 
-    void deleteLike(Integer id,Integer userId, Integer type);
+    void deleteLike(Integer id, Integer userId, Integer type);
 }

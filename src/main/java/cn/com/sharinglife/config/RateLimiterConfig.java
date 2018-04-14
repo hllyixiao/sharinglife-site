@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 限制接口访问量（限流）
  * Created by hell on 2018/2/6
+ *
  * @author hell
  */
 @Configuration
@@ -25,12 +26,12 @@ public class RateLimiterConfig {
     private double number2;
 
     @Bean(name = "myRateLimiter1")
-    public RateLimiter getRateLimiter1(){
+    public RateLimiter getRateLimiter1() {
         return RateLimiter.create(number1);
     }
 
     @Bean(name = "myRateLimiter2")
-    public RateLimiter getRateLimiter2(){
+    public RateLimiter getRateLimiter2() {
         return RateLimiter.create(number2);
     }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Created by hell on 2018/3/1
+ *
  * @author hell
  */
 @Mapper
@@ -16,41 +17,46 @@ public interface ArticleMapper {
 
     /**
      * 获取文章总数
+     *
      * @param status
      * @return
      */
-    Integer countArticle(@Param(value="status") Integer status);
+    Integer countArticle(@Param(value = "status") Integer status);
 
     /**
      * 获得留言总数
+     *
      * @param status
      * @return
      */
-    Integer countArticleComment(@Param(value="status")Integer status);
+    Integer countArticleComment(@Param(value = "status") Integer status);
 
     /**
      * 获得浏览量总数
+     *
      * @param status
      * @return
      */
-    Integer countArticleRead(@Param(value="status")Integer status);
+    Integer countArticleRead(@Param(value = "status") Integer status);
 
     /**
      * 根据id获取文章信息
+     *
      * @param articleId
      * @return
      */
-    Article getArticleById(@Param(value="articleId")Integer articleId,
-                           @Param(value="status")Integer status);
+    Article getArticleById(@Param(value = "articleId") Integer articleId,
+                           @Param(value = "status") Integer status);
 
     /**
      * 根据用户id获取显示的文章文章信息
+     *
      * @param status
      * @param userId
      * @return
      */
-    List<ArticleResponse> getArticleByUserId(@Param(value="userId")Integer userId,
-                                             @Param(value="status")Integer status);
+    List<ArticleResponse> getArticleByUserId(@Param(value = "userId") Integer userId,
+                                             @Param(value = "status") Integer status);
 
     void addLike(Integer articleId);
 
@@ -65,5 +71,5 @@ public interface ArticleMapper {
     void deleteArticleByIds(@Param(value = "articleIds") List<Integer> articleIds,
                             @Param(value = "status") int status);
 
-    void thoroughDeleteArticleByIds (@Param(value = "articleIds") List<Integer> articleIds);
+    void thoroughDeleteArticleByIds(@Param(value = "articleIds") List<Integer> articleIds);
 }

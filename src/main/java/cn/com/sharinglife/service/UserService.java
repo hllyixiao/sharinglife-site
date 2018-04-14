@@ -24,7 +24,7 @@ public interface UserService {
 
     void updateUser(User user);
 
-    void updateAvatarUrl(String avatarUrl,Integer id);
+    void updateAvatarUrl(String avatarUrl, Integer id);
 
     boolean isExistPho(String phone);
 
@@ -38,6 +38,7 @@ public interface UserService {
 
     /**
      * 获取关注我的用户（我的粉丝）
+     *
      * @param id
      * @return
      */
@@ -45,6 +46,7 @@ public interface UserService {
 
     /**
      * 获取我关注的所有用户
+     *
      * @param id
      * @return
      */

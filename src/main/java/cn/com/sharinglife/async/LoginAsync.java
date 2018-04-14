@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Created by hell on 2018/2/27
+ *
  * @author hell
  */
 @Component

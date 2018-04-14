@@ -6,18 +6,18 @@ import java.util.Random;
 
 /**
  * Created by hell on 2018/2/9
- *
+ * <p>
  * 图形验证码生成
  */
 public class VerifyCodeUtil {
 
     /**
      * 验证码字符集
-      */
-    private static final char[] chars = { 'A', 'B', 'C', 'D', 'E', 'F',
-            'G', 'H',  'J','K', 'L', 'M', 'N',  'P', 'Q', 'R', 'S',
-            'T', 'U', 'V', 'W','X', 'Y', 'Z', '2', '3', '4', '5',
-            '6', '7', '8', '9' };
+     */
+    private static final char[] chars = {'A', 'B', 'C', 'D', 'E', 'F',
+            'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S',
+            'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '2', '3', '4', '5',
+            '6', '7', '8', '9'};
 
     /**
      * 字符数量
@@ -58,7 +58,7 @@ public class VerifyCodeUtil {
         graphic.fillRect(0, 0, WIDTH, HEIGHT);
         // 5.画随机字符
         Random ran = new Random();
-        for (int i = 0; i <SIZE; i++) {
+        for (int i = 0; i < SIZE; i++) {
             // 取随机字符索引
             int n = ran.nextInt(chars.length);
             // 设置随机颜色
@@ -68,7 +68,7 @@ public class VerifyCodeUtil {
                     null, Font.BOLD + Font.ITALIC, FONT_SIZE));
             // 画字符
             graphic.drawString(
-                    chars[n] + "", i * WIDTH / SIZE, HEIGHT*2/3);
+                    chars[n] + "", i * WIDTH / SIZE, HEIGHT * 2 / 3);
             // 记录字符
             sb.append(chars[n]);
         }

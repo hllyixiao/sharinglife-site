@@ -13,8 +13,9 @@ import java.util.logging.Logger;
 
 /**
  * AES加解密算法
- *
+ * <p>
  * Created by hell on 2018/2/9
+ *
  * @author hell
  */
 public class AesUtil {
@@ -31,6 +32,7 @@ public class AesUtil {
 
     /**
      * AES 加密操作
+     *
      * @param encryptPassword 待加密内容
      * @return 返回Base64转码后的加密数据
      */
@@ -53,6 +55,7 @@ public class AesUtil {
 
     /**
      * AES 解密操作
+     *
      * @param decryptPassword 待解密内容
      * @return
      */

@@ -9,7 +9,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  * @author hell
  * @data 2018/3/28 17:58
  */
-public interface EsArticleRepository extends ElasticsearchRepository<EsArticle,String> {
+public interface EsArticleRepository extends ElasticsearchRepository<EsArticle, String> {
 
     Page<EsArticle> findDistinctByTitleContainsOrContentTxtContainsOrTagsNameContains(String title, String contentTxt,
                                                                                       String tagsName, Pageable pageable);

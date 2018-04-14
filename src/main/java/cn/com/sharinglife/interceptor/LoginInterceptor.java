@@ -17,6 +17,7 @@ import java.util.Objects;
 /**
  * Created by hell on 2018/2/2
  * 通过拦截器的方式实现自定义
+ *
  * @author hell
  */
 public class LoginInterceptor extends HandlerInterceptorAdapter {
@@ -29,21 +30,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
-        //跨域访问CORS
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.addHeader("Access-Control-Allow-Methods", "POST,GET,OPTIONS,PUT,DELETE,HEAD");
-        response.addHeader("Access-Control-Allow-Headers", "S_ID,content-type");
-        response.addHeader("Access-Control-Max-Age", "3600000");
-        response.addHeader("Access-Control-Allow-Credentials", "true");
-
-        //让请求，不被缓存，
-        response.setHeader("Cache-Control", "no-cache");
-        response.setHeader("Cache-Control", "no-store");
-        response.setHeader("Pragma", "no-cache");
-        response.setDateHeader("Expires", 0);
-
-        if(!isOpenLoginAnnotation){
+        if (!isOpenLoginAnnotation) {
             return true;
         }
         // 将handler强转为HandlerMethod
@@ -56,7 +43,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         if (Objects.nonNull(loginAnnotation)) {
             HttpSession session = request.getSession();
             Object obj = session.getAttribute(Const.SESSION_USER_KEY);
-            if(Objects.isNull(obj)){
+            if (Objects.isNull(obj)) {
                 response.sendRedirect(FrontUrlEnum.LOGIN_PAGE.getUrl());
                 return false;
             }

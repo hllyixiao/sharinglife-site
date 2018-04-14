@@ -5,11 +5,12 @@ import java.util.concurrent.TimeUnit;
 /**
  * 用于配置不同的缓存
  * Created by hell on 2018/2/2
+ *
  * @author hell
  */
 public enum CachesEnum {
 
-    USER_SERVICE_CACHE("userServiceCache",2,500,TimeUnit.SECONDS,100);
+    USER_SERVICE_CACHE("userServiceCache", 2, 500, TimeUnit.SECONDS, 100);
 
     /**
      * 缓存名称

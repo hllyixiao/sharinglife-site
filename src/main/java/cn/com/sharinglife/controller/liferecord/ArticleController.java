@@ -26,6 +26,7 @@ import java.util.*;
 
 /**
  * Created by hell on 2018/3/1
+ *
  * @author hell
  */
 @RestController
@@ -40,9 +41,9 @@ public class ArticleController {
     @ApiOperation(value = "添加文章", notes = "添加文章,返回文章id")
     @PostMapping(value = ArticleApis.ADD_ARTICLE)
     public Integer addArticle(HttpServletRequest request,
-                              @RequestBody final Article article ){
+                              @RequestBody final Article article) {
         LOG.info("addArticle - 添加文章");
-        if(Objects.nonNull(article)){
+        if (Objects.nonNull(article)) {
             article.setUserId(SessionCookieUtil.getCurrentUserIdBySession(request));
             articleService.addArticle(article);
             return article.getId();
@@ -55,11 +56,11 @@ public class ArticleController {
     @ApiOperation(value = "添加文章图片", notes = "添加文章图片")
     @PostMapping(value = ArticleApis.ADD_ARTICLE_PICTURE)
     public Map addArticlePicture(HttpServletRequest request,
-                              @RequestParam("articleId") final Integer articleId) {
+                                 @RequestParam("articleId") final Integer articleId) {
         Integer userId = SessionCookieUtil.getCurrentUserIdBySession(request);
         LOG.info("addArticlePicture — 添加文章图片");
-        List<MultipartFile> files =((MultipartHttpServletRequest)request).getFiles("file");
-        if(!ListUtils.isEmpty(files)) {
+        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
+        if (!ListUtils.isEmpty(files)) {
             Map returnData = new HashMap(2);
             List urls = new ArrayList(files.size());
             files.forEach(file -> {
@@ -88,20 +89,20 @@ public class ArticleController {
                     LOG.error("addArticlePicture — 添加文章图片 —", e);
                 }
             });
-            returnData.put("errno",0);
-            returnData.put("data",urls);
+            returnData.put("errno", 0);
+            returnData.put("data", urls);
             return returnData;
-        }else{
+        } else {
             return null;
         }
     }
 
     @ApiOperation(value = "通过id获取已发布的文章", notes = "通过id获取已发布的文章")
     @GetMapping(value = ArticleApis.GET_PUBLISH_ARTICLE_BY_ID + "/{articleId}")
-    public Article getPublishArticleById(@PathVariable final Integer articleId ){
+    public Article getPublishArticleById(@PathVariable final Integer articleId) {
         LOG.info("getPublishArticleById - 通过id获取已发布的文章");
-        if(Objects.nonNull(articleId)){
-            return articleService.getArticleById(articleId,2);
+        if (Objects.nonNull(articleId)) {
+            return articleService.getArticleById(articleId, 2);
         }
         LOG.error("getPublishArticleById - 参数articleId不能有为null");
         return null;
@@ -110,10 +111,10 @@ public class ArticleController {
     @LoginAnnotation
     @ApiOperation(value = "通过id获取文章", notes = "通过id获取文章")
     @GetMapping(value = ArticleApis.GET_ARTICLE_BY_ID + "/{articleId}")
-    public Article getArticleById(@PathVariable final Integer articleId ){
+    public Article getArticleById(@PathVariable final Integer articleId) {
         LOG.info("getArticleById - 通过id获取文章");
-        if(Objects.nonNull(articleId)){
-            return articleService.getArticleById(articleId,null);
+        if (Objects.nonNull(articleId)) {
+            return articleService.getArticleById(articleId, null);
         }
         LOG.error("getArticleById - 参数articleId不能有为null");
         return null;
@@ -123,14 +124,14 @@ public class ArticleController {
     @ApiOperation(value = "获取当前用户的文章列表", notes = "获取当前用户的文章列表")
     @GetMapping(value = ArticleApis.LIST_ALL_ARTICLE_BY_USER_ID)
     public PageResponse getAllArticlesByUserId(HttpServletRequest request,
-                                 HttpServletResponse response,
-                                 @RequestParam("status") final Integer status,
-                                 @RequestParam(value = "page", defaultValue = "1") final int page,
-                                 @RequestParam(value = "limit", defaultValue = "5") final int limit) {
-        LOG.info("getAllArticlesByUserId —— 获取文章列表，当前页:第{}页，每页获取{}个文章信息",page,limit);
-        response.addHeader("Access-Control-Allow-Origin","*");
+                                               HttpServletResponse response,
+                                               @RequestParam("status") final Integer status,
+                                               @RequestParam(value = "page", defaultValue = "1") final int page,
+                                               @RequestParam(value = "limit", defaultValue = "5") final int limit) {
+        LOG.info("getAllArticlesByUserId —— 获取文章列表，当前页:第{}页，每页获取{}个文章信息", page, limit);
+        response.addHeader("Access-Control-Allow-Origin", "*");
         Integer userId = SessionCookieUtil.getCurrentUserIdBySession(request);
-        PageInfo<ArticleResponse> articlePageInfo =  articleService.getArticlesByUserId(userId,status,page,limit);
+        PageInfo<ArticleResponse> articlePageInfo = articleService.getArticlesByUserId(userId, status, page, limit);
         List<ArticleResponse> articleResponses = articlePageInfo.getList();
         PageResponse<ArticleResponse> pageResponse = new PageResponse<>(articlePageInfo);
         pageResponse.setDatas(articleResponses);
@@ -141,9 +142,9 @@ public class ArticleController {
     @ApiOperation(value = "删除文章", notes = "删除文章")
     @PostMapping(value = ArticleApis.DELETE_ARTICLE_BY_IDS)
     public boolean deleteArticleByIds(@RequestBody List<Integer> articleIds) {
-        LOG.info("deleteArticleByIds —— 删除文章，文章ids={}",articleIds.toString());
-        if(!ListUtils.isEmpty(articleIds)){
-            articleService.deleteArticleByIds(articleIds,0);
+        LOG.info("deleteArticleByIds —— 删除文章，文章ids={}", articleIds.toString());
+        if (!ListUtils.isEmpty(articleIds)) {
+            articleService.deleteArticleByIds(articleIds, 0);
             return true;
         }
         LOG.info("deleteArticleByIds —— 删除文章失败，articleIds不符合要求");
@@ -153,9 +154,9 @@ public class ArticleController {
     @ApiOperation(value = "恢复已删除的文章", notes = "恢复已删除的文章")
     @PostMapping(value = ArticleApis.RECOVERY_ARTICLE_BY_IDS)
     public boolean recoveryArticleByIds(@RequestParam("articleIds") final List<Integer> articleIds) {
-        LOG.info("recoveryArticleById —— 恢复已删除的文章，文章ids={}",articleIds.toString());
-        if(!ListUtils.isEmpty(articleIds)){
-            articleService.deleteArticleByIds(articleIds,1);
+        LOG.info("recoveryArticleById —— 恢复已删除的文章，文章ids={}", articleIds.toString());
+        if (!ListUtils.isEmpty(articleIds)) {
+            articleService.deleteArticleByIds(articleIds, 1);
             return true;
         }
         LOG.info("recoveryArticleById —— 恢复已删除的文章，articleIds不符合要求");
@@ -166,8 +167,8 @@ public class ArticleController {
     @ApiOperation(value = "彻底删除文章", notes = "彻底删除文章")
     @PostMapping(value = ArticleApis.THOROUGH_DELETE_ARTICLE_BY_IDS)
     public boolean thoroughDeleteArticleByIds(@RequestBody final List<Integer> articleIds) {
-        LOG.info("thoroughDeleteArticleByIds —— 彻底删除文章，文章ids={}",articleIds.toString());
-        if(!ListUtils.isEmpty(articleIds)){
+        LOG.info("thoroughDeleteArticleByIds —— 彻底删除文章，文章ids={}", articleIds.toString());
+        if (!ListUtils.isEmpty(articleIds)) {
             articleService.thoroughDeleteArticleByIds(articleIds);
             return true;
         }

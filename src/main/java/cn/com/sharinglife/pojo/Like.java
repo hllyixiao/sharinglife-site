@@ -6,10 +6,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.Date;
 
 /**
- *
  * 点赞对象
- * @author Created by hell on 2018/3/16
  *
+ * @author Created by hell on 2018/3/16
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -7,6 +7,7 @@ import java.util.Date;
 /**
  * 日期转换工具
  * Created by hell on 2018/2/9
+ *
  * @author hell
  */
 public class DateUtil {
@@ -20,10 +21,8 @@ public class DateUtil {
     /**
      * 日期转换为字符串
      *
-     * @param date
-     * 日期
-     * @param format
-     * 日期格式
+     * @param date   日期
+     * @param format 日期格式
      * @return 指定格式的日期字符串
      */
     public static String formatDateByFormat(Date date, String format) {
@@ -38,63 +37,62 @@ public class DateUtil {
         }
         return result;
     }
+
     /**
      * 转换为默认格式(yyyy-MM-dd)的日期字符串
      *
      * @param date
-     *
      * @return
      */
     public static String formatDefaultDate(Date date) {
         return formatDateByFormat(date, DEFAULT_PATTERN);
     }
+
     /**
      * 转换为目录格式(yyyy/MM/dd/)的日期字符串
      *
      * @param date
-     *
      * @return
      */
     public static String formatDirDate(Date date) {
         return formatDateByFormat(date, DIR_PATTERN);
     }
+
     /**
      * 转换为完整格式(yyyy-MM-dd HH:mm:ss)的日期字符串
      *
      * @param date
-     *
      * @return
      */
     public static String formatTimesTampDate(Date date) {
         return formatDateByFormat(date, TIMESTAMP_PATTERN);
     }
+
     /**
      * 转换为时分秒格式(HH:mm:ss)的日期字符串
      *
      * @param date
-     *
      * @return
      */
     public static String formatTimesDate(Date date) {
         return formatDateByFormat(date, TIMES_PATTERN);
     }
+
     /**
      * 转换为时分秒格式(HH:mm:ss)的日期字符串
      *
      * @param date
-     *
      * @return
      */
     public static String formatNoCharDate(Date date) {
         return formatDateByFormat(date, NOCHAR_PATTERN);
     }
+
     /**
      * 日期格式字符串转换为日期对象
      *
-     * @param strDate
-     * 日期格式字符串
-     * @param pattern
-     * 日期对象
+     * @param strDate 日期格式字符串
+     * @param pattern 日期对象
      * @return
      */
     public static Date parseDate(String strDate, String pattern) {
@@ -107,30 +105,29 @@ public class DateUtil {
         }
         return null;
     }
+
     /**
      * 字符串转换为默认格式(yyyy-MM-dd)日期对象
      *
      * @param date
-     *
      * @return
-     *
      * @throws Exception
      */
     public static Date parseDefaultDate(String date) {
         return parseDate(date, DEFAULT_PATTERN);
     }
+
     /**
      * 字符串转换为完整格式(yyyy-MM-dd HH:mm:ss)日期对象
      *
      * @param date
-     *
      * @return
-     *
      * @throws Exception
      */
     public static Date parseTimesTampDate(String date) {
         return parseDate(date, TIMESTAMP_PATTERN);
     }
+
     /**
      * 获得当前时间
      *
@@ -140,31 +137,31 @@ public class DateUtil {
         Calendar calendar = Calendar.getInstance();
         return calendar.getTime();
     }
+
     /**
      * sql Date 转 util Date
      *
-     * @param date
-     * java.sql.Date日期
+     * @param date java.sql.Date日期
      * @return java.util.Date
      */
     public static Date parseUtilDate(java.sql.Date date) {
         return date;
     }
+
     /**
      * util Date 转 sql Date
      *
-     * @param date
-     * java.sql.Date日期
+     * @param date java.sql.Date日期
      * @return
      */
     public static java.sql.Date parseSqlDate(Date date) {
         return new java.sql.Date(date.getTime());
     }
+
     /**
      * 获取年份
      *
      * @param date
-     *
      * @return
      */
     public static int getYear(Date date) {
@@ -172,11 +169,11 @@ public class DateUtil {
         c.setTime(date);
         return c.get(Calendar.YEAR);
     }
+
     /**
      * 获取月份
      *
      * @param date
-     *
      * @return
      */
     public static int getMonth(Date date) {
@@ -184,11 +181,11 @@ public class DateUtil {
         c.setTime(date);
         return c.get(Calendar.MONTH) + 1;
     }
+
     /**
      * 获取星期
      *
      * @param date
-     *
      * @return
      */
     public static int getWeek(Date date) {
@@ -201,11 +198,11 @@ public class DateUtil {
         }
         return dayOfWeek;
     }
+
     /**
      * 获取日期(多少号)
      *
      * @param date
-     *
      * @return
      */
     public static int getDay(Date date) {
@@ -213,11 +210,11 @@ public class DateUtil {
         c.setTime(date);
         return c.get(Calendar.DAY_OF_MONTH);
     }
+
     /**
      * 获取当前时间(小时)
      *
      * @param date
-     *
      * @return
      */
     public static int getHour(Date date) {
@@ -225,11 +222,11 @@ public class DateUtil {
         c.setTime(date);
         return c.get(Calendar.HOUR_OF_DAY);
     }
+
     /**
      * 获取当前时间(分)
      *
      * @param date
-     *
      * @return
      */
     public static int getMinute(Date date) {
@@ -237,11 +234,11 @@ public class DateUtil {
         c.setTime(date);
         return c.get(Calendar.MINUTE);
     }
+
     /**
      * 获取当前时间(秒)
      *
      * @param date
-     *
      * @return
      */
     public static int getSecond(Date date) {
@@ -249,11 +246,11 @@ public class DateUtil {
         c.setTime(date);
         return c.get(Calendar.SECOND);
     }
+
     /**
      * 获取当前毫秒
      *
      * @param date
-     *
      * @return
      */
     public static long getMillis(Date date) {
@@ -261,15 +258,12 @@ public class DateUtil {
         c.setTime(date);
         return c.getTimeInMillis();
     }
+
     /**
      * 日期增加
      *
-     * @param date
-     * Date
-     *
-     * @param day
-     * int
-     *
+     * @param date Date
+     * @param day  int
      * @return Date
      */
     public static Date addDate(Date date, int day) {
@@ -277,15 +271,12 @@ public class DateUtil {
         c.setTimeInMillis(getMillis(date) + ((long) day) * 24 * 3600 * 1000);
         return c.getTime();
     }
+
     /**
      * 日期相减(返回天数)
      *
-     * @param date
-     * Date
-     *
-     * @param date1
-     * Date
-     *
+     * @param date  Date
+     * @param date1 Date
      * @return int 相差的天数
      */
     public static int diffDay(Date date, Date date1) {
@@ -295,24 +286,19 @@ public class DateUtil {
     /**
      * 日期相减(返回小时)
      *
-     * @param date
-     * Date
-     *
-     * @param date1
-     * Date
-     *
+     * @param date  Date
+     * @param date1 Date
      * @return int 相差的小时
      */
     public static int diffHour(Date date, Date date1) {
         return (int) ((getMillis(date) - getMillis(date1)) / (3600 * 1000));
     }
+
     /**
      * 日期相减(返回秒值)
      *
-     * @param date
-     * Date
-     * @param date1
-     * Date
+     * @param date  Date
+     * @param date1 Date
      * @return int
      * @author
      */
@@ -323,10 +309,8 @@ public class DateUtil {
     /**
      * 日期相减(返回分钟值)
      *
-     * @param date
-     * Date
-     * @param date1
-     * Date
+     * @param date  Date
+     * @param date1 Date
      * @return int
      * @author
      */
@@ -336,10 +320,11 @@ public class DateUtil {
 
     /**
      * 今天的凌晨时刻
+     *
      * @param date
      * @return
      */
-    public static Date todayZeroDate(Date date){
+    public static Date todayZeroDate(Date date) {
         Calendar current = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
         today.setTime(date);

@@ -21,14 +21,14 @@ public class MailController {
 
     private final Logger LOG = LoggerFactory.getLogger(MailController.class);
 
-    @ApiOperation(value = "发送邮件" ,notes = "通过发邮件可以修改密码")
+    @ApiOperation(value = "发送邮件", notes = "通过发邮件可以修改密码")
     @GetMapping(value = MailApis.SEND_MAIL)
-    public boolean sendSimpleMail(){
+    public boolean sendSimpleMail() {
         LOG.info("sendSimpleMail - 发送邮件");
         String to = "1272474387@qq.com";
         String subject = "贺淋亮的邮件";
         String content = "我是大帅哥，www.baidu.com";
-        mailService.sendSimpleMail(to,subject,content);
+        mailService.sendSimpleMail(to, subject, content);
         return true;
     }
 }

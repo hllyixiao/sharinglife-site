@@ -2,9 +2,10 @@ package cn.com.sharinglife.containapis;
 
 /**
  * Created by hell on 2018/1/31
+ *
  * @author hell
  */
-public class UserApis extends ApiContains{
+public class UserApis extends ApiContains {
 
     private static final String PREFIX = API_PREFIX + "/user";
 

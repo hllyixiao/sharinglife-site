@@ -4,10 +4,11 @@ import cn.com.sharinglife.pojo.User;
 
 /**
  * Created by hell on 2018/2/27
+ *
  * @author hell
  */
 public class CommonResponse {
-    
+
     /**
      * 返回的状态（0：失败  1：成功）
      */
@@ -18,7 +19,8 @@ public class CommonResponse {
     private String msg;
     private User user;
 
-    public CommonResponse(){}
+    public CommonResponse() {
+    }
 
     public CommonResponse(Integer statusCode, String msg) {
         this.statusCode = statusCode;

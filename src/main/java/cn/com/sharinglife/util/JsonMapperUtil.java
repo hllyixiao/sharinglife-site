@@ -13,10 +13,10 @@ public class JsonMapperUtil {
 
     private static ObjectMapper mapper = new ObjectMapper();
 
-    public static String objectToJsonString(Object object){
-        if(Objects.nonNull(object)){
+    public static String objectToJsonString(Object object) {
+        if (Objects.nonNull(object)) {
             try {
-               return mapper.writeValueAsString(object);
+                return mapper.writeValueAsString(object);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
@@ -25,8 +25,8 @@ public class JsonMapperUtil {
         return null;
     }
 
-    public static <T> T jsonStringToObject(String jsonString, Class<T> valueType){
-        if(Objects.nonNull(jsonString)) {
+    public static <T> T jsonStringToObject(String jsonString, Class<T> valueType) {
+        if (Objects.nonNull(jsonString)) {
             try {
                 return mapper.readValue(jsonString, valueType);
             } catch (IOException e) {

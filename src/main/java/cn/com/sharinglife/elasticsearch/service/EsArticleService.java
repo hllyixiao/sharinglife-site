@@ -14,12 +14,14 @@ public interface EsArticleService {
 
     /**
      * 删除EsArticle
+     *
      * @param id
      */
     void removeEsArticle(String id);
 
     /**
      * 更新EsArticle
+     *
      * @param esArticle
      * @return
      */
@@ -27,6 +29,7 @@ public interface EsArticleService {
 
     /**
      * 根据Article的id获取EsArticle
+     *
      * @param articleId
      * @return
      */
@@ -34,6 +37,7 @@ public interface EsArticleService {
 
     /**
      * 最新文章列表，分页
+     *
      * @param keyword
      * @param pageable
      * @return
@@ -42,6 +46,7 @@ public interface EsArticleService {
 
     /**
      * 最热文章列表，分页
+     *
      * @param keyword
      * @param pageable
      * @return
@@ -50,6 +55,7 @@ public interface EsArticleService {
 
     /**
      * 文章列表，分页
+     *
      * @param pageable
      * @return
      */
@@ -57,12 +63,14 @@ public interface EsArticleService {
 
     /**
      * 最新前5
+     *
      * @return
      */
     List<EsArticle> listTop5NewestEsArticle();
 
     /**
      * 最热前5
+     *
      * @return
      */
     List<EsArticle> listTop5HotestEsArticle();
