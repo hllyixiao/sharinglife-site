@@ -22,6 +22,7 @@ import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
@@ -43,6 +44,8 @@ public class LoginRegisterController {
     private final Logger LOG = LoggerFactory.getLogger(LoginRegisterController.class);
 
     private static final String DEFAULT_USER_AVATAR = "/SLFile/image/defaultpath/avatar/avatar.jpg";
+
+    private static final String DEFAULT_USER_MOTTO = "向世界分享你的生活！";
 
     @Autowired
     private UserService userService;
@@ -81,6 +84,7 @@ public class LoginRegisterController {
         if (registerRequest.nonNull()) {
             final User user = new User(registerRequest);
             user.setAvatarUrl(DEFAULT_USER_AVATAR);
+            user.setMotto(DEFAULT_USER_MOTTO);
             userService.addUser(user);
             return true;
         }

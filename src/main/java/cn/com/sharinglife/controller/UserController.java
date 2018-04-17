@@ -61,8 +61,8 @@ public class UserController {
     @LoginAnnotation
     @ApiOperation(value = "设置用户头像图片", notes = "设置用户头像图片")
     @PostMapping(value = UserApis.SET_USER_AVATAR)
-    public void setUserAvatar(HttpServletRequest request, HttpServletResponse response,
-                              @RequestParam("file") final MultipartFile file) {
+    public boolean setUserAvatar(HttpServletRequest request, HttpServletResponse response,
+                              @RequestParam("avatar") final MultipartFile file) {
         LOG.info("setUserAvatar — 设置用户头像图片");
         User user = SessionCookieUtil.getCurrentUserBySession(request);
         if (Objects.nonNull(user)) {
@@ -90,6 +90,7 @@ public class UserController {
                     userService.updateAvatarUrl(databaseAvatarPath, user.getId());
                     user.setAvatarUrl(databaseAvatarPath);
                 }
+                return true;
             } catch (IOException e) {
                 LOG.error("setUserAvatar — 设置用户头像出错 —", e);
             }
@@ -97,6 +98,7 @@ public class UserController {
             LOG.error("setUserAvatar — user为null，请登陆！");
             response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
         }
+        return false;
     }
 
     @LoginAnnotation
@@ -213,20 +215,28 @@ public class UserController {
 
     @LoginAnnotation
     @ApiOperation(value = "更新用户信息", notes = "更新用户信息")
-    @GetMapping(value = UserApis.UPDATE_USER)
-    public void updateUser(HttpServletRequest request,
+    @PostMapping(value = UserApis.UPDATE_USER)
+    public CommonResponse updateUser(HttpServletRequest request,
                            HttpServletResponse response,
                            @RequestBody final User user) {
         LOG.info("updateUser — 更新用户信息");
+        CommonResponse commonResponse = new CommonResponse();
         Integer currentUserId = SessionCookieUtil.getCurrentUserIdBySession(request);
         if (Objects.nonNull(currentUserId)) {
             user.setId(currentUserId);
             userService.updateUser(user);
+            commonResponse.setStatusCode(1);
+            commonResponse.setMsg("保存成功！");
+            commonResponse.setUser(user);
+            return commonResponse;
         }
         LOG.error("updateUser — 参数user的id不能为null");
-        response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
+        //response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
+        commonResponse.setStatusCode(0);
+        commonResponse.setMsg("保存失败！");
+        commonResponse.setUser(user);
+        return commonResponse;
     }
-
 
     @GetMapping(value = "/home")
     @HystrixCommand(commandProperties = {

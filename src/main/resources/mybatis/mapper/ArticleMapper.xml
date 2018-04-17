@@ -160,4 +160,18 @@
             #{articleId}
         </foreach>
     </delete>
+
+    <select id="countLikesCommentsReadvolumesContentsize">
+        select sum(likes) As likesAll,
+               sum(comments) AS commentsAll,
+               sum(readvolumes) AS readvolumesAll,
+               sum(contentsize) As contentsizeAll
+        from `article`
+        <where>
+            userid=#{userId}
+            <if test="status!=null">
+                AND status=#{status}
+            </if>
+        </where>
+    </select>
 </mapper>

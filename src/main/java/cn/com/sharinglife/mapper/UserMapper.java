@@ -48,16 +48,30 @@ public interface UserMapper {
     /**
      * 关注我的用户（我的粉丝）
      *
-     * @param id
+     * @param userId
      * @return
      */
-    List<User> followToMeUsers(Integer id);
+    List<User> followToMeUsers(Integer userId);
 
     /**
      * 我关注的用户
      *
-     * @param id
+     * @param userId
      * @return
      */
-    List<User> myFollowUsers(Integer id);
+    List<User> myFollowUsers(Integer userId);
+
+    /**
+     * 我关注的用户数
+     * @param userId
+     * @return
+     */
+    Integer countMyFollowers(Integer userId);
+
+    /**
+     * 关注我的用户数
+     * @param userId
+     * @return
+     */
+    Integer countFollowToMe(Integer userId);
 }

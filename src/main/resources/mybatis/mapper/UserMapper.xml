@@ -133,7 +133,7 @@
         INNER JOIN user_follower uf
         ON u.id = uf.userid
         <where>
-            uf.followerid = #{id}
+            uf.followerid = #{userId}
         </where>
         AND deleted = 0
     </select>
@@ -145,7 +145,7 @@
         INNER JOIN user_follower uf
         ON u.id = uf.followerid
         <where>
-            uf.userid = #{id}
+            uf.userid = #{userId}
         </where>
         AND deleted = 0
     </select>
@@ -164,4 +164,22 @@
         AND
         followerid = #{followerId}
     </update>
+
+    <select id="countMyFollowers">
+        SELECT user_follower
+        count(1)
+        WHERE
+        userid = #{userId}
+        AND
+        deleted = 0
+    </select>
+
+    <select id="countFollowToMe">
+        SELECT user_follower
+        count(1)
+        WHERE
+        followerid = #{userId}
+        AND
+        deleted = 0
+    </select>
 </mapper>

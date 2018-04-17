@@ -14,7 +14,7 @@ public class CommonResponse {
      */
     private Integer statusCode;
     /**
-     * 返回登陆失败或成功的信息
+     * 返回信息描述
      */
     private String msg;
     private User user;
