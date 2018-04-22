@@ -1,7 +1,7 @@
 package cn.com.sharinglife.service;
 
 import cn.com.sharinglife.pojo.Article;
-import cn.com.sharinglife.pojo.responsedata.ArticleResponse;
+import cn.com.sharinglife.pojo.vo.ArticleVo;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -23,11 +23,13 @@ public interface ArticleService {
 
     int addArticle(Article article);
 
+    int updateArticle(Article article);
+
     void deleteArticleByIds(List<Integer> articleIds, int status);
 
     void thoroughDeleteArticleByIds(List<Integer> articleIds);
 
     Article getArticleById(Integer articleId, Integer status);
 
-    PageInfo<ArticleResponse> getArticlesByUserId(Integer userId, Integer status, Integer page, Integer limit);
+    PageInfo<ArticleVo> getArticlesByUserId(Integer userId, Integer status, Integer page, Integer limit);
 }

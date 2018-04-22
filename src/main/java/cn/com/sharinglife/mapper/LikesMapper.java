@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
  * @author hell
  * @data 2018/3/27 19:36
  */
-@Mapper
 public interface LikesMapper {
 
     /**

@@ -1,4 +1,4 @@
-package cn.com.sharinglife.containapis;
+package cn.com.sharinglife.apis;
 
 /**
  * Created by hell on 2018/3/1
@@ -10,6 +10,8 @@ public class ArticleApis extends ApiContains {
     private static final String PREFIX = API_PREFIX + "/article";
 
     public static final String ADD_ARTICLE = PREFIX + "/add";
+
+    public static final String UPDATE_ARTICLE = PREFIX + "/update";
 
     public static final String ADD_ARTICLE_PICTURE = PREFIX + "/addpicture";
 

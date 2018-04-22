@@ -1,8 +1,7 @@
 package cn.com.sharinglife.mapper;
 
 import cn.com.sharinglife.pojo.Article;
-import cn.com.sharinglife.pojo.responsedata.ArticleResponse;
-import org.apache.ibatis.annotations.Mapper;
+import cn.com.sharinglife.pojo.vo.ArticleVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.List;
  *
  * @author hell
  */
-@Mapper
 public interface ArticleMapper {
 
     /**
@@ -55,8 +53,8 @@ public interface ArticleMapper {
      * @param userId
      * @return
      */
-    List<ArticleResponse> getArticleByUserId(@Param(value = "userId") Integer userId,
-                                             @Param(value = "status") Integer status);
+    List<ArticleVo> getArticleByUserId(@Param(value = "userId") Integer userId,
+                                       @Param(value = "status") Integer status);
 
     void addLike(Integer articleId);
 
@@ -67,6 +65,8 @@ public interface ArticleMapper {
     void deleteComment(Integer articleId);
 
     int addArticle(Article article);
+
+    int updateArticle(Article article);
 
     void deleteArticleByIds(@Param(value = "articleIds") List<Integer> articleIds,
                             @Param(value = "status") int status);

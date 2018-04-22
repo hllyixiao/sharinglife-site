@@ -1,4 +1,4 @@
-package cn.com.sharinglife.config.cacheenum;
+package cn.com.sharinglife.config.configenum;
 
 import java.util.concurrent.TimeUnit;
 

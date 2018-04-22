@@ -1,4 +1,4 @@
-package cn.com.sharinglife.pojo.responsedata;
+package cn.com.sharinglife.pojo.vo;
 
 import cn.com.sharinglife.util.CommonUtil;
 import cn.com.sharinglife.util.DataTransUtil;
@@ -8,9 +8,9 @@ import java.util.Date;
 
 /**
  * @author hell
- * @data 2018/3/30 22:06
+ * @date 2018/4/22
  */
-public class ArticleResponse {
+public class ArticleVo {
 
     private Integer articleId;
     private String title;
@@ -23,30 +23,34 @@ public class ArticleResponse {
     /**
      * 更新时间
      */
+    @JsonIgnore
     private Date updateTime;
     private String displayUpdateTime;
     /**
      * 评论数
      */
+    @JsonIgnore
     private Integer comments;
     private String displayComments;
     /**
      * 喜欢
      */
+    @JsonIgnore
     private Integer likes;
     private String displayLikes;
     /**
      * 阅读数量
      */
+    @JsonIgnore
     private Integer readVolumes;
     private String displayReadVolumes;
-    private String firstImg = "/SLFile/image/defaultpath/avatar/avatar.jpg";
+    private String firstImg;
     /**
      * 是否允许评论 0:否  1：是
      */
-    private Integer allowComments;
+    private boolean allowComments;
 
-    public ArticleResponse() {
+    public ArticleVo() {
     }
 
     public Integer getArticleId() {
@@ -88,6 +92,14 @@ public class ArticleResponse {
 
     public void setDisplayContentSize(String displayContentSize) {
         this.displayContentSize = displayContentSize;
+    }
+
+    public String getContentHtml() {
+        return contentHtml;
+    }
+
+    public void setContentHtml(String contentHtml) {
+        this.contentHtml = contentHtml;
     }
 
     public Date getUpdateTime() {
@@ -163,28 +175,20 @@ public class ArticleResponse {
     }
 
     public void setFirstImg(String firstImg) {
-        this.firstImg = "/SLFile/image/defaultpath/avatar/avatar.jpg";
-    }
-
-    public String getContentHtml() {
-        return contentHtml;
-    }
-
-    public void setContentHtml(String contentHtml) {
         this.firstImg = CommonUtil.showFirstImgUrl(contentHtml);
     }
 
-    public Integer getAllowComments() {
+    public boolean isAllowComments() {
         return allowComments;
     }
 
-    public void setAllowComments(Integer allowComments) {
+    public void setAllowComments(boolean allowComments) {
         this.allowComments = allowComments;
     }
 
     @Override
     public String toString() {
-        return "ArticleResponse{" +
+        return "ArticleVo{" +
                 "articleId=" + articleId +
                 ", title='" + title + '\'' +
                 ", displayContextTxt='" + displayContextTxt + '\'' +

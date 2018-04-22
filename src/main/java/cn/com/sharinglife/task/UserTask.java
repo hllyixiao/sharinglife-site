@@ -1,4 +1,4 @@
-package cn.com.sharinglife.scheduletask;
+package cn.com.sharinglife.task;
 
 /**
  * Created by hell on 2018/2/1

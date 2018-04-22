@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.Param;
  *
  * @author hell
  */
-@Mapper
 public interface CommentMapper {
 
     void addCommentArticle(Comment comment);

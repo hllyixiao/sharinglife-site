@@ -1,13 +1,14 @@
 package cn.com.sharinglife.pojo.responsedata;
 
-import cn.com.sharinglife.pojo.User;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by hell on 2018/2/27
  *
  * @author hell
  */
-public class CommonResponse {
+public class CommonResponse<T> implements Serializable {
 
     /**
      * 返回的状态（0：失败  1：成功）
@@ -17,7 +18,14 @@ public class CommonResponse {
      * 返回信息描述
      */
     private String msg;
-    private User user;
+    /**
+     * 用于返回单条数据
+     */
+    private T data;
+    /**
+     * 用于返回多条数据
+     */
+    private List<T> datas;
 
     public CommonResponse() {
     }
@@ -43,11 +51,29 @@ public class CommonResponse {
         this.msg = msg;
     }
 
-    public User getUser() {
-        return user;
+    public T getData() {
+        return data;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public List<T> getDatas() {
+        return datas;
+    }
+
+    public void setDatas(List<T> datas) {
+        this.datas = datas;
+    }
+
+    @Override
+    public String toString() {
+        return "CommonResponse{" +
+                "statusCode=" + statusCode +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                ", datas=" + datas +
+                '}';
     }
 }

@@ -1,10 +1,10 @@
 package cn.com.sharinglife.controller.liferecord;
 
 import cn.com.sharinglife.anno.LoginAnnotation;
-import cn.com.sharinglife.containapis.ArticleApis;
+import cn.com.sharinglife.apis.ArticleApis;
 import cn.com.sharinglife.pojo.Article;
-import cn.com.sharinglife.pojo.responsedata.ArticleResponse;
 import cn.com.sharinglife.pojo.responsedata.PageResponse;
+import cn.com.sharinglife.pojo.vo.ArticleVo;
 import cn.com.sharinglife.service.ArticleService;
 import cn.com.sharinglife.util.CommonUtil;
 import cn.com.sharinglife.util.SessionCookieUtil;
@@ -49,6 +49,19 @@ public class ArticleController {
             return article.getId();
         }
         LOG.error("addArticle - 参数article不能有为null的属性");
+        return null;
+    }
+
+    @LoginAnnotation
+    @ApiOperation(value = "更新文章", notes = "添加文章,返回文章id")
+    @PostMapping(value = ArticleApis.UPDATE_ARTICLE)
+    public Integer updateArticle(HttpServletRequest request,
+                              @RequestBody final Article article) {
+        LOG.info("updateArticle - 更新文章");
+        if (Objects.nonNull(article) && Objects.nonNull(article.getId())) {
+            return articleService.updateArticle(article);
+        }
+        LOG.error("updateArticle - 参数article不能有为null的属性");
         return null;
     }
 
@@ -131,9 +144,9 @@ public class ArticleController {
         LOG.info("getAllArticlesByUserId —— 获取文章列表，当前页:第{}页，每页获取{}个文章信息", page, limit);
         response.addHeader("Access-Control-Allow-Origin", "*");
         Integer userId = SessionCookieUtil.getCurrentUserIdBySession(request);
-        PageInfo<ArticleResponse> articlePageInfo = articleService.getArticlesByUserId(userId, status, page, limit);
-        List<ArticleResponse> articleResponses = articlePageInfo.getList();
-        PageResponse<ArticleResponse> pageResponse = new PageResponse<>(articlePageInfo);
+        PageInfo<ArticleVo> articlePageInfo = articleService.getArticlesByUserId(userId, status, page, limit);
+        List<ArticleVo> articleResponses = articlePageInfo.getList();
+        PageResponse<ArticleVo> pageResponse = new PageResponse<>(articlePageInfo);
         pageResponse.setDatas(articleResponses);
         return pageResponse;
     }

@@ -7,8 +7,8 @@
             <if test="userId != null">userid,</if>
             <if test="title != null">title,</if>
             <if test="contentHtml != null">contenthtml,</if>
+            <if test="contentTxt != null">contenttxt,</if>
             <if test="contentSize != null">contentsize,</if>
-            <if test="categoryId != null">categoryid,</if>
             <if test="allowComments != null">allowcomments,</if>
             <if test="status != null">status,</if>
             <if test="comments != null">comments,</if>
@@ -21,14 +21,35 @@
             <if test="userId != null">#{userId,jdbcType=INTEGER},</if>
             <if test="title != null">#{title,jdbcType=VARCHAR},</if>
             <if test="contentHtml != null">#{contentHtml,jdbcType=VARCHAR},</if>
+            <if test="contentTxt != null">#{contentTxt,jdbcType=VARCHAR},</if>
             <if test="contentSize != null">#{contentSize,jdbcType=INTEGER},</if>
-            <if test="categoryId != null">#{categoryId,jdbcType=INTEGER},</if>
             <if test="allowComments != null">#{allowComments,jdbcType=TINYINT},</if>
             <if test="status != null">#{status,jdbcType=TINYINT},</if>
             <if test="comments != null">#{comments,jdbcType=INTEGER},</if>
             <if test="likes != null">#{likes,jdbcType=INTEGER},</if>
             <if test="readVolumes != null">#{readVolumes,jdbcType=INTEGER},</if>
         </trim>
+    </sql>
+
+    <sql id="update_data">
+        <if test="contentHtml != null" >
+            contenthtml = #{contentHtml,jdbcType=VARCHAR},
+        </if>
+        <if test="contentSize != null" >
+            contentsize = #{contentSize,jdbcType=INTEGER},
+        </if>
+        <if test="status != null" >
+            status = #{status,jdbcType=TINYINT},
+        </if>
+        <if test="allowComments != null" >
+            allowcomments = #{allowComments,jdbcType=TINYINT},
+        </if>
+        <if test="contentTxt != null" >
+            contenttxt = #{contentTxt,jdbcType=VARCHAR},
+        </if>
+        <if test="title != null" >
+            title = #{title,jdbcType=VARCHAR},
+        </if>
     </sql>
 
     <sql id="article_table_all_columns">
@@ -108,7 +129,7 @@
     </select>
 
     <!--根据用户id获取文章信息-->
-    <select id="getArticleByUserId" resultType="articleResponse">
+    <select id="getArticleByUserId" resultType="articleVo">
         SELECT
         <include refid="article_table_display_columns"/>
         FROM
@@ -146,6 +167,14 @@
         <include refid="trim_data"/>
         )
     </insert>
+
+    <update id="updateArticle" parameterType="article">
+        UPDATE article
+        <set>
+            <include refid="update_data"/>
+        </set>
+        where id = #{id}
+    </update>
 
     <update id="deleteArticleByIds" parameterType="list">
         UPDATE article SET status= #{status} WHERE id IN

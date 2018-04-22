@@ -1,6 +1,6 @@
 package cn.com.sharinglife.controller;
 
-import cn.com.sharinglife.containapis.MailApis;
+import cn.com.sharinglife.apis.MailApis;
 import cn.com.sharinglife.service.MailService;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;

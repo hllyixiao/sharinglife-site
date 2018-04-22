@@ -2,7 +2,7 @@ package cn.com.sharinglife.controller;
 
 import cn.com.sharinglife.anno.LoginAnnotation;
 import cn.com.sharinglife.comment.Const;
-import cn.com.sharinglife.containapis.LoginAndRegisterApis;
+import cn.com.sharinglife.apis.LoginAndRegisterApis;
 import cn.com.sharinglife.enums.LogActionEnum;
 import cn.com.sharinglife.pojo.Logs;
 import cn.com.sharinglife.pojo.User;
@@ -22,7 +22,6 @@ import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
@@ -95,12 +94,12 @@ public class LoginRegisterController {
 
     @ApiOperation(value = "用户登陆", notes = "登陆成功后，返回用户信息")
     @PostMapping(value = LoginAndRegisterApis.LOGIN)
-    public CommonResponse login(HttpServletResponse response,
+    public CommonResponse<User> login(HttpServletResponse response,
                                 HttpServletRequest request,
                                 HttpSession session,
                                 @RequestBody LoginRequest loginRequest) {
         LOG.info("login — 用户登陆");
-        final CommonResponse commonResponse = new CommonResponse();
+        final CommonResponse<User> commonResponse = new CommonResponse();
         //传入的对象不能有null的属性
         if (loginRequest.nonNull()) {
             if ("".equals(loginRequest.getVerifyCode()) || loginRequest.getVerifyCode()
@@ -115,7 +114,7 @@ public class LoginRegisterController {
                 } else {
                     commonResponse.setStatusCode(1);
                     commonResponse.setMsg("登陆成功！");
-                    commonResponse.setUser(user);
+                    commonResponse.setData(user);
                     //登陆成功后，添加session、cookie等信息
                     longinAfter(request, response, user);
                     LOG.info("用户-[{}] 登陆成功！", loginRequest.getPhoneOrName());

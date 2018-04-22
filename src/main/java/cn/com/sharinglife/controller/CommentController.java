@@ -1,7 +1,7 @@
 package cn.com.sharinglife.controller;
 
 import cn.com.sharinglife.anno.LoginAnnotation;
-import cn.com.sharinglife.containapis.CommentApis;
+import cn.com.sharinglife.apis.CommentApis;
 import cn.com.sharinglife.pojo.Comment;
 import cn.com.sharinglife.service.CommentService;
 import io.swagger.annotations.ApiOperation;

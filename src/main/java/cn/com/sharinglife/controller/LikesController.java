@@ -1,7 +1,7 @@
 package cn.com.sharinglife.controller;
 
 import cn.com.sharinglife.anno.LoginAnnotation;
-import cn.com.sharinglife.containapis.LikesApis;
+import cn.com.sharinglife.apis.LikesApis;
 import cn.com.sharinglife.service.LikesService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

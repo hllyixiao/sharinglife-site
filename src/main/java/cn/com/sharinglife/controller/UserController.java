@@ -2,7 +2,7 @@ package cn.com.sharinglife.controller;
 
 import cn.com.sharinglife.anno.LoginAnnotation;
 import cn.com.sharinglife.client.ModelClient;
-import cn.com.sharinglife.containapis.UserApis;
+import cn.com.sharinglife.apis.UserApis;
 import cn.com.sharinglife.enums.LogActionEnum;
 import cn.com.sharinglife.pojo.Logs;
 import cn.com.sharinglife.pojo.User;
@@ -10,6 +10,7 @@ import cn.com.sharinglife.pojo.responsedata.CommonResponse;
 import cn.com.sharinglife.service.LogsService;
 import cn.com.sharinglife.service.UserService;
 import cn.com.sharinglife.util.CommonUtil;
+import cn.com.sharinglife.util.JsonMapperUtil;
 import cn.com.sharinglife.util.SessionCookieUtil;
 import com.github.pagehelper.PageInfo;
 import com.google.common.util.concurrent.RateLimiter;
@@ -61,7 +62,7 @@ public class UserController {
     @LoginAnnotation
     @ApiOperation(value = "设置用户头像图片", notes = "设置用户头像图片")
     @PostMapping(value = UserApis.SET_USER_AVATAR)
-    public boolean setUserAvatar(HttpServletRequest request, HttpServletResponse response,
+    public String setUserAvatar(HttpServletRequest request, HttpServletResponse response,
                               @RequestParam("avatar") final MultipartFile file) {
         LOG.info("setUserAvatar — 设置用户头像图片");
         User user = SessionCookieUtil.getCurrentUserBySession(request);
@@ -90,7 +91,7 @@ public class UserController {
                     userService.updateAvatarUrl(databaseAvatarPath, user.getId());
                     user.setAvatarUrl(databaseAvatarPath);
                 }
-                return true;
+                return JsonMapperUtil.objectToJsonString(databaseAvatarPath);
             } catch (IOException e) {
                 LOG.error("setUserAvatar — 设置用户头像出错 —", e);
             }
@@ -98,7 +99,7 @@ public class UserController {
             LOG.error("setUserAvatar — user为null，请登陆！");
             response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
         }
-        return false;
+        return "";
     }
 
     @LoginAnnotation
@@ -216,25 +217,25 @@ public class UserController {
     @LoginAnnotation
     @ApiOperation(value = "更新用户信息", notes = "更新用户信息")
     @PostMapping(value = UserApis.UPDATE_USER)
-    public CommonResponse updateUser(HttpServletRequest request,
+    public CommonResponse<User> updateUser(HttpServletRequest request,
                            HttpServletResponse response,
                            @RequestBody final User user) {
         LOG.info("updateUser — 更新用户信息");
-        CommonResponse commonResponse = new CommonResponse();
+        CommonResponse<User> commonResponse = new CommonResponse();
         Integer currentUserId = SessionCookieUtil.getCurrentUserIdBySession(request);
         if (Objects.nonNull(currentUserId)) {
             user.setId(currentUserId);
             userService.updateUser(user);
             commonResponse.setStatusCode(1);
             commonResponse.setMsg("保存成功！");
-            commonResponse.setUser(user);
+            commonResponse.setData(user);
             return commonResponse;
         }
         LOG.error("updateUser — 参数user的id不能为null");
         //response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
         commonResponse.setStatusCode(0);
         commonResponse.setMsg("保存失败！");
-        commonResponse.setUser(user);
+        commonResponse.setData(user);
         return commonResponse;
     }
 

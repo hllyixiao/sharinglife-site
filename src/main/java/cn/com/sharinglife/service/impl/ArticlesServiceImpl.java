@@ -2,7 +2,7 @@ package cn.com.sharinglife.service.impl;
 
 import cn.com.sharinglife.mapper.ArticleMapper;
 import cn.com.sharinglife.pojo.Article;
-import cn.com.sharinglife.pojo.responsedata.ArticleResponse;
+import cn.com.sharinglife.pojo.vo.ArticleVo;
 import cn.com.sharinglife.service.ArticleService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -57,6 +57,11 @@ public class ArticlesServiceImpl implements ArticleService {
     }
 
     @Override
+    public int updateArticle(Article article) {
+        return articleMapper.updateArticle(article);
+    }
+
+    @Override
     public void deleteArticleByIds(List<Integer> articleIds, int status) {
         articleMapper.deleteArticleByIds(articleIds, status);
     }
@@ -72,11 +77,11 @@ public class ArticlesServiceImpl implements ArticleService {
     }
 
     @Override
-    public PageInfo<ArticleResponse> getArticlesByUserId(Integer userId, Integer status, Integer page, Integer limit) {
+    public PageInfo<ArticleVo> getArticlesByUserId(Integer userId, Integer status, Integer page, Integer limit) {
         //mybatis分页插件
         PageHelper.startPage(page, limit);
-        List<ArticleResponse> articles = articleMapper.getArticleByUserId(userId, status);
-        PageInfo<ArticleResponse> pageInfo = new PageInfo<>(articles);
+        List<ArticleVo> articles = articleMapper.getArticleByUserId(userId, status);
+        PageInfo<ArticleVo> pageInfo = new PageInfo<>(articles);
         return pageInfo;
     }
 }
