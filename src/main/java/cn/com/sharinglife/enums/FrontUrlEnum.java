@@ -7,7 +7,9 @@ package cn.com.sharinglife.enums;
  */
 public enum FrontUrlEnum {
 
-    LOGIN_PAGE("/login.html");
+    LOGIN_PAGE("http://172.4.88.129:4200/login");
+
+    //LOGIN_PAGE("https://www.baidu.com/");
 
     private String url;
 

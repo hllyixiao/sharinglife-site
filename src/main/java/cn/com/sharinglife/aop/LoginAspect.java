@@ -41,10 +41,13 @@ public class LoginAspect {
             HttpSession session = request.getSession();
             //session是否存在user对象（判断用户是否登陆）
             Object obj = session.getAttribute(Const.SESSION_USER_KEY);
-            if (Objects.isNull(obj)) {
+            if (!Objects.isNull(obj)) {
                 HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder
                         .getRequestAttributes()).getResponse();
-                response.sendRedirect(FrontUrlEnum.LOGIN_PAGE.getUrl());
+                response.setStatus(302);
+                response.setHeader("Location", FrontUrlEnum.LOGIN_PAGE.getUrl());
+                //response.setHeader("Status Code","302");
+                //response.sendRedirect(FrontUrlEnum.LOGIN_PAGE.getUrl());
                 return null;
             }
         }

@@ -48,7 +48,7 @@ my:
     keepAlive: 100
   #是否开启登陆验证的注解
   loginannotation:
-    open: false
+    open: true
 
 sl.primary.datasource:
   enable: true
