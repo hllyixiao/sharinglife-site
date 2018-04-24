@@ -99,7 +99,7 @@ public class ArticleVo {
     }
 
     public void setContentHtml(String contentHtml) {
-        this.contentHtml = contentHtml;
+        this.firstImg = CommonUtil.showFirstImgUrl(contentHtml);
     }
 
     public Date getUpdateTime() {
@@ -175,7 +175,7 @@ public class ArticleVo {
     }
 
     public void setFirstImg(String firstImg) {
-        this.firstImg = CommonUtil.showFirstImgUrl(contentHtml);
+        this.firstImg = firstImg;
     }
 
     public boolean isAllowComments() {
