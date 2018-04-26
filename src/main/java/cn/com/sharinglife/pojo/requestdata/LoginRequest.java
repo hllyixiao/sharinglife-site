@@ -9,7 +9,13 @@ import org.apache.commons.lang.StringUtils;
  */
 public class LoginRequest {
 
+    /**
+     * 验证码
+     */
     private String verifyCode;
+    /**
+     * 手机号或用户名
+     */
     private String phoneOrName;
     private String password;
 
@@ -46,5 +52,14 @@ public class LoginRequest {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginRequest{" +
+                "verifyCode='" + verifyCode + '\'' +
+                ", phoneOrName='" + phoneOrName + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

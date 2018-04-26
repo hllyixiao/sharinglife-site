@@ -1,6 +1,5 @@
 package cn.com.sharinglife.util;
 
-import cn.com.sharinglife.comment.Const;
 import cn.com.sharinglife.pojo.User;
 
 import javax.servlet.http.Cookie;
@@ -32,16 +31,24 @@ public class SessionCookieUtil {
         response.addCookie(newCookie);
     }
 
-    public static User getCurrentUserBySession(HttpServletRequest request) {
-        Object user = request.getSession().getAttribute(Const.SESSION_USER_KEY);
+    public static User getCurrentUserByRequest(HttpServletRequest request) {
+        return getCurrentUserBySession(request.getSession());
+    }
+
+    public static User getCurrentUserBySession(HttpSession httpSession) {
+        Object user = httpSession.getAttribute(Const.SESSION_USER_KEY);
         if (user != null && user instanceof User) {
             return (User) user;
         }
         return null;
     }
 
-    public static Integer getCurrentUserIdBySession(HttpServletRequest request) {
-        return (Integer) request.getSession().getAttribute(Const.SESSION_USERID_KEY);
+    public static Integer getCurrentUserIdByRequest(HttpServletRequest request) {
+        return (Integer) getCurrentUserIdBySession(request.getSession());
+    }
+
+    public static Integer getCurrentUserIdBySession(HttpSession httpSession) {
+        return (Integer) httpSession.getAttribute(Const.SESSION_USERID_KEY);
     }
 
     public static String getCookieByName(HttpServletRequest request, String name) {

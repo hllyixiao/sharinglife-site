@@ -115,4 +115,20 @@ public class PageResponse<T> implements Serializable {
     public void setNextPage(int nextPage) {
         this.nextPage = nextPage;
     }
+
+    @Override
+    public String toString() {
+        return "PageResponse{" +
+                "datas=" + datas +
+                ", pageNum=" + pageNum +
+                ", pageSize=" + pageSize +
+                ", size=" + size +
+                ", startRow=" + startRow +
+                ", endRow=" + endRow +
+                ", total=" + total +
+                ", pages=" + pages +
+                ", prePage=" + prePage +
+                ", nextPage=" + nextPage +
+                '}';
+    }
 }

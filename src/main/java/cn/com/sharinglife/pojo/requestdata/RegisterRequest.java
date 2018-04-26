@@ -53,4 +53,13 @@ public class RegisterRequest {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "RegisterRequest{" +
+                "name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
 }

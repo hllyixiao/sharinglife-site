@@ -1,17 +1,16 @@
 package cn.com.sharinglife.pojo;
 
-import cn.com.sharinglife.pojo.base.ModularBase;
 import cn.com.sharinglife.util.AesUtil;
-import cn.com.sharinglife.util.DataTransUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author hell
  * @data 2018/3/28 11:43
  */
-public class Article extends ModularBase {
+public class Article {
 
     private Integer id;
 
@@ -31,6 +30,22 @@ public class Article extends ModularBase {
      */
     private String contentHtml;
     private Integer contentSize;
+    /**
+     * 标签名称
+     */
+    private List<String> tagsName;
+    /**
+     * 标签id
+     */
+    private List<Integer> tagId;
+    /**
+     * 是否允许评论 0:否  1：是
+     */
+    private Integer allowComments;
+    /**
+     * 0:删除  1：草稿  2：发布
+     */
+    private Integer status;
     /**
      * 创建时间
      */
@@ -114,6 +129,38 @@ public class Article extends ModularBase {
         this.userId = Integer.valueOf(AesUtil.decrypt(obsUserId));
     }
 
+    public List<String> getTagsName() {
+        return tagsName;
+    }
+
+    public void setTagsName(List<String> tagsName) {
+        this.tagsName = tagsName;
+    }
+
+    public List<Integer> getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(List<Integer> tagId) {
+        this.tagId = tagId;
+    }
+
+    public Integer getAllowComments() {
+        return allowComments;
+    }
+
+    public void setAllowComments(Integer allowComments) {
+        this.allowComments = allowComments;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Article{" +
@@ -124,8 +171,12 @@ public class Article extends ModularBase {
                 ", contentTxt='" + contentTxt + '\'' +
                 ", contentHtml='" + contentHtml + '\'' +
                 ", contentSize=" + contentSize +
+                ", tagsName=" + tagsName +
+                ", tagId=" + tagId +
+                ", allowComments=" + allowComments +
+                ", status=" + status +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
-                "} " + super.toString();
+                '}';
     }
 }

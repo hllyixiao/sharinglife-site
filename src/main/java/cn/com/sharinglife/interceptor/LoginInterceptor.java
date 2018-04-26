@@ -1,8 +1,8 @@
 package cn.com.sharinglife.interceptor;
 
 import cn.com.sharinglife.anno.LoginAnnotation;
-import cn.com.sharinglife.comment.Const;
 import cn.com.sharinglife.enums.FrontUrlEnum;
+import cn.com.sharinglife.util.Const;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;

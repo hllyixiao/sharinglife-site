@@ -1,8 +1,8 @@
 package cn.com.sharinglife.aop;
 
 import cn.com.sharinglife.anno.LoginAnnotation;
-import cn.com.sharinglife.comment.Const;
 import cn.com.sharinglife.enums.FrontUrlEnum;
+import cn.com.sharinglife.util.Const;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

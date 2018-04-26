@@ -1,4 +1,4 @@
-package cn.com.sharinglife.comment;
+package cn.com.sharinglife.util;
 
 /**
  * Created by hell on 2018/2/28

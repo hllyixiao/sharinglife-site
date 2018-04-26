@@ -3,6 +3,7 @@ package cn.com.sharinglife.controller.liferecord;
 import cn.com.sharinglife.anno.LoginAnnotation;
 import cn.com.sharinglife.apis.ArticleApis;
 import cn.com.sharinglife.pojo.Article;
+import cn.com.sharinglife.pojo.responsedata.CommonResponse;
 import cn.com.sharinglife.pojo.responsedata.PageResponse;
 import cn.com.sharinglife.pojo.vo.ArticleVo;
 import cn.com.sharinglife.service.ArticleService;
@@ -20,6 +21,7 @@ import org.thymeleaf.util.ListUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -40,11 +42,11 @@ public class ArticleController {
     @LoginAnnotation
     @ApiOperation(value = "添加文章", notes = "添加文章,返回文章id")
     @PostMapping(value = ArticleApis.ADD_ARTICLE)
-    public Integer addArticle(HttpServletRequest request,
+    public Integer addArticle(HttpSession httpSession,
                               @RequestBody final Article article) {
         LOG.info("addArticle - 添加文章");
         if (Objects.nonNull(article)) {
-            article.setUserId(SessionCookieUtil.getCurrentUserIdBySession(request));
+            article.setUserId(SessionCookieUtil.getCurrentUserIdBySession(httpSession));
             articleService.addArticle(article);
             return article.getId();
         }
@@ -68,14 +70,14 @@ public class ArticleController {
     @LoginAnnotation
     @ApiOperation(value = "添加文章图片", notes = "添加文章图片")
     @PostMapping(value = ArticleApis.ADD_ARTICLE_PICTURE)
-    public Map addArticlePicture(HttpServletRequest request,
-                                 @RequestParam("articleId") final Integer articleId) {
-        Integer userId = SessionCookieUtil.getCurrentUserIdBySession(request);
+    public CommonResponse<String> addArticlePicture(HttpServletRequest request,
+                                            @RequestParam("articleId") final Integer articleId) {
+        Integer userId = SessionCookieUtil.getCurrentUserIdByRequest(request);
         LOG.info("addArticlePicture — 添加文章图片");
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
+        CommonResponse<String> commonResponse = new CommonResponse<>();
         if (!ListUtils.isEmpty(files)) {
-            Map returnData = new HashMap(2);
-            List urls = new ArrayList(files.size());
+            List<String> urls = new ArrayList(files.size());
             files.forEach(file -> {
                 Map<String, String> res = CommonUtil.getUserFilePath(file, true, userId);
                 //后缀名
@@ -102,12 +104,13 @@ public class ArticleController {
                     LOG.error("addArticlePicture — 添加文章图片 —", e);
                 }
             });
-            returnData.put("errno", 0);
-            returnData.put("data", urls);
-            return returnData;
+            commonResponse.setStatusCode(1);
+            commonResponse.setDatas(urls);
         } else {
-            return null;
+            LOG.error("addArticlePicture — files不能为空的数据");
+            commonResponse.setStatusCode(0);
         }
+        return commonResponse;
     }
 
     @ApiOperation(value = "通过id获取已发布的文章", notes = "通过id获取已发布的文章")
@@ -121,7 +124,6 @@ public class ArticleController {
         return null;
     }
 
-    @LoginAnnotation
     @ApiOperation(value = "通过id获取文章", notes = "通过id获取文章")
     @GetMapping(value = ArticleApis.GET_ARTICLE_BY_ID + "/{articleId}")
     public Article getArticleById(@PathVariable final Integer articleId) {
@@ -136,14 +138,14 @@ public class ArticleController {
     @LoginAnnotation
     @ApiOperation(value = "获取当前用户的文章列表", notes = "获取当前用户的文章列表")
     @GetMapping(value = ArticleApis.LIST_ALL_ARTICLE_BY_USER_ID)
-    public PageResponse getAllArticlesByUserId(HttpServletRequest request,
+    public PageResponse getAllArticlesByUserId(HttpSession httpSession,
                                                HttpServletResponse response,
                                                @RequestParam("status") final Integer status,
                                                @RequestParam(value = "page", defaultValue = "1") final int page,
                                                @RequestParam(value = "limit", defaultValue = "5") final int limit) {
         LOG.info("getAllArticlesByUserId —— 获取文章列表，当前页:第{}页，每页获取{}个文章信息", page, limit);
         response.addHeader("Access-Control-Allow-Origin", "*");
-        Integer userId = SessionCookieUtil.getCurrentUserIdBySession(request);
+        Integer userId = SessionCookieUtil.getCurrentUserIdBySession(httpSession);
         PageInfo<ArticleVo> articlePageInfo = articleService.getArticlesByUserId(userId, status, page, limit);
         List<ArticleVo> articleResponses = articlePageInfo.getList();
         PageResponse<ArticleVo> pageResponse = new PageResponse<>(articlePageInfo);

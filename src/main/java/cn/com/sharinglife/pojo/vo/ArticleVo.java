@@ -17,8 +17,6 @@ public class ArticleVo {
     private String displayContextTxt;
     private Integer contentSize;
     private String displayContentSize;
-
-    @JsonIgnore
     private String contentHtml;
     /**
      * 更新时间
@@ -44,6 +42,10 @@ public class ArticleVo {
     @JsonIgnore
     private Integer readVolumes;
     private String displayReadVolumes;
+
+    /**
+     * 第一张图片
+     */
     private String firstImg;
     /**
      * 是否允许评论 0:否  1：是

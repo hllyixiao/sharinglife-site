@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -62,10 +63,10 @@ public class UserController {
     @LoginAnnotation
     @ApiOperation(value = "设置用户头像图片", notes = "设置用户头像图片")
     @PostMapping(value = UserApis.SET_USER_AVATAR)
-    public String setUserAvatar(HttpServletRequest request, HttpServletResponse response,
+    public String setUserAvatar(HttpSession httpSession, HttpServletResponse response,
                               @RequestParam("avatar") final MultipartFile file) {
         LOG.info("setUserAvatar — 设置用户头像图片");
-        User user = SessionCookieUtil.getCurrentUserBySession(request);
+        User user = SessionCookieUtil.getCurrentUserBySession(httpSession);
         if (Objects.nonNull(user)) {
             Map<String, String> res = CommonUtil.getUserFilePath(file, true, user.getId());
             //后缀名
@@ -107,17 +108,18 @@ public class UserController {
     @GetMapping(value = UserApis.ADD_USER_FOLLOWER)
     @ApiImplicitParams({
             @ApiImplicitParam(name = "followerId", value = "被关注的用户Id", required = true, paramType = "query")})
-    public CommonResponse addFollower(@RequestParam(value = "userId") final Integer userId,
+    public CommonResponse addFollower(HttpSession httpSession,
                                       @RequestParam(value = "followerId") final Integer followerId) {
         LOG.info("addFollower — 添加关注");
+        Integer currentUserId = SessionCookieUtil.getCurrentUserIdBySession(httpSession);
         CommonResponse commonResponse = new CommonResponse();
-        boolean isExistFollower = userService.isExistFollower(userId, followerId);
+        boolean isExistFollower = userService.isExistFollower(currentUserId, followerId);
         if (isExistFollower) {
             commonResponse.setStatusCode(1);
             commonResponse.setMsg("该用户已关注！");
             LOG.info("addFollower — 该用户已关注！");
         } else {
-            userService.addMyFollower(userId, followerId);
+            userService.addMyFollower(currentUserId, followerId);
             commonResponse.setStatusCode(1);
             commonResponse.setMsg("关注成功");
             LOG.info("addFollower — 关注成功！");
@@ -160,11 +162,11 @@ public class UserController {
     @LoginAnnotation
     @ApiOperation(value = "修改密码", notes = "修改密码")
     @GetMapping(value = UserApis.MODIFY_PASSWORD_USER)
-    public CommonResponse modifyPassword(HttpServletRequest request,
+    public CommonResponse modifyPassword(HttpSession httpSession,
                                          @RequestParam(value = "newPassword") final String newPassword) {
         LOG.info("modifyPassword — 修改用户密码");
         CommonResponse commonResponse = new CommonResponse();
-        User user = SessionCookieUtil.getCurrentUserBySession(request);
+        User user = SessionCookieUtil.getCurrentUserBySession(httpSession);
         if (user.getPassword().equals(newPassword)) {
             commonResponse.setStatusCode(0);
             commonResponse.setMsg("新密码不能与旧密码相同！");
@@ -217,25 +219,23 @@ public class UserController {
     @LoginAnnotation
     @ApiOperation(value = "更新用户信息", notes = "更新用户信息")
     @PostMapping(value = UserApis.UPDATE_USER)
-    public CommonResponse<User> updateUser(HttpServletRequest request,
-                           HttpServletResponse response,
+    public CommonResponse<User> updateUser(HttpSession httpSession,
                            @RequestBody final User user) {
         LOG.info("updateUser — 更新用户信息");
         CommonResponse<User> commonResponse = new CommonResponse();
-        Integer currentUserId = SessionCookieUtil.getCurrentUserIdBySession(request);
+        Integer currentUserId = SessionCookieUtil.getCurrentUserIdBySession(httpSession);
         if (Objects.nonNull(currentUserId)) {
             user.setId(currentUserId);
             userService.updateUser(user);
             commonResponse.setStatusCode(1);
             commonResponse.setMsg("保存成功！");
             commonResponse.setData(user);
-            return commonResponse;
+        }else{
+            LOG.error("updateUser — 参数user的id不能为null");
+            commonResponse.setStatusCode(0);
+            commonResponse.setMsg("保存失败！");
+            commonResponse.setData(user);
         }
-        LOG.error("updateUser — 参数user的id不能为null");
-        //response.setStatus(HttpStatus.SC_PRECONDITION_FAILED);
-        commonResponse.setStatusCode(0);
-        commonResponse.setMsg("保存失败！");
-        commonResponse.setData(user);
         return commonResponse;
     }
 

@@ -11,9 +11,6 @@
             <if test="contentSize != null">contentsize,</if>
             <if test="allowComments != null">allowcomments,</if>
             <if test="status != null">status,</if>
-            <if test="comments != null">comments,</if>
-            <if test="likes != null">likes,</if>
-            <if test="readVolumes != null">readvolumes,</if>
         </trim>
     </sql>
     <sql id="trim_data">
@@ -25,9 +22,6 @@
             <if test="contentSize != null">#{contentSize,jdbcType=INTEGER},</if>
             <if test="allowComments != null">#{allowComments,jdbcType=TINYINT},</if>
             <if test="status != null">#{status,jdbcType=TINYINT},</if>
-            <if test="comments != null">#{comments,jdbcType=INTEGER},</if>
-            <if test="likes != null">#{likes,jdbcType=INTEGER},</if>
-            <if test="readVolumes != null">#{readVolumes,jdbcType=INTEGER},</if>
         </trim>
     </sql>
 
@@ -138,6 +132,19 @@
             userid=#{userId}
             <if test="status!=null">
                 AND status=#{status}
+            </if>
+        </where>
+    </select>
+
+    <!--根据用户id获取文章信息-->
+    <select id="listArticles" resultType="articleVo">
+        SELECT
+        <include refid="article_table_display_columns"/>
+        FROM
+        `article`
+        <where>
+            <if test="status!=null">
+               status=#{status}
             </if>
         </where>
     </select>
