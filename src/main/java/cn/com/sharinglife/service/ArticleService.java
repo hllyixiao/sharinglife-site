@@ -32,4 +32,6 @@ public interface ArticleService {
     Article getArticleById(Integer articleId, Integer status);
 
     PageInfo<ArticleVo> getArticlesByUserId(Integer userId, Integer status, Integer page, Integer limit);
+
+    PageInfo<ArticleVo> listArticles(Integer status, Integer page, Integer limit);
 }

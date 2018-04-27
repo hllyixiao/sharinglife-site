@@ -24,7 +24,12 @@ public class Article {
     /**
      * 纯文本内容
      */
+    @JsonIgnore
     private String contentTxt;
+    /**
+     * 显示的文本内容（截取前400字）
+     */
+    private String displayContextTxt;
     /**
      * html内容
      */
@@ -86,6 +91,9 @@ public class Article {
 
     public void setContentTxt(String contentTxt) {
         this.contentTxt = contentTxt;
+        if(contentTxt != null){
+            displayContextTxt = contentTxt.substring(250);
+        }
     }
 
     public String getContentHtml() {
@@ -161,6 +169,14 @@ public class Article {
         this.status = status;
     }
 
+    public String getDisplayContextTxt() {
+        return displayContextTxt;
+    }
+
+    public void setDisplayContextTxt(String displayContextTxt) {
+        this.displayContextTxt = displayContextTxt;
+    }
+
     @Override
     public String toString() {
         return "Article{" +
@@ -169,6 +185,7 @@ public class Article {
                 ", obsUserId='" + obsUserId + '\'' +
                 ", title='" + title + '\'' +
                 ", contentTxt='" + contentTxt + '\'' +
+                ", displayContextTxt='" + displayContextTxt + '\'' +
                 ", contentHtml='" + contentHtml + '\'' +
                 ", contentSize=" + contentSize +
                 ", tagsName=" + tagsName +

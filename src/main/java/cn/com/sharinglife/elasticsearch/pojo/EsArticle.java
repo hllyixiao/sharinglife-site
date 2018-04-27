@@ -13,8 +13,7 @@ import java.util.Date;
  * @author hell
  * @data 2018/3/28 17:26
  */
-@Document(indexName = "chuyun", type = "article", indexStoreType = "fs",
-        shards = 5, replicas = 1, refreshInterval = "-1")
+@Document(indexName = "id", type = "article")
 public class EsArticle implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -89,12 +88,6 @@ public class EsArticle implements Serializable {
         title = article.getTitle();
         contentTxt = article.getContentTxt();
         updateTime = article.getUpdateTime();
-        tagsName = article.getTagsName();
-        allowComments = article.getAllowComments();
-        status = article.getStatus();
-        comments = article.getComments();
-        likes = article.getLikes();
-        readVolumes = article.getReadVolumes();
     }
 
     public String getId() {

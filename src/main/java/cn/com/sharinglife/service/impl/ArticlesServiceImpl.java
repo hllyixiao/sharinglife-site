@@ -84,4 +84,13 @@ public class ArticlesServiceImpl implements ArticleService {
         PageInfo<ArticleVo> pageInfo = new PageInfo<>(articles);
         return pageInfo;
     }
+
+    @Override
+    public PageInfo<ArticleVo> listArticles(Integer status, Integer page, Integer limit) {
+        //mybatis分页插件
+        PageHelper.startPage(page, limit);
+        List<ArticleVo> articles = articleMapper.listArticles(status);
+        PageInfo<ArticleVo> pageInfo = new PageInfo<>(articles);
+        return pageInfo;
+    }
 }

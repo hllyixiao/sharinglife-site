@@ -21,6 +21,8 @@ public class ArticleApis extends ApiContains {
 
     public static final String LIST_ALL_ARTICLE_BY_USER_ID = PREFIX + "/listbyuserid";
 
+    public static final String LIST_ALL_ARTICLE = PREFIX + "/list";
+
     public static final String DELETE_ARTICLE_BY_IDS = PREFIX + "/deletebyids";
 
     public static final String RECOVERY_ARTICLE_BY_IDS = PREFIX + "/recoverybyids";

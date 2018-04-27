@@ -3,13 +3,18 @@ package cn.com.sharinglife.elasticsearch.service.impl;
 import cn.com.sharinglife.elasticsearch.pojo.EsArticle;
 import cn.com.sharinglife.elasticsearch.repository.EsArticleRepository;
 import cn.com.sharinglife.elasticsearch.service.EsArticleService;
+import org.elasticsearch.action.search.SearchRequestBuilder;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +28,10 @@ public class EsArticleServiceImpl implements EsArticleService {
 
     @Autowired
     private EsArticleRepository esArticleRepository;
+
     @Autowired
-    private ElasticsearchTemplate elasticsearchTemplate;
+    @Qualifier("primaryElasticSearChClient")
+    private Client primaryElasticSearChClient;
 
     private static final String EMPTY_KEYWORD = "";
 
@@ -52,7 +59,7 @@ public class EsArticleServiceImpl implements EsArticleService {
         if (pageable.getSort() == null) {
             pageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
         }
-        pages = esArticleRepository.findDistinctByTitleContainsOrContentTxtContainsOrTagsNameContains(keyword, keyword, keyword, pageable);
+        pages = esArticleRepository.findDistinctByTitleContainsOrContentTxtContains(keyword, keyword, pageable);
         return null;
     }
 
@@ -62,7 +69,7 @@ public class EsArticleServiceImpl implements EsArticleService {
         if (pageable.getSort() == null) {
             pageable = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), sort);
         }
-        return esArticleRepository.findDistinctByTitleContainsOrContentTxtContainsOrTagsNameContains(keyword, keyword, keyword, pageable);
+        return esArticleRepository.findDistinctByTitleContainsOrContentTxtContains(keyword, keyword, pageable);
     }
 
     @Override
@@ -80,5 +87,29 @@ public class EsArticleServiceImpl implements EsArticleService {
     public List<EsArticle> listTop5HotestEsArticle() {
         Page<EsArticle> pages = listHotestEsArticle(EMPTY_KEYWORD, TOP_5_PAGEABLE);
         return pages.getContent();
+    }
+
+    @Override
+    public List<EsArticle> search() {
+        BoolQueryBuilder mustQuery = QueryBuilders.boolQuery();
+        // 添加第1条must的条件 此处为匹配所有文档
+        mustQuery.must(QueryBuilders.matchAllQuery());
+        //添加第2条must的条件 title为精确查询【matchPhraseQuery】
+        mustQuery.must(QueryBuilders.matchPhraseQuery("title", "时间简史"));
+        SearchRequestBuilder searchRequestBuilder = primaryElasticSearChClient
+                .prepareSearch("index name")
+                .setTypes("type name")
+                .setQuery(mustQuery)
+                .addHighlightedField("*")
+                .setHighlighterPreTags("<高亮前缀标签>")
+                .setHighlighterPostTags("<高亮后缀标签>");
+
+        SearchResponse searchResponse = searchRequestBuilder.setFrom((8) * 2)
+                .setSize(5)
+                .execute()
+                .actionGet();
+
+        return null;
+
     }
 }

@@ -56,6 +56,14 @@ public interface ArticleMapper {
     List<ArticleVo> getArticleByUserId(@Param(value = "userId") Integer userId,
                                        @Param(value = "status") Integer status);
 
+    /**
+     * 获取所有文章信息
+     *
+     * @param status
+     * @return
+     */
+    List<ArticleVo> listArticles(@Param(value = "status") Integer status);
+
     void addLike(Integer articleId);
 
     void deleteLike(Integer articleId);

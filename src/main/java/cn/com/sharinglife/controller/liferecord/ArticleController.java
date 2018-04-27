@@ -2,6 +2,8 @@ package cn.com.sharinglife.controller.liferecord;
 
 import cn.com.sharinglife.anno.LoginAnnotation;
 import cn.com.sharinglife.apis.ArticleApis;
+import cn.com.sharinglife.elasticsearch.pojo.EsArticle;
+import cn.com.sharinglife.elasticsearch.service.EsArticleService;
 import cn.com.sharinglife.pojo.Article;
 import cn.com.sharinglife.pojo.responsedata.CommonResponse;
 import cn.com.sharinglife.pojo.responsedata.PageResponse;
@@ -38,6 +40,8 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private EsArticleService esArticleService;
 
     @LoginAnnotation
     @ApiOperation(value = "添加文章", notes = "添加文章,返回文章id")
@@ -48,6 +52,8 @@ public class ArticleController {
         if (Objects.nonNull(article)) {
             article.setUserId(SessionCookieUtil.getCurrentUserIdBySession(httpSession));
             articleService.addArticle(article);
+            EsArticle esArticle = new EsArticle(article);
+            esArticleService.updateEsArticle(esArticle);
             return article.getId();
         }
         LOG.error("addArticle - 参数article不能有为null的属性");
@@ -189,5 +195,19 @@ public class ArticleController {
         }
         LOG.info("thoroughDeleteArticleByIds —— 彻底删除文章，articleIds不符合要求");
         return false;
+    }
+
+    @LoginAnnotation
+    @ApiOperation(value = "获取所有文章列表", notes = "获取所有文章列表")
+    @GetMapping(value = ArticleApis.LIST_ALL_ARTICLE)
+    public PageResponse listArticles(@RequestParam("status") final Integer status,
+                                     @RequestParam(value = "page", defaultValue = "1") final int page,
+                                     @RequestParam(value = "limit", defaultValue = "5") final int limit) {
+        LOG.info("listArticles —— 获取所有文章列表，当前页:第{}页，每页获取{}个文章信息", page, limit);
+        PageInfo<ArticleVo> articlePageInfo = articleService.listArticles(status, page, limit);
+        List<ArticleVo> articleResponses = articlePageInfo.getList();
+        PageResponse<ArticleVo> pageResponse = new PageResponse<>(articlePageInfo);
+        pageResponse.setDatas(articleResponses);
+        return pageResponse;
     }
 }

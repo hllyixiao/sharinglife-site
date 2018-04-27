@@ -7,7 +7,7 @@
             <if test="userId != null">userid,</if>
             <if test="title != null">title,</if>
             <if test="contentHtml != null">contenthtml,</if>
-            <if test="contentTxt != null">contenttxt,</if>
+            <if test="displayContextTxt != null">displaycontexttxt,</if>
             <if test="contentSize != null">contentsize,</if>
             <if test="allowComments != null">allowcomments,</if>
             <if test="status != null">status,</if>
@@ -18,7 +18,7 @@
             <if test="userId != null">#{userId,jdbcType=INTEGER},</if>
             <if test="title != null">#{title,jdbcType=VARCHAR},</if>
             <if test="contentHtml != null">#{contentHtml,jdbcType=VARCHAR},</if>
-            <if test="contentTxt != null">#{contentTxt,jdbcType=VARCHAR},</if>
+            <if test="displayContextTxt != null">#{displayContextTxt,jdbcType=VARCHAR},</if>
             <if test="contentSize != null">#{contentSize,jdbcType=INTEGER},</if>
             <if test="allowComments != null">#{allowComments,jdbcType=TINYINT},</if>
             <if test="status != null">#{status,jdbcType=TINYINT},</if>
@@ -52,7 +52,6 @@
         title,
         contenthtml,
         contentsize,
-        categoryid,
         allowcomments,
         status,
         comments,
@@ -67,7 +66,7 @@
         userid,
         title,
         contenthtml,
-        SUBSTRING(contenttxt,1,30) AS displayContextTxt,
+        displaycontexttxt,
         contentsize,
         categoryid,
         allowcomments,
@@ -75,6 +74,22 @@
         likes,
         readvolumes,
         updatetime
+    </sql>
+
+    <sql id="article_user_display_columns">
+        a.id AS articleId,
+        a.userid,
+        a.title,
+        a.contenthtml,
+        a.displaycontexttxt,
+        a.contentsize,
+        a.allowcomments,
+        a.comments,
+        a.likes,
+        a.readvolumes,
+        a.updatetime,
+        u.name AS userName,
+        u.avatarurl
     </sql>
 
     <!--获取文章总数-->
@@ -136,15 +151,16 @@
         </where>
     </select>
 
-    <!--根据用户id获取文章信息-->
+    <!--在主页获取所有文章信息-->
     <select id="listArticles" resultType="articleVo">
         SELECT
-        <include refid="article_table_display_columns"/>
+        <include refid="article_user_display_columns"/>
         FROM
-        `article`
+        `article` a LEFT JOIN `user` u
+        ON a.userid = u.id
         <where>
             <if test="status!=null">
-               status=#{status}
+               a.status=#{status}
             </if>
         </where>
     </select>

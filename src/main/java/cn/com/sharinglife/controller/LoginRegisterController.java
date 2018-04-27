@@ -1,7 +1,6 @@
 package cn.com.sharinglife.controller;
 
 import cn.com.sharinglife.anno.LoginAnnotation;
-import cn.com.sharinglife.comment.Const;
 import cn.com.sharinglife.apis.LoginAndRegisterApis;
 import cn.com.sharinglife.enums.LogActionEnum;
 import cn.com.sharinglife.pojo.Logs;
@@ -11,10 +10,7 @@ import cn.com.sharinglife.pojo.requestdata.RegisterRequest;
 import cn.com.sharinglife.pojo.responsedata.CommonResponse;
 import cn.com.sharinglife.service.LogsService;
 import cn.com.sharinglife.service.UserService;
-import cn.com.sharinglife.util.CommonUtil;
-import cn.com.sharinglife.util.ImageUtil;
-import cn.com.sharinglife.util.SessionCookieUtil;
-import cn.com.sharinglife.util.VerifyCodeUtil;
+import cn.com.sharinglife.util.*;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -107,7 +103,7 @@ public class LoginRegisterController {
                 final User user = userService.getUserByLoginData(loginRequest);
                 if (user == null) {
                     commonResponse.setStatusCode(0);
-                    commonResponse.setMsg("手机号或邮箱不存在！");
+                    commonResponse.setMsg("手机号或用户名不存在！");
                 } else if (!loginRequest.getPassword().equals(user.getPassword())) {
                     commonResponse.setStatusCode(0);
                     commonResponse.setMsg("密码错误！");

@@ -1,5 +1,7 @@
 package cn.com.sharinglife.pojo.responsedata;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import java.util.List;
  *
  * @author hell
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CommonResponse<T> implements Serializable {
 
     /**

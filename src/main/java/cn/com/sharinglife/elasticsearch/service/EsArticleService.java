@@ -74,4 +74,6 @@ public interface EsArticleService {
      * @return
      */
     List<EsArticle> listTop5HotestEsArticle();
+
+    List<EsArticle> search();
 }

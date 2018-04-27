@@ -1,16 +1,20 @@
 package cn.com.sharinglife.pojo.vo;
 
+import cn.com.sharinglife.util.AesUtil;
 import cn.com.sharinglife.util.CommonUtil;
 import cn.com.sharinglife.util.DataTransUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author hell
  * @date 2018/4/22
  */
-public class ArticleVo {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class ArticleVo implements Serializable{
 
     private Integer articleId;
     private String title;
@@ -51,6 +55,20 @@ public class ArticleVo {
      * 是否允许评论 0:否  1：是
      */
     private boolean allowComments;
+    @JsonIgnore
+    private Integer userId;
+    /**
+     * 加密的用户Id
+     */
+    private String obsUserId;
+    /**
+     * 用户头像图片路径
+     */
+    private String avatarUrl;
+    /**
+     * 用户名称
+     */
+    private String userName;
 
     public ArticleVo() {
     }
@@ -101,6 +119,7 @@ public class ArticleVo {
     }
 
     public void setContentHtml(String contentHtml) {
+        this.contentHtml = contentHtml;
         this.firstImg = CommonUtil.showFirstImgUrl(contentHtml);
     }
 
@@ -188,6 +207,39 @@ public class ArticleVo {
         this.allowComments = allowComments;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+        this.obsUserId = AesUtil.encrypt(userId.toString());
+    }
+
+    public String getObsUserId() {
+        return obsUserId;
+    }
+
+    public void setObsUserId(String obsUserId) {
+        this.obsUserId = obsUserId;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public String toString() {
         return "ArticleVo{" +
@@ -207,6 +259,10 @@ public class ArticleVo {
                 ", displayReadVolumes='" + displayReadVolumes + '\'' +
                 ", firstImg='" + firstImg + '\'' +
                 ", allowComments=" + allowComments +
+                ", userId=" + userId +
+                ", obsUserId='" + obsUserId + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", userName='" + userName + '\'' +
                 '}';
     }
 }
