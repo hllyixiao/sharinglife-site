@@ -38,8 +38,8 @@
         <if test="allowComments != null" >
             allowcomments = #{allowComments,jdbcType=TINYINT},
         </if>
-        <if test="contentTxt != null" >
-            contenttxt = #{contentTxt,jdbcType=VARCHAR},
+        <if test="displayContextTxt != null" >
+            displaycontexttxt = #{displayContextTxt,jdbcType=VARCHAR},
         </if>
         <if test="title != null" >
             title = #{title,jdbcType=VARCHAR},
@@ -168,6 +168,10 @@
 
     <update id="addLike">
         UPDATE article SET likes=likes+1 WHERE id=#{articleId}
+    </update>
+
+    <update id="addReadvolumes">
+        UPDATE article SET readvolumes=readvolumes+1 WHERE id=#{articleId}
     </update>
 
     <update id="deleteLike">

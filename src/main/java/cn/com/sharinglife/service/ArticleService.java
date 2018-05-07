@@ -15,6 +15,8 @@ public interface ArticleService {
 
     void addLike(Integer articleId);
 
+    void addReadvolumes(Integer articleId);
+
     void deleteLike(Integer articleId);
 
     void addComment(Integer articleId);
@@ -29,7 +31,7 @@ public interface ArticleService {
 
     void thoroughDeleteArticleByIds(List<Integer> articleIds);
 
-    Article getArticleById(Integer articleId, Integer status);
+    ArticleVo getArticleById(Integer articleId, Integer status);
 
     PageInfo<ArticleVo> getArticlesByUserId(Integer userId, Integer status, Integer page, Integer limit);
 

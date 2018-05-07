@@ -24,7 +24,6 @@ public class Article {
     /**
      * 纯文本内容
      */
-    @JsonIgnore
     private String contentTxt;
     /**
      * 显示的文本内容（截取前400字）
@@ -91,8 +90,10 @@ public class Article {
 
     public void setContentTxt(String contentTxt) {
         this.contentTxt = contentTxt;
-        if(contentTxt != null){
-            displayContextTxt = contentTxt.substring(250);
+        if(contentTxt != null && contentTxt.length() > 200){
+            this.displayContextTxt = contentTxt.substring(200);
+        } else {
+            this.displayContextTxt = contentTxt;
         }
     }
 

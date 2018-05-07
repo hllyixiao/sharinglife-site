@@ -31,6 +31,11 @@ public class ArticlesServiceImpl implements ArticleService {
     }
 
     @Override
+    public void addReadvolumes(Integer articleId) {
+        articleMapper.addReadvolumes(articleId);
+    }
+
+    @Override
     public void deleteLike(Integer articleId) {
         if (Objects.nonNull(articleId)) {
             articleMapper.deleteLike(articleId);
@@ -72,7 +77,7 @@ public class ArticlesServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article getArticleById(Integer articleId, Integer status) {
+    public ArticleVo getArticleById(Integer articleId, Integer status) {
         return articleMapper.getArticleById(articleId, status);
     }
 

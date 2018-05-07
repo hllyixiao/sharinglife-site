@@ -43,7 +43,7 @@ public interface ArticleMapper {
      * @param articleId
      * @return
      */
-    Article getArticleById(@Param(value = "articleId") Integer articleId,
+    ArticleVo getArticleById(@Param(value = "articleId") Integer articleId,
                            @Param(value = "status") Integer status);
 
     /**
@@ -67,6 +67,8 @@ public interface ArticleMapper {
     void addLike(Integer articleId);
 
     void deleteLike(Integer articleId);
+
+    void addReadvolumes(Integer articleId);
 
     void addComment(Integer articleId);
 

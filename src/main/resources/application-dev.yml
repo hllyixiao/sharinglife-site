@@ -57,13 +57,13 @@ sl.primary.datasource:
     config.location: classpath:mybatis/mybatis-config.xml
   link:
     driver-class-name: com.mysql.jdbc.Driver
-   # url: jdbc:mysql://192.168.16.128:3306/sl?useUnicode=true&characterEncoding=UTF-8
-    url: jdbc:mysql://192.168.32.128:3306/wnc?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://192.168.16.128:3306/sl?useUnicode=true&characterEncoding=UTF-8
+    #url: jdbc:mysql://192.168.32.128:3306/wnc?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: root
 
 sl.elasticsearch:
-  enable: true
+  enable: false
   ip: localhost
   port: 9300
   cluster.name: hll-cluster

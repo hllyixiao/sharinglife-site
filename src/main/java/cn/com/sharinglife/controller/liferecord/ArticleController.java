@@ -2,8 +2,6 @@ package cn.com.sharinglife.controller.liferecord;
 
 import cn.com.sharinglife.anno.LoginAnnotation;
 import cn.com.sharinglife.apis.ArticleApis;
-import cn.com.sharinglife.elasticsearch.pojo.EsArticle;
-import cn.com.sharinglife.elasticsearch.service.EsArticleService;
 import cn.com.sharinglife.pojo.Article;
 import cn.com.sharinglife.pojo.responsedata.CommonResponse;
 import cn.com.sharinglife.pojo.responsedata.PageResponse;
@@ -40,8 +38,10 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
-    @Autowired
-    private EsArticleService esArticleService;
+//    @Autowired
+//    private EsArticleService esArticleService;
+
+    private static final int PUBLISH_STATUS = 2;
 
     @LoginAnnotation
     @ApiOperation(value = "添加文章", notes = "添加文章,返回文章id")
@@ -52,8 +52,8 @@ public class ArticleController {
         if (Objects.nonNull(article)) {
             article.setUserId(SessionCookieUtil.getCurrentUserIdBySession(httpSession));
             articleService.addArticle(article);
-            EsArticle esArticle = new EsArticle(article);
-            esArticleService.updateEsArticle(esArticle);
+            //EsArticle esArticle = new EsArticle(article);
+            //esArticleService.updateEsArticle(esArticle);
             return article.getId();
         }
         LOG.error("addArticle - 参数article不能有为null的属性");
@@ -121,10 +121,11 @@ public class ArticleController {
 
     @ApiOperation(value = "通过id获取已发布的文章", notes = "通过id获取已发布的文章")
     @GetMapping(value = ArticleApis.GET_PUBLISH_ARTICLE_BY_ID + "/{articleId}")
-    public Article getPublishArticleById(@PathVariable final Integer articleId) {
+    public ArticleVo getPublishArticleById(@PathVariable final Integer articleId) {
         LOG.info("getPublishArticleById - 通过id获取已发布的文章");
         if (Objects.nonNull(articleId)) {
-            return articleService.getArticleById(articleId, 2);
+            articleService.addReadvolumes(articleId);
+            return articleService.getArticleById(articleId, PUBLISH_STATUS);
         }
         LOG.error("getPublishArticleById - 参数articleId不能有为null");
         return null;
@@ -132,7 +133,7 @@ public class ArticleController {
 
     @ApiOperation(value = "通过id获取文章", notes = "通过id获取文章")
     @GetMapping(value = ArticleApis.GET_ARTICLE_BY_ID + "/{articleId}")
-    public Article getArticleById(@PathVariable final Integer articleId) {
+    public ArticleVo getArticleById(@PathVariable final Integer articleId) {
         LOG.info("getArticleById - 通过id获取文章");
         if (Objects.nonNull(articleId)) {
             return articleService.getArticleById(articleId, null);
@@ -200,11 +201,10 @@ public class ArticleController {
     @LoginAnnotation
     @ApiOperation(value = "获取所有文章列表", notes = "获取所有文章列表")
     @GetMapping(value = ArticleApis.LIST_ALL_ARTICLE)
-    public PageResponse listArticles(@RequestParam("status") final Integer status,
-                                     @RequestParam(value = "page", defaultValue = "1") final int page,
+    public PageResponse listArticles(@RequestParam(value = "page", defaultValue = "1") final int page,
                                      @RequestParam(value = "limit", defaultValue = "5") final int limit) {
         LOG.info("listArticles —— 获取所有文章列表，当前页:第{}页，每页获取{}个文章信息", page, limit);
-        PageInfo<ArticleVo> articlePageInfo = articleService.listArticles(status, page, limit);
+        PageInfo<ArticleVo> articlePageInfo = articleService.listArticles(PUBLISH_STATUS, page, limit);
         List<ArticleVo> articleResponses = articlePageInfo.getList();
         PageResponse<ArticleVo> pageResponse = new PageResponse<>(articlePageInfo);
         pageResponse.setDatas(articleResponses);
