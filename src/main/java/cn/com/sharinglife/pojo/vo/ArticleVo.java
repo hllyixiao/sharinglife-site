@@ -1,6 +1,6 @@
 package cn.com.sharinglife.pojo.vo;
 
-import cn.com.sharinglife.util.AesUtil;
+import cn.com.fxsh.common.util.AesUtil;
 import cn.com.sharinglife.util.CommonUtil;
 import cn.com.sharinglife.util.DataTransUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;

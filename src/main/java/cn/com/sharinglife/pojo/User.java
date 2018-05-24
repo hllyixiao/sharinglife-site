@@ -1,7 +1,7 @@
 package cn.com.sharinglife.pojo;
 
+import cn.com.fxsh.common.util.AesUtil;
 import cn.com.sharinglife.pojo.requestdata.RegisterRequest;
-import cn.com.sharinglife.util.AesUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;

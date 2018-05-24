@@ -1,6 +1,6 @@
 package cn.com.sharinglife.pojo;
 
-import cn.com.sharinglife.util.AesUtil;
+import cn.com.fxsh.common.util.AesUtil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;

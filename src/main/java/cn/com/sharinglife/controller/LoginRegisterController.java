@@ -1,5 +1,7 @@
 package cn.com.sharinglife.controller;
 
+import cn.com.fxsh.common.util.Base64Util;
+import cn.com.fxsh.common.util.ImageUtil;
 import cn.com.sharinglife.anno.LoginAnnotation;
 import cn.com.sharinglife.apis.LoginAndRegisterApis;
 import cn.com.sharinglife.enums.LogActionEnum;
@@ -66,7 +68,7 @@ public class LoginRegisterController {
             LOG.error("生成验证码图片报错 — ", e);
         }
         byte[] bytes = baos.toByteArray();
-        res.put("verifyCodeImg", ImageUtil.verifyCodeImageToBase64(bytes));
+        res.put("verifyCodeImg", "data:image/png;base64,"+ ImageUtil.verifyCodeImageToBase64(bytes));
         return res;
     }
 
@@ -181,7 +183,7 @@ public class LoginRegisterController {
         //设置session
         SessionCookieUtil.setSessionUser(request, user);
         //设置cookie
-        final String encryptName = CommonUtil.encryptBASE64(user.getName());
+        final String encryptName = Base64Util.encryptBASE64(user.getName());
         final String cookieValue = String.valueOf(System.currentTimeMillis()) + encryptName;
         SessionCookieUtil.setCookies(response, Const.SL_COOKIE_NAME, cookieValue);
     }
