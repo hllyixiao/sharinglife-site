@@ -41,6 +41,10 @@ public class ArticleVo implements Serializable{
     private Integer likes;
     private String displayLikes;
     /**
+     *  对具体的用户来说，是否点赞过该文章
+     */
+    private Boolean liked;
+    /**
      * 阅读数量
      */
     @JsonIgnore
@@ -240,6 +244,14 @@ public class ArticleVo implements Serializable{
         this.userName = userName;
     }
 
+    public Boolean getLiked() {
+        return liked;
+    }
+
+    public void setLiked(Boolean liked) {
+        this.liked = liked;
+    }
+
     @Override
     public String toString() {
         return "ArticleVo{" +
@@ -263,6 +275,7 @@ public class ArticleVo implements Serializable{
                 ", obsUserId='" + obsUserId + '\'' +
                 ", avatarUrl='" + avatarUrl + '\'' +
                 ", userName='" + userName + '\'' +
+                ", liked='" + liked + '\'' +
                 '}';
     }
 }

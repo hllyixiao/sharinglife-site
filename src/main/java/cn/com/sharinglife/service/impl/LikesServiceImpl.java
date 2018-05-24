@@ -36,14 +36,14 @@ public class LikesServiceImpl implements LikesService {
 
     @Override
     public void addLike(Integer id, Integer userId, Integer type) {
-        if (type == ModularEnum.ARTICLE_TYPE.getTypeId()) {
+        if (ModularEnum.ARTICLE_TYPE.getTypeId().equals(type)) {
             LOG.info("用户id = {}为文章id = {} 点赞", userId, id);
             likesMapper.addLikeArticle(id, userId);
             articleService.addLike(id);
-        } else if (type == ModularEnum.PICTURE_TYPE.getTypeId()) {
+        } else if (ModularEnum.PICTURE_TYPE.getTypeId().equals(type)) {
             LOG.info("用户id = {}为图片id = {} 点赞", userId, id);
             likesMapper.addLikePicture(id, userId);
-        } else if (type == ModularEnum.VIDEO_TYPE.getTypeId()) {
+        } else if (ModularEnum.VIDEO_TYPE.getTypeId().equals(type)) {
             LOG.info("用户id = {}为视频id = {} 点赞", userId, id);
             likesMapper.addLikeVideo(id, userId);
         }
@@ -51,16 +51,31 @@ public class LikesServiceImpl implements LikesService {
 
     @Override
     public void deleteLike(Integer id, Integer userId, Integer type) {
-        if (type == ModularEnum.ARTICLE_TYPE.getTypeId()) {
+        if (ModularEnum.ARTICLE_TYPE.getTypeId().equals(type)) {
             LOG.info("用户id = {}为文章id = {} 取消点赞", userId, id);
             likesMapper.deleteLikeArticle(id, userId);
             articleService.deleteLike(id);
-        } else if (type == ModularEnum.PICTURE_TYPE.getTypeId()) {
+        } else if (ModularEnum.PICTURE_TYPE.getTypeId().equals(type)) {
             LOG.info("用户id = {}为图片id = {} 取消点赞", userId, id);
             likesMapper.deleteLikePicture(id, userId);
-        } else if (type == ModularEnum.VIDEO_TYPE.getTypeId()) {
+        } else if (ModularEnum.VIDEO_TYPE.getTypeId().equals(type)) {
             LOG.info("用户id = {}为视频id = {} 取消点赞", userId, id);
             likesMapper.deleteLikeVideo(id, userId);
         }
+    }
+
+    @Override
+    public boolean isLikeArticleByUserId(Integer articleId, Integer userId) {
+        return likesMapper.isLikeArticleByUserId(articleId,userId);
+    }
+
+    @Override
+    public boolean isLikePictureByUserId(Integer articleId, Integer userId) {
+        return likesMapper.isLikePictureByUserId(articleId,userId);
+    }
+
+    @Override
+    public boolean isLikeVideoByUserId(Integer articleId, Integer userId) {
+        return likesMapper.isLikeVideoByUserId(articleId,userId);
     }
 }

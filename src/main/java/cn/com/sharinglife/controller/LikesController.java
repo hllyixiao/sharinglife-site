@@ -3,6 +3,7 @@ package cn.com.sharinglife.controller;
 import cn.com.sharinglife.anno.LoginAnnotation;
 import cn.com.sharinglife.apis.LikesApis;
 import cn.com.sharinglife.service.LikesService;
+import cn.com.sharinglife.util.SessionCookieUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * @author hell
@@ -28,10 +31,11 @@ public class LikesController {
     @LoginAnnotation
     @ApiOperation(value = "点赞")
     @GetMapping(value = LikesApis.ADD_LIKE)
-    public boolean addLike(@RequestParam(value = "id") Integer id,
-                           @RequestParam(value = "userId") Integer userId,
+    public boolean addLike(HttpSession httpSession,
+                           @RequestParam(value = "id") Integer id,
                            @RequestParam(value = "type") Integer type) {
         LOG.info("addLike - 点赞");
+        Integer userId = SessionCookieUtil.getCurrentUserIdBySession(httpSession);
         likesService.addLike(id, userId, type);
         return true;
     }
@@ -42,10 +46,11 @@ public class LikesController {
             @ApiImplicitParam(name = "type", value = "点赞模块对象的类型，1：文章、2：图片、3：视频",
                     required = true, dataType = "int", paramType = "query")})
     @GetMapping(value = LikesApis.DELETE_LIKE)
-    public boolean deleteLike(@RequestParam(value = "id") Integer id,
-                              @RequestParam(value = "userId") Integer userId,
+    public boolean deleteLike(HttpSession httpSession,
+                              @RequestParam(value = "id") Integer id,
                               @RequestParam(value = "type") Integer type) {
         LOG.info("deleteLike - 取消点赞");
+        Integer userId = SessionCookieUtil.getCurrentUserIdBySession(httpSession);
         likesService.deleteLike(id, userId, type);
         return true;
     }

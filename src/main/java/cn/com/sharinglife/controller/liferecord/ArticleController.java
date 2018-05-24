@@ -7,6 +7,7 @@ import cn.com.sharinglife.pojo.responsedata.CommonResponse;
 import cn.com.sharinglife.pojo.responsedata.PageResponse;
 import cn.com.sharinglife.pojo.vo.ArticleVo;
 import cn.com.sharinglife.service.ArticleService;
+import cn.com.sharinglife.service.LikesService;
 import cn.com.sharinglife.util.CommonUtil;
 import cn.com.sharinglife.util.SessionCookieUtil;
 import com.github.pagehelper.PageInfo;
@@ -38,6 +39,8 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+    @Autowired
+    private LikesService likesService;
 //    @Autowired
 //    private EsArticleService esArticleService;
 
@@ -121,11 +124,17 @@ public class ArticleController {
 
     @ApiOperation(value = "通过id获取已发布的文章", notes = "通过id获取已发布的文章")
     @GetMapping(value = ArticleApis.GET_PUBLISH_ARTICLE_BY_ID + "/{articleId}")
-    public ArticleVo getPublishArticleById(@PathVariable final Integer articleId) {
+    public ArticleVo getPublishArticleById(HttpSession httpSession,
+                                           @PathVariable final Integer articleId) {
         LOG.info("getPublishArticleById - 通过id获取已发布的文章");
+        Integer userId = SessionCookieUtil.getCurrentUserIdBySession(httpSession);
         if (Objects.nonNull(articleId)) {
             articleService.addReadvolumes(articleId);
-            return articleService.getArticleById(articleId, PUBLISH_STATUS);
+            ArticleVo articleVo = articleService.getArticleById(articleId, PUBLISH_STATUS);
+            if(Objects.nonNull(userId)){
+                articleVo.setLiked(likesService.isLikeArticleByUserId(articleId,userId));
+            }
+            return articleVo;
         }
         LOG.error("getPublishArticleById - 参数articleId不能有为null");
         return null;

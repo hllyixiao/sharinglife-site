@@ -124,7 +124,7 @@
     </select>
 
     <!--根据id查询文章信息-->
-    <select id="getArticleById" resultType="article">
+    <select id="getArticleById" resultType="articleVo">
         SELECT
         <include refid="article_table_all_columns"/>
         FROM

@@ -62,4 +62,31 @@ public interface LikesMapper {
      */
     void deleteLikeVideo(@Param("videoId") Integer videoId,
                          @Param("userId") Integer userId);
+
+    /**
+     * 该用户是否对此篇文章点赞过
+     *
+     * @param articleId
+     * @param userId
+     */
+    boolean isLikeArticleByUserId(@Param("articleId") Integer articleId,
+                         @Param("userId") Integer userId);
+
+    /**
+     * 该用户是否对此篇图片点赞过
+     *
+     * @param articleId
+     * @param userId
+     */
+    boolean isLikePictureByUserId(@Param("articleId") Integer articleId,
+                                  @Param("userId") Integer userId);
+
+    /**
+     * 该用户是否对此篇视频点赞过
+     *
+     * @param articleId
+     * @param userId
+     */
+    boolean isLikeVideoByUserId(@Param("articleId") Integer articleId,
+                                  @Param("userId") Integer userId);
 }

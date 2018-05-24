@@ -34,4 +34,34 @@
         update likes_video set deleted = 1
         where videoid = #{videoId} and userid = #{userId}
     </update>
+
+    <select id="isLikeArticleByUserId" resultType="boolean">
+        SELECT EXISTS (
+        SELECT *
+        FROM likes_article
+        WHERE articleid = #{articleId}
+        and userid = #{userId}
+        and deleted = 0
+        )
+    </select>
+
+    <select id="isLikePictureByUserId" resultType="boolean">
+        SELECT EXISTS (
+        SELECT *
+        FROM likes_picture
+        WHERE articleid = #{articleId}
+        and userid = #{userid}
+        and deleted = 0
+        )
+    </select>
+
+    <select id="isLikeVideoByUserId" resultType="boolean">
+        SELECT EXISTS (
+        SELECT *
+        FROM likes_video
+        WHERE articleid = #{articleId}
+        and userid = #{userid}
+        and deleted = 0
+        )
+    </select>
 </mapper>
