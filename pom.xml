@@ -248,6 +248,13 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <!-- 工具类 fxsh:分享生活 -->
+        <dependency>
+            <groupId>cn.com.fxsh</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>

@@ -23,33 +23,33 @@
 
     <insert id="addCommentArticle" parameterType="comment">
         INSERT INTO comment_article (
-        <if test="iid != null">articleid,</if>
+        articleid,
         <include refid="trim_field"/>
         )
         VALUES (
-        <if test="iid != null">#{iid},</if>
+        #{iid},
         <include refid="trim_data"/>
         )
     </insert>
 
     <insert id="addCommentPicture" parameterType="comment">
         INSERT INTO comment_picture (
-        <if test="iid != null">pictureid,</if>
+        pictureid,
         <include refid="trim_field"/>
         )
         VALUES (
-        <if test="iid != null">#{iid},</if>
+        #{iid},
         <include refid="trim_data"/>
         )
     </insert>
 
     <insert id="addCommentVideo" parameterType="comment">
         INSERT INTO comment_video (
-        <if test="iid != null">videoid,</if>
+        videoid,
         <include refid="trim_field"/>
         )
         VALUES (
-        <if test="iid != null">#{iid},</if>
+        #{iid},
         <include refid="trim_data"/>
         )
     </insert>
