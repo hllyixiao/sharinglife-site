@@ -56,9 +56,9 @@ sl.primary.datasource:
     mapper.location: classpath:mybatis/mapper/*.xml
     config.location: classpath:mybatis/mybatis-config.xml
   link:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: net.sf.log4jdbc.DriverSpy
 #    url: jdbc:mysql://192.168.16.128:3306/sl?useUnicode=true&characterEncoding=UTF-8
-    url: jdbc:mysql://192.168.32.128:3306/wnc?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:log4jdbc:mysql://192.168.245.128:3306/wnc?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: root
 
